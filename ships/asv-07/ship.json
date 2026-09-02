@@ -1,0 +1,193 @@
+{
+  "id": "asv-07",
+  "name": "ASV-07",
+  "class": "Dome-class",
+  "role": "deep-space exploration cruiser",
+  "length_m": 300,
+  "crew": 240,
+
+  "decks": [
+    { "code": "A", "name": "Command Level", "short": "A · Cmd" },
+    { "code": "B", "name": "Life Level", "short": "B · Life" },
+    { "code": "C", "name": "Engineering Level", "short": "C · Eng" },
+    { "code": "Ring", "name": "Habitat Ring", "short": "Ring" }
+  ],
+
+  "modules": [
+    { "id": "command", "explode": [1, 0.18, 0] },
+    { "id": "forward", "explode": [0.5, 0.06, 0] },
+    { "id": "spine", "explode": [0, 0, 0] },
+    { "id": "ring", "explode": [0, -0.35, 0] },
+    { "id": "cargo", "explode": [-0.55, -0.1, 0] },
+    { "id": "reactor", "explode": [-1.05, 0.06, 0] },
+    { "id": "engine", "explode": [-1.6, 0, 0] }
+  ],
+
+  "spinning": { "module": "ring", "axis": "x", "rpm": 1.719, "label": "Ring rotation" },
+
+  "rooms": [
+    {
+      "code": "CMD-01", "name": "Main Bridge", "deck": "A", "color": "#8fe8f5",
+      "position": [112, 13, 0], "view": [0.35, 0.55, 1], "dist": 48,
+      "close": { "pos": [118.5, 13.2, 3.5], "look": [109, 11, -0.5] },
+      "description": "The neural hub of the ship. A semicircular ring of command stations wraps the central holographic star-chart table, fronted by one huge curved composite-armour observation window. Tactical situation, navigation solving and damage control run in parallel on three independent redundant cores.",
+      "stats": [["Stations", "11"], ["Redundant cores", "3"], ["Viewport", "Curved composite-armour glass"], ["Airtight class", "AAA"]]
+    },
+    {
+      "code": "CMD-04", "name": "Observation Gallery", "deck": "A", "color": "#8fe8f5",
+      "position": [141, 0, 0], "view": [1, 0.3, 0.8], "dist": 44,
+      "close": { "pos": [133, 1.5, 0], "look": [150, 0, 0] },
+      "description": "Forward-most pressurised space. A 22 m transparent-alloy nose cone with a tiered viewing deck; the only room aboard that runs with no artificial lighting during planetary approach.",
+      "stats": [["Viewing tiers", "3"], ["Glazing", "22 m transparent alloy"], ["Capacity", "60"], ["Lighting", "Ambient only"]]
+    },
+    {
+      "code": "FWD-11", "name": "Medical Bay", "deck": "A", "color": "#8fe8f5",
+      "position": [64, 6, 0], "view": [0.2, 0.8, 1], "dist": 42,
+      "close": { "pos": [71, 7.4, 1], "look": [61, 5.8, -0.5] },
+      "description": "Six automated surgical pods and cryo-rest cabinets line the walls. The central sterile field is equipped with a regenerator and a teleconsultation holotable, allowing severe trauma care entirely without outside support.",
+      "stats": [["Surgical pods", "6"], ["Cryo cabinets", "18"], ["Regenerators", "2"], ["Cleanliness", "ISO 5"]]
+    },
+    {
+      "code": "FWD-06", "name": "Science Lab", "deck": "B", "color": "#8fe8f5",
+      "position": [40, -4, 6], "view": [0.1, -0.2, 1], "dist": 42,
+      "close": { "pos": [47, -1.5, 9], "look": [37, -4, 4] },
+      "description": "Four sealed lab cells around a shared sample airlock. Spectrometry, materials and xenobiology benches; each cell can be vented to vacuum on its own.",
+      "stats": [["Lab cells", "4"], ["Sample airlock", "1"], ["Containment", "BSL-4 equivalent"], ["Bench power", "240 kW"]]
+    },
+    {
+      "code": "FWD-22", "name": "Life Support", "deck": "B", "color": "#8fe8f5",
+      "position": [20, -6, -5], "view": [0.1, -0.5, -1], "dist": 44,
+      "close": { "pos": [27, -4, -10], "look": [18, -7, -4] },
+      "description": "Closed-loop air and water. Three parallel scrubber stacks, each able to carry the full crew alone, feed a 900 m³ buffer reservoir under the deck plates.",
+      "stats": [["Scrubber stacks", "3"], ["Water reserve", "900 m³"], ["O₂ margin", "41 days"], ["Redundancy", "N+2"]]
+    },
+    {
+      "code": "SPN-01", "name": "Spinal Corridor", "deck": "B", "color": "#8fe8f5",
+      "position": [-30, 0, 0], "view": [0.15, 0.4, 1], "dist": 46,
+      "close": { "pos": [-8, 0.5, 0], "look": [-45, 0, 0] },
+      "description": "The 180 m pressurised spine that ties every module together. Twin maglev sleds run the length in 40 seconds; the strip lighting shifts colour to mark ship time.",
+      "stats": [["Length", "180 m"], ["Maglev sleds", "2"], ["Transit time", "40 s"], ["Bulkheads", "9"]]
+    },
+    {
+      "code": "RNG-01", "name": "Habitat Ring", "deck": "Ring", "color": "#8fe8f5",
+      "position": [0, -45, 0], "view": "radial", "dist": 70, "radius": 7,
+      "description": "90 m diameter ring spinning at 4.2 rpm for 0.9 g at the rim. Crew quarters, mess and gym occupy 24 segments; four spokes carry the lifts to the spine.",
+      "stats": [["Diameter", "90 m"], ["Spin", "4.2 rpm"], ["Rim gravity", "0.9 g"], ["Quarters", "240"]]
+    },
+    {
+      "code": "RNG-05", "name": "Hydroponics", "deck": "Ring", "color": "#ff5c7a",
+      "position": [0, 0, 44], "view": "radial", "dist": 60, "radius": 7,
+      "description": "Six ring segments given over to stacked growth trays under tuned LED canopies. Supplies roughly a third of crew calories and most of the fresh-water polishing.",
+      "stats": [["Growth area", "1,100 m²"], ["Crops", "38 cultivars"], ["Calorie share", "31%"], ["Lighting", "220 kW LED"]]
+    },
+    {
+      "code": "CRG-01", "name": "Cargo Hold", "deck": "C", "color": "#f0b64a",
+      "position": [-85, 0, 0], "view": [-0.2, 0.7, 1], "dist": 56,
+      "close": { "pos": [-71, 3, 2], "look": [-90, -3, 0] },
+      "description": "Unpressurised 30 m bay with a rail-mounted gantry crane. Standard 6 m containers lock into a hex grid; hazardous stores sit in a shielded sub-bay.",
+      "stats": [["Volume", "14,000 m³"], ["Containers", "96"], ["Gantry", "20 t"], ["Sub-bay", "Shielded"]]
+    },
+    {
+      "code": "CRG-03", "name": "Hangar Bay", "deck": "C", "color": "#8fe8f5",
+      "position": [-85, -2, 20], "view": [0.1, 0.1, 1], "dist": 46,
+      "close": { "pos": [-85, 0.5, 26], "look": [-85, -6, 16] },
+      "description": "Houses two Trade-Wind-class shuttles and an engineering drone. The side opening keeps pressure behind a force-field curtain, so craft launch without venting the bay. The floor is a rotating launch pad.",
+      "stats": [["Shuttles", "2"], ["Eng. drones", "1"], ["Side door", "Field curtain 18 × 9 m"], ["Launch pad", "Rotating"]]
+    },
+    {
+      "code": "RCT-01", "name": "Reactor Core", "deck": "C", "color": "#ffb070",
+      "position": [-109, 0, 0], "view": [-0.3, 0.6, 1], "dist": 60,
+      "close": { "pos": [-103.5, 1, 0], "look": [-111, 0, 0] },
+      "description": "Toroidal fusion core inside a 2 m tungsten-boride shield. Eight radiator fins dump waste heat aft of the ring; the core throttles to 4% for silent running.",
+      "stats": [["Output", "1.8 GW"], ["Shield", "2 m WB₂"], ["Radiators", "8"], ["Idle throttle", "4%"]]
+    },
+    {
+      "code": "ENG-01", "name": "Engine Room", "deck": "C", "color": "#ffb070",
+      "position": [-139, 0, 0], "view": [-1, 0.35, 0.7], "dist": 64,
+      "description": "Three magnetoplasma drives on a gimballed truss. Ninety-day continuous burn rating; the room is unmanned during thrust and monitored from the bridge.",
+      "stats": [["Drives", "3"], ["Thrust", "4.5 MN"], ["Burn rating", "90 days"], ["Gimbal", "±6°"]]
+    }
+  ],
+
+  "textures": {
+    "hull":  { "type": "plating", "seed": 7,  "tint": "#a4afbc", "width": 1024, "height": 512, "repeat": [3, 1.5] },
+    "plate": { "type": "plating", "seed": 19, "tint": "#76838f", "width": 1024, "height": 512, "repeat": [3, 1.5] },
+    "dark":  { "type": "plating", "seed": 31, "tint": "#3e4955", "width": 512,  "height": 256, "repeat": [3, 1.5] }
+  },
+
+  "materials": {
+    "hull":     { "color": "#d6dde5", "metalness": 0.38, "roughness": 0.52, "doubleSide": true, "envMapIntensity": 0.9,  "normalScale": 0.8, "texture": "hull" },
+    "dark":     { "color": "#9aa6b4", "metalness": 0.5,  "roughness": 0.52, "doubleSide": true, "envMapIntensity": 0.8,  "normalScale": 0.6, "texture": "dark" },
+    "plate":    { "color": "#ccd5de", "metalness": 0.42, "roughness": 0.54, "doubleSide": true, "envMapIntensity": 0.85, "normalScale": 0.8, "texture": "plate" },
+    "bare":     { "color": "#4a5563", "metalness": 0.75, "roughness": 0.45, "doubleSide": true },
+    "glass":    { "color": "#8fd8ee", "metalness": 0.1,  "roughness": 0.08, "emissive": "#1f6f86", "emissiveIntensity": 0.35, "transparent": true, "opacity": 0.38, "doubleSide": true },
+    "strip":    { "color": "#111111", "emissive": "#bff6ff", "emissiveIntensity": 2.2, "roughness": 1 },
+    "warm":     { "color": "#111111", "emissive": "#ffd9a0", "emissiveIntensity": 1.8, "roughness": 1 },
+    "pink":     { "color": "#111111", "emissive": "#ff5c7a", "emissiveIntensity": 1.6, "roughness": 1 },
+    "amber":    { "color": "#111111", "emissive": "#f0b64a", "emissiveIntensity": 1.4, "roughness": 1 },
+    "fin":      { "color": "#2e0c14", "metalness": 0.45, "roughness": 0.6, "emissive": "#ff2a3a", "emissiveIntensity": 0.12, "doubleSide": true },
+    "field":    { "color": "#7fe0f0", "metalness": 0,    "roughness": 0.2, "emissive": "#2fb8d0", "emissiveIntensity": 0.7, "transparent": true, "opacity": 0.22, "doubleSide": true },
+    "core":     { "color": "#111111", "emissive": "#d8f4ff", "emissiveIntensity": 2.6, "roughness": 1 },
+    "drive":    { "color": "#111111", "emissive": "#ff9a3c", "emissiveIntensity": 2.4, "roughness": 1, "doubleSide": true },
+    "interior": { "color": "#c8d4de", "metalness": 0.3, "roughness": 0.6, "emissive": "#2a3a48", "emissiveIntensity": 0.5 },
+    "leaf":     { "color": "#2e8a3c", "roughness": 0.9, "emissive": "#1c6a2a", "emissiveIntensity": 0.45 },
+    "screen":   { "color": "#111111", "emissive": "#5fd4ff", "emissiveIntensity": 1.6, "roughness": 1 }
+  },
+
+  "plan": {
+    "viewBox": [-178, -64, 344, 128],
+    "bounds": { "x": [-172, 160], "y": [-60, 60] },
+    "labels": { "fwd": [150, 60], "aft": [-172, 60] },
+    "shapes": [
+      { "kind": "axis", "x1": -172, "y1": 0, "x2": 160, "y2": 0 },
+      { "kind": "rect", "x": 10, "y": -14, "w": 80, "h": 28, "rx": 2 },
+      { "kind": "rect", "x": 88, "y": -12.5, "w": 46, "h": 25, "rx": 2 },
+      { "kind": "polygon", "points": "132,-9 154,0 132,9" },
+      { "kind": "path", "d": "M103,9.5 A9,9 0 0 1 121,9.5 Z" },
+      { "kind": "rect", "x": -71, "y": -5, "w": 82, "h": 10 },
+      { "kind": "rect", "x": -71, "y": -8.6, "w": 82, "h": 17.2, "ghost": true },
+      { "kind": "rect", "x": -31, "y": -51, "w": 12, "h": 102, "rx": 3 },
+      { "kind": "rect", "x": -101, "y": -16, "w": 32, "h": 32, "rx": 1 },
+      { "kind": "rect", "x": -120, "y": -10, "w": 18, "h": 20 },
+      { "kind": "rect", "x": -115, "y": -27, "w": 8, "h": 54 },
+      { "kind": "rect", "x": -132, "y": -7.2, "w": 8, "h": 14.4, "ghost": true },
+      { "kind": "rect", "x": -145, "y": -9, "w": 12, "h": 18 },
+      { "kind": "polygon", "points": "-146,-7.5 -146,7.5 -158,13.5 -158,-13.5" }
+    ]
+  },
+
+  "tour": {
+    "duration": 110,
+    "path": [
+      [-300, 70, 240], [-120, 130, 130], [60, 50, 190], [210, -30, 100],
+      [250, 70, -70], [80, 120, -170], [-150, -50, -190], [-300, -70, 40]
+    ],
+    "look": [
+      [0, 0, 0], [-25, 0, 0], [60, 0, 0], [120, 6, 0],
+      [140, 0, 0], [112, 10, 0], [-85, 0, 10], [-138, 0, 0]
+    ],
+    "segments": [
+      { "name": "Full-Ship Overview" },
+      { "name": "Habitat Ring", "room": "RNG-01" },
+      { "name": "Forward Hull", "room": "FWD-11" },
+      { "name": "Command Section", "room": "CMD-01" },
+      { "name": "Observation Gallery", "room": "CMD-04" },
+      { "name": "Bridge Overflight", "room": "CMD-01" },
+      { "name": "Cargo & Hangar", "room": "CRG-03" },
+      { "name": "Reactor & Drives", "room": "ENG-01" }
+    ]
+  },
+
+  "cut": { "cross": 160, "hlay": 52, "long": 52 },
+
+  "camera": {
+    "home": [-95, 42, 225],
+    "target": [-5, 0, 0],
+    "start": [-170, 75, 380],
+    "near": 0.5,
+    "far": 8000,
+    "range": [8, 1600]
+  },
+
+  "model": { "type": "procedural", "entry": "build.js" }
+}
