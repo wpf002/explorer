@@ -80,6 +80,16 @@ export class CameraRig {
 
 const UP = new Vector3(0, 1, 0);
 
+/**
+ * Poses in ship.json are framed for a landscape window. On a portrait screen the
+ * horizontal field of view shrinks, so push the camera back along its line of sight.
+ */
+export function fitAspect(pos: Vector3, target: Vector3, aspect: number): Vector3 {
+  if (aspect >= 1.2) return pos.clone();
+  const k = Math.min(2.6, Math.pow(1.2 / aspect, .85));
+  return target.clone().add(pos.clone().sub(target).multiplyScalar(k));
+}
+
 /** WASD / Space / C free flight. */
 /** `scale` is ship length over the 300 m reference, so a shuttle is not crossed in a blink. */
 export function roamStep(rig: CameraRig, keys: Set<string>, dt: number, scale = 1) {

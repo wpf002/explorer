@@ -1,5 +1,5 @@
 /** Frames each ship and saves ships/<id>/hero.webp for the fleet index. */
-import { chromium } from 'playwright';
+import { launch } from './lib/browser.mjs';
 import { createServer } from 'vite';
 import { readdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -11,7 +11,7 @@ const ids = readdirSync(join(root, 'ships'), { withFileTypes: true })
 
 const server = await createServer({ root, logLevel: 'silent', server: { port: 5198, strictPort: true } });
 await server.listen();
-const browser = await chromium.launch({ args: ['--use-gl=angle', '--enable-unsafe-swiftshader'] });
+const browser = await launch();
 
 for (const id of ids) {
   // A fresh page each time: a hash-only change would not reload the viewer.

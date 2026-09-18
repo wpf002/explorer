@@ -36,6 +36,7 @@ export function tagFromNames(root: Object3D, spec: ShipSpec): ShipModel {
     (o as TaggedMesh).userData = {
       kind, deck, room,
       matKey: (o.material as MeshStandardMaterial).name || prefix,
+      matId: mat.uuid,
       baseOpacity: mat.opacity,
       baseEmissive: mat.emissiveIntensity,
     };

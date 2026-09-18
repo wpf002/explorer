@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      CI: 'true'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build
+        run: npm run build
+
+      # Schema, mesh names, cross-ship links, and the budgets that need real geometry:
+      # 150k triangles, 300 draw calls, length within 15% of length_m, glTF under 8 MB.
+      - name: Validate ships
+        run: npm run validate
+
+      # Every ship × solid / x-ray / section, diffed against reference/goldens.
+      # Rendering differences are reported, not fatal; page errors fail the job.
+      - name: Screenshots
+        run: npm run shots
+
+      - name: Screenshot summary
+        if: always()
+        run: cat shots/ci/summary.md >> "$GITHUB_STEP_SUMMARY" || true
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: screenshots
+          path: shots/ci
+          retention-days: 14

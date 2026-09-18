@@ -2,13 +2,13 @@
  * Loads each ship in a headless browser and reads its geometry stats. Used by the
  * validator for the budgets that need real geometry: triangles, draw calls, scale.
  */
-import { chromium } from 'playwright';
+import { launch } from './browser.mjs';
 import { createServer } from 'vite';
 
 export async function measureShips(root, ids) {
   const server = await createServer({ root, logLevel: 'silent', server: { port: 5194, strictPort: true } });
   await server.listen();
-  const browser = await chromium.launch({ args: ['--use-gl=angle', '--enable-unsafe-swiftshader'] });
+  const browser = await launch();
   const out = {};
   try {
     for (const id of ids) {

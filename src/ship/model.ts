@@ -5,6 +5,12 @@ export interface MeshTag {
   deck?: string;
   room?: string;
   matKey: string;
+  /** Identity of the source material, so batching never merges two different ones. */
+  matId?: string;
+  /** Set on pre-batch meshes kept as occlusion proxies: the mesh they were merged into. */
+  batch?: TaggedMesh;
+  /** True on a mesh produced by batching. */
+  merged?: boolean;
   baseOpacity: number;
   baseEmissive: number;
 }
@@ -25,4 +31,6 @@ export interface ShipModel {
   /** `room_<CODE>` nodes, keyed by room code. */
   roomNodes: Map<string, Object3D>;
   animators: Animator[];
+  /** Pre-batch meshes on the proxy layer, used only for label occlusion. */
+  proxies?: TaggedMesh[];
 }

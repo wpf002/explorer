@@ -11,6 +11,7 @@ import { createBuilder, type BuildApi } from './builder';
 import { tagFromNames } from './tagging';
 import type { ShipModel } from './model';
 import { glowTex } from './textures';
+import { batchModel } from './batch';
 
 const BUILD_JS = import.meta.glob<{ default: (api: BuildApi) => void }>('/ships/*/build.js');
 const MODELS = import.meta.glob<string>('/ships/*/*.glb', { query: '?url', import: 'default' });
@@ -53,6 +54,8 @@ export async function loadShip(renderer: WebGLRenderer, spec: ShipSpec): Promise
     root.add(asset.scene);
     model = tagFromNames(root, spec);
   }
+
+  batchModel(model);
 
   // Rooms without a marker in the model fall back to ship.json `position`.
   const markers: Object3D[] = [];

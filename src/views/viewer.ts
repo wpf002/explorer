@@ -7,7 +7,7 @@ import { getSpec } from '../fleet';
 import { ringTex } from '../ship/textures';
 import { Display } from '../ship/display';
 import { shipStats } from '../ship/stats';
-import { CameraRig, roamStep } from '../controls/camera';
+import { CameraRig, fitAspect, roamStep } from '../controls/camera';
 import { Tour } from '../controls/tour';
 import { bindInput } from '../controls/input';
 import { flyToRoom } from '../controls/flyto';
@@ -19,6 +19,8 @@ import { hideToast, showToast } from '../ui/toast';
 import { Hotspots } from '../ui/hotspots';
 import { Captions } from '../ui/caption';
 import { Systems } from '../ship/systems';
+import { Quality, type QualityMode } from '../render/quality';
+import { bindSheets, revealOnMobile } from '../ui/sheets';
 import { createState, readHash, writeHash, type Mode } from '../state';
 import { $, clamp, col } from '../util';
 
@@ -42,7 +44,10 @@ export async function mountViewer(app: HTMLElement, id: string) {
 
   const S = createState();
   const display = new Display(ship, stage);
-  const rig = new CameraRig(new Vector3(...spec.camera.home), new Vector3(...spec.camera.target), spec.camera.range);
+  const aspect = innerWidth / innerHeight;
+  const homePos = fitAspect(new Vector3(...spec.camera.home), new Vector3(...spec.camera.target), aspect);
+  const startPos = fitAspect(new Vector3(...spec.camera.start), new Vector3(...spec.camera.target), aspect);
+  const rig = new CameraRig(homePos, new Vector3(...spec.camera.target), spec.camera.range);
   rig.scale = spec.length_m / 300;
   const tour = new Tour(spec.tour);
 
@@ -58,6 +63,7 @@ export async function mountViewer(app: HTMLElement, id: string) {
   const pick = (i: number, close = false) => {
     select(i);
     if (i >= 0) {
+      revealOnMobile('right');
       if (S.mode === 'tour') setMode('orbit');
       flyToRoom(rig, ship, i, close);
       showToast((close ? 'Entering ' : 'Flying to ') + spec.rooms[i].name, 2600);
@@ -83,6 +89,7 @@ export async function mountViewer(app: HTMLElement, id: string) {
   });
   const labels = new Labels(spec, i => pick(i));
   const plan = new DeckPlan(spec, i => pick(i));
+  bindSheets(['Controls', 'Rooms']);
   $('#dFly').addEventListener('click', () => S.selected >= 0 && pick(S.selected, true));
 
   /* ---------- panels ---------- */
@@ -102,7 +109,7 @@ export async function mountViewer(app: HTMLElement, id: string) {
     writeHash(S, spec);
   }
 
-  const refresh = () => { display.applyMaterials(S); labels.refreshOccluders(ship.model.meshes); };
+  const refresh = () => { display.applyMaterials(S); labels.refreshOccluders(ship.model.meshes, ship.model.proxies); };
 
   /* Systems overlay drops the hull to x-ray while shown, and puts it back after. */
   let opacityBeforeSystem: number | null = null;
@@ -156,6 +163,21 @@ export async function mountViewer(app: HTMLElement, id: string) {
     },
   });
 
+  /* ---------- quality ---------- */
+  const quality = new Quality(stage, (low, reason) => {
+    S.bloom = !low;
+    $<HTMLInputElement>('#optBloom').checked = S.bloom;
+    refresh();
+    $('#qualVal').textContent = quality.mode === 'auto' ? (low ? 'AUTO · LOW' : 'AUTO') : quality.mode.toUpperCase();
+    if (reason === 'auto' && low) showToast('Low-power mode · bloom off', 2600);
+  });
+  const markQuality = () => $('#qualSeg').querySelectorAll<HTMLButtonElement>('button').forEach(b => b.classList.toggle('on', b.dataset.q === quality.mode));
+  $('#qualSeg').addEventListener('click', e => {
+    const b = (e.target as HTMLElement).closest<HTMLButtonElement>('button'); if (!b) return;
+    quality.choose(b.dataset.q as QualityMode); markQuality();
+  });
+  markQuality();
+
   /* ---------- input ---------- */
   const keys = bindInput(canvas, stage.camera, rig, S, { objects: ship.hitTargets }, {
     takeOver: () => setMode('orbit'),
@@ -178,6 +200,7 @@ export async function mountViewer(app: HTMLElement, id: string) {
     const dt = Math.min(.1, (now - last) / 1000);
     last = now;
     const T = now / 1000;
+    quality.tick(dt);
 
     if (spinNode && S.spinNode) {
       S.spinAngle += dt * spinRate;
@@ -247,9 +270,10 @@ export async function mountViewer(app: HTMLElement, id: string) {
   setMode('orbit');
   requestAnimationFrame(frame);
   setTimeout(() => $('#loading').classList.add('done'), 350);
+  quality.start();
 
   // Opening move: settle in from a wider shot, or go straight to a room named in the URL.
-  rig.pos.set(...spec.camera.start);
+  rig.pos.copy(startPos);
   const target = new Vector3(...spec.camera.target);
   if (hash.mode && hash.mode !== 'orbit') setMode(hash.mode);
   if (hash.system && spec.systems?.some(x => x.id === hash.system)) setSystem(hash.system);
@@ -258,7 +282,7 @@ export async function mountViewer(app: HTMLElement, id: string) {
     select(roomIndex);
     flyToRoom(rig, ship, roomIndex, false, 2.6);
   } else {
-    rig.flyTo(new Vector3(...spec.camera.home), target, 3.2);
+    rig.flyTo(homePos, target, 3.2);
     rig.fly!.t0.copy(target);
   }
 

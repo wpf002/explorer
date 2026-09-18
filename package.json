@@ -8,6 +8,8 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "shot": "node scripts/shot.mjs",
+    "shots": "node scripts/shots.mjs",
+    "shots:update": "node scripts/shots.mjs --update",
     "hero": "node scripts/hero.mjs",
     "validate": "node scripts/validate-ship.mjs",
     "validate:fast": "node scripts/validate-ship.mjs --fast",

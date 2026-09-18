@@ -12,7 +12,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const shipsDir = join(root, 'ships');
 const ids = readdirSync(shipsDir, { withFileTypes: true }).filter(d => d.isDirectory()).map(d => d.name).sort();
 
-const BUDGET = { triangles: 150_000, scale: 0.15 };
+const BUDGET = { triangles: 150_000, drawCalls: 300, scale: 0.15 };
 const fast = process.argv.includes('--fast');
 
 if (!ids.length) { console.error('no ships found under ships/'); process.exit(1); }
@@ -50,6 +50,7 @@ function checkBudgets(id, s) {
   const out = [];
   const spec = resolveSpec(id);
   if (s.triangles > BUDGET.triangles) out.push(`${fmt(s.triangles)} triangles, over the ${fmt(BUDGET.triangles)} budget`);
+  if (s.drawCalls > BUDGET.drawCalls) out.push(`${s.drawCalls} draw calls, over the ${BUDGET.drawCalls} budget`);
   const len = s.bounds.max[0] - s.bounds.min[0];
   if (Math.abs(len - spec.length_m) / spec.length_m > BUDGET.scale) {
     out.push(`model is ${len.toFixed(1)} m along X but ship.json says length_m ${spec.length_m} (±${BUDGET.scale * 100}%)`);

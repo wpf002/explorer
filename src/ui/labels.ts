@@ -16,6 +16,8 @@ export class Labels {
   private skin: number;
 
   constructor(private spec: ShipSpec, onPick: (i: number) => void) {
+    // Proxies sit on their own layer, so the occlusion ray has to see every layer.
+    this.ray.layers.enableAll();
     this.far = 420 * spec.length_m / 300;
     this.skin = 2.5 * Math.min(1, spec.length_m / 300 * 4);
     const host = $('#labels');
@@ -39,11 +41,17 @@ export class Labels {
     this.els.forEach((el, i) => el.classList.toggle('dimmed', deck !== 'All' && this.spec.rooms[i].deck !== deck));
   }
 
-  /** Opaque, low-poly hull meshes only — the ray cost has to stay flat. */
-  refreshOccluders(meshes: TaggedMesh[]) {
-    this.occluders = meshes.filter(m =>
-      m.userData.kind === 'hull' && m.material.opacity > .5 && !m.material.wireframe
-      && m.geometry.attributes.position.count < 6000);
+  /**
+   * Opaque, low-poly hull parts only, so the ray cost stays flat. After batching these are
+   * the pre-batch proxies, judged by the state of the batch they were merged into.
+   */
+  refreshOccluders(meshes: TaggedMesh[], proxies: TaggedMesh[] = []) {
+    const live = (m: TaggedMesh) => m.userData.batch ?? m;
+    this.occluders = [...meshes.filter(m => !m.userData.merged), ...proxies].filter(m => {
+      const b = live(m);
+      return b.userData.kind === 'hull' && b.material.opacity > .5 && !b.material.wireframe
+        && m.geometry.attributes.position.count < 6000;
+    });
   }
 
   update(markers: Object3D[], camera: PerspectiveCamera, camPos: Vector3) {

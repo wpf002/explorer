@@ -4,3 +4,4 @@ dist/
 *.log
 shots/*.png
 !shots/.gitkeep
+shots/ci/

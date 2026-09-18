@@ -211,7 +211,7 @@ body[data-view=fleet]::before{content:"";position:fixed;inset:-20%;z-index:0;poi
 .search input::placeholder{color:var(--dim)}
 .filter{display:flex;align-items:center;gap:8px}
 .flab{font:600 10px/1 var(--ff-display);letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-right:2px}
-.filter .seg{display:flex;gap:4px}
+.filter .seg{display:flex;flex-wrap:wrap;gap:4px}
 .filter .seg button{height:30px;padding:0 11px;white-space:nowrap}
 
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:18px}
@@ -326,3 +326,29 @@ body.hideui #caption{opacity:0}
 
 .plan .sysroute{fill:none;stroke-width:1.4;vector-effect:non-scaling-stroke;stroke-dasharray:3 2;opacity:.95;filter:drop-shadow(0 0 2px currentColor);animation:flow 1.2s linear infinite}
 @keyframes flow{to{stroke-dashoffset:-10}}
+
+/* ============================================================
+   Mobile: side panels become bottom sheets under 900 px
+   ============================================================ */
+#sheetTabs{display:none}
+@media (max-width:900px){
+  .panel{top:auto;bottom:0;left:0;right:0;width:auto;height:min(66vh,560px);border:1px solid var(--line-2);border-bottom:0;border-radius:12px 12px 0 0;
+    padding-bottom:60px;z-index:6;transition:transform .35s cubic-bezier(.2,.7,.2,1);background:var(--panel-2)}
+  .panel::before{content:"";display:block;flex:none;width:36px;height:4px;border-radius:2px;background:var(--line-2);margin:8px auto 2px}
+  #left,#right,#left.collapsed,#right.collapsed{transform:translateY(105%)}
+  #left.sheet-open,#right.sheet-open{transform:none}
+  .toggle{display:none}
+  #sheetTabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;position:fixed;left:12px;right:12px;bottom:max(10px,env(safe-area-inset-bottom));z-index:7}
+  #sheetTabs button{height:40px;border-radius:4px;background:var(--panel-2);border:1px solid var(--line-2);color:var(--muted);font:600 12px/1 var(--ff-display);letter-spacing:.18em;text-transform:uppercase;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+  #sheetTabs button.on{color:var(--accent);border-color:rgba(130,230,242,.5);background:var(--accent-dim)}
+  #bottom{display:none}
+  #top{gap:8px;padding:0 10px}
+  #stats .stat:not(.link){display:none}
+  #caption{min-width:0;width:calc(100vw - 24px);bottom:62px}
+  .panel{overflow-y:auto;overscroll-behavior:contain}
+  .panel .panel-scroll{flex:none;overflow:visible}
+  #detail{max-height:none;flex:none;overflow:visible}
+  .label{font-size:10.5px;height:20px}
+  #hotpop{width:min(260px,calc(100vw - 32px))}
+}
+@media (max-width:520px){.shipname{font-size:13px;padding:5px 8px 4px}.navback{letter-spacing:.08em}}

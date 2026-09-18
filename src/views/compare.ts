@@ -10,6 +10,9 @@ import { bindInput } from '../controls/input';
 import { createState } from '../state';
 import { planBounds, silhouette, svg } from '../ui/silhouette';
 import { $, clamp } from '../util';
+import { Quality } from '../render/quality';
+import { showToast } from '../ui/toast';
+import { bindSheets } from '../ui/sheets';
 
 type Layout = 'side' | 'overlay';
 const A_COL = '#82e6f2', B_COL = '#f0b64a';
@@ -91,6 +94,7 @@ export async function mountCompare(app: HTMLElement) {
   $('#tr').addEventListener('click', () => { const c = $('#right').classList.toggle('collapsed'); $('#tr').textContent = c ? '◀' : '▶'; });
 
   drawPlans(A, B);
+  bindSheets(['Controls', 'Compare']);
 
   /* ---------- scene ---------- */
   const maxLen = Math.max(A.length_m, B.length_m);
@@ -133,8 +137,10 @@ export async function mountCompare(app: HTMLElement) {
 
   // Frame both hulls: centre on the union, back off until the longer ship fits.
   const center = new Vector3(0, 0, (slotA.position.z + slotB.position.z) / 2);
-  const fov = world.camera.fov * Math.PI / 180;
-  const dist = (maxLen * .62) / Math.tan(fov / 2);
+  // Fit the longer hull to whichever field of view is narrower (portrait phones).
+  const vfov = world.camera.fov * Math.PI / 180;
+  const hfov = 2 * Math.atan(Math.tan(vfov / 2) * innerWidth / innerHeight);
+  const dist = (maxLen * .62) / Math.tan(Math.min(vfov, hfov) / 2);
   const dir = new Vector3(-.28, .42, 1).normalize();
   const home = center.clone().add(dir.clone().multiplyScalar(dist));
   const rig = new CameraRig(home.clone().multiplyScalar(1.5), center, [8, maxLen * 8]);
@@ -171,6 +177,13 @@ export async function mountCompare(app: HTMLElement) {
     });
   }
 
+  const quality = new Quality(world, (low, reason) => {
+    S.bloom = !low;
+    $<HTMLInputElement>('#optBloom').checked = S.bloom;
+    apply();
+    if (reason === 'auto' && low) showToast('Low-power mode · bloom off', 2600);
+  });
+
   /* ---------- loop ---------- */
   const spinners = [shipA, shipB].map(s => spinnerFor(s));
   const tmp = new Vector3();
@@ -179,6 +192,7 @@ export async function mountCompare(app: HTMLElement) {
     requestAnimationFrame(frame);
     const dt = Math.min(.1, (now - last) / 1000); last = now;
     const T = now / 1000;
+    quality.tick(dt);
     for (const sp of spinners) sp(dt);
     for (const s of [shipA, shipB]) { for (const fn of s.model.animators) fn(T, dt); s.plumeTime(T); }
     if (!rig.stepFly(dt) && S.spin) { rig.theta += dt * .1; rig.applyOrbit(); }
@@ -208,6 +222,7 @@ export async function mountCompare(app: HTMLElement) {
   };
   requestAnimationFrame(frame);
   setTimeout(() => $('#loading').classList.add('done'), 300);
+  quality.start();
   addEventListener('keydown', e => { if (e.key.toLowerCase() === 'o') { layout = layout === 'side' ? 'overlay' : 'side'; place(); } });
   Object.assign(window, { FLEET: { S, rig, ships: [shipA, shipB], stats: () => [statsA, statsB] } });
 }

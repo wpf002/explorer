@@ -103,3 +103,24 @@ All five items are in, driven by `ship.json`:
 Viewer constants that were tuned for 300 m ships (marker glow size, explode travel, roam
 speed, label fade and occlusion skin) now scale with `length_m`, which the 12.5 m shuttle
 needed.
+
+## Phase 5
+
+- **Budgets** are enforced by `npm run validate`: 150k triangles, 300 draw calls, length
+  within 15%, glTF under 8 MB. Static batching (`src/ship/batch.ts`) merges tagged meshes by
+  batch root, material, kind, deck and room: ASV-07 674 → 112 draws, BCF-4 1270 → 109. The
+  pre-batch meshes stay on layer 2 as label-occlusion proxies.
+- **Auto quality** (`src/render/quality.ts`): after a 0.6 s warm-up, two seconds under 40 fps
+  drops pixel ratio to 1 and bloom off. Display Options has Auto / High / Low, remembered in
+  localStorage; `?quality=high` pins it for one visit, which every screenshot script uses.
+- **Mobile**: under 900 px both panels become bottom sheets behind a Controls / Rooms tab
+  bar; ship poses are pushed back for portrait so the hull fits.
+- **CI** (`.github/workflows/ci.yml`): typecheck, build, validate with budgets, and
+  `npm run shots` (every ship × solid / x-ray / section vs `reference/goldens/`). Diffs go to
+  the job summary and an artifact; only page errors fail the job. The goldens were rendered
+  on macOS (ANGLE/Metal); CI renders on SwiftShader, so expect a few percent of drift there.
+  Refresh with `npm run shots:update` after an intended visual change.
+- Stars are seeded so repeat shots match (about 0.1% noise from animation timing).
+
+Not done: **static deploy**. It needs a hosting account and a decision on where; the build
+is static and deep links need the host to serve `index.html` for unknown paths.

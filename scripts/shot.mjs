@@ -3,7 +3,7 @@
  * and diffed against reference/golden.png. Rendering differences do not fail the run;
  * the number is there so a human looks at the image.
  */
-import { chromium } from 'playwright';
+import { launch, settled } from './lib/browser.mjs';
 import { createServer } from 'vite';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -22,9 +22,11 @@ mkdirSync(join(root, 'shots'), { recursive: true });
 
 const server = await createServer({ root, logLevel: 'silent', server: { port: 5199, strictPort: true } });
 await server.listen();
-const url = `http://localhost:5199/${route}`;
+// Pin quality so auto quality can't switch bloom off on a slow runner.
+const [pathPart, hashPart] = route.split('#');
+const url = `http://localhost:5199/${pathPart}${pathPart.includes('?') ? '&' : '?'}quality=high${hashPart ? '#' + hashPart : ''}`;
 
-const browser = await chromium.launch({ args: ['--use-gl=angle', '--enable-unsafe-swiftshader'] });
+const browser = await launch();
 const page = await browser.newPage({ viewport: { width: 1600, height: 1000 }, deviceScaleFactor: 1 });
 const errors = [];
 page.on('pageerror', e => errors.push(String(e)));
@@ -32,7 +34,7 @@ page.on('console', m => m.type() === 'error' && errors.push(m.text()));
 
 await page.goto(url, { waitUntil: 'load' });
 // Wait for the opening fly-to to finish so the frame is deterministic, then settle.
-await page.waitForFunction(() => document.body.dataset.view === 'fleet' || (window.FLEET && !window.FLEET.rig.fly), null, { timeout: 30000 }).catch(() => {});
+await settled(page).catch(() => {});
 await page.waitForTimeout(WAIT);
 
 const outPath = join(root, 'shots', outName);
