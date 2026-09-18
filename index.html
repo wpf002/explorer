@@ -3,115 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#060a12">
+<meta name="description" content="Fleet Explorer: fly around spacecraft, cut them open, step into their rooms and compare them at true scale.">
 <title>Fleet Explorer</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23060a12'/%3E%3Cpath d='M5 16h17l5 0-5-3v6z' fill='%2382e6f2'/%3E%3Crect x='11' y='7' width='3' height='18' rx='1' fill='%2382e6f2' opacity='.7'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 </head>
 <body>
-
-<div id="loading"><div id="loadingText">Loading</div></div>
-<canvas id="gl"></canvas>
-<div id="vignette"></div>
-<div id="labels"></div>
-
-<div id="top">
-  <div class="shipname" id="shipName"></div>
-  <div class="shipclass" id="shipClass"></div>
-  <div id="stats">
-    <div class="stat">FPS <span id="fps">—</span></div>
-    <div class="stat">Tris <span id="tris">—</span></div>
-    <div class="stat">View <span id="viewname">Orbit</span></div>
-  </div>
-</div>
-
-<aside class="panel" id="left" aria-label="Viewer controls">
- <div class="panel-scroll">
-  <section>
-    <h3>View mode</h3>
-    <div class="seg c3" id="modeSeg">
-      <button data-mode="orbit" class="on">Orbit</button><button data-mode="roam">Roam</button><button data-mode="tour">Tour</button>
-    </div>
-    <p class="hint" id="modeHint"></p>
-  </section>
-  <section>
-    <h3>Section cut <span class="val" id="cutVal">OFF</span></h3>
-    <div class="seg c4" id="cutSeg">
-      <button data-cut="off" class="on">Off</button><button data-cut="cross">Cross</button><button data-cut="hlay">H-lay</button><button data-cut="long">Long</button>
-    </div>
-    <div class="slider">
-      <div class="lab"><span>Cut position</span><output id="cutPosOut">0.0 m</output></div>
-      <input type="range" id="cutPos" min="-1" max="1" step="0.005" value="0" disabled>
-    </div>
-    <div class="check single"><label><input type="checkbox" id="cutFlip" disabled> Flip cut direction</label></div>
-  </section>
-  <section>
-    <h3>Hull transparency</h3>
-    <div class="slider" style="margin-top:0">
-      <div class="lab"><span>Hull opacity</span><output id="opOut">100%</output></div>
-      <input type="range" id="opacity" min="0" max="1" step="0.01" value="1">
-    </div>
-    <div class="seg c4" id="presetSeg" style="margin-top:10px">
-      <button data-preset="solid">Solid</button><button data-preset="xray">X-Ray</button><button data-preset="section">Section</button><button data-preset="frame">Frame</button>
-    </div>
-  </section>
-  <section>
-    <h3>Deck isolation</h3>
-    <div id="deckSegs"></div>
-  </section>
-  <section id="explodeSection">
-    <h3>Exploded view</h3>
-    <div class="slider" style="margin-top:0">
-      <div class="lab"><span>Module separation</span><output id="expOut">0%</output></div>
-      <input type="range" id="explode" min="0" max="1" step="0.01" value="0">
-    </div>
-  </section>
-  <section>
-    <h3>Display options</h3>
-    <div class="check">
-      <label><input type="checkbox" id="optLabels" checked> Room labels</label>
-      <label><input type="checkbox" id="optBloom" checked> Bloom glow</label>
-      <label><input type="checkbox" id="optStars" checked> Starfield</label>
-      <label id="optSpinNodeWrap"><input type="checkbox" id="optSpinNode" checked> <span id="optSpinNodeLabel">Spin</span></label>
-      <label><input type="checkbox" id="optWire"> Wireframe</label>
-      <label><input type="checkbox" id="optLamp"> Headlamp</label>
-      <label><input type="checkbox" id="optSpin"> Auto-spin</label>
-    </div>
-  </section>
- </div>
-</aside>
-<button class="toggle" id="tl" title="Toggle controls" aria-label="Toggle controls">◀</button>
-
-<aside class="panel" id="right" aria-label="Room index">
-  <div class="panel-scroll">
-    <div class="plan">
-      <h3>Deck plan <span class="val">Side elevation</span></h3>
-      <svg id="plan" aria-label="Side elevation of the ship with room markers">
-        <g transform="scale(1,-1)">
-          <g id="planHull"></g>
-          <line id="planCut" class="cut" x1="0" y1="0" x2="0" y2="0" visibility="hidden"/>
-          <g id="planDots"></g>
-          <circle id="planSel" class="sel" r="5" visibility="hidden"/>
-          <polygon id="planCam" class="cam" points="0,0 -6,-3 -6,3"/>
-        </g>
-        <text id="planFwd" text-anchor="end">FWD</text><text id="planAft">AFT</text>
-      </svg>
-    </div>
-    <h3>Room index</h3>
-    <div class="rooms" id="rooms"></div>
-  </div>
-  <div id="detail">
-    <h2 id="dName"></h2>
-    <div class="chips" id="dChips"></div>
-    <p id="dDesc"></p>
-    <dl class="kv" id="dStats"></dl>
-    <div class="btns"><button class="fly" id="dFly">Step inside</button><button class="close" id="dClose">Close</button></div>
-  </div>
-</aside>
-<button class="toggle" id="tr" title="Toggle room index" aria-label="Toggle room index">▶</button>
-
-<div id="toast"></div>
-<div id="bottom"><div id="hint"></div></div>
-
+<div id="app"></div>
 <script type="module" src="/src/main.ts"></script>
 </body>
 </html>

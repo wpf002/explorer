@@ -13,15 +13,16 @@ import pixelmatch from 'pixelmatch';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
-const hash = args.find(a => a.startsWith('#')) ?? '';
+// First non-.png argument is the route, e.g. `ship/bcf-4#room=OPS-01`, `compare?a=x&b=y`, `/`.
+const route = (args.find(a => !a.endsWith('.png')) ?? 'ship/asv-07').replace(/^\//, '');
 const outName = args.find(a => a.endsWith('.png')) ?? 'current.png';
 const WAIT = Number(process.env.SHOT_WAIT ?? 1200);
 
 mkdirSync(join(root, 'shots'), { recursive: true });
 
-const server = await createServer({ root, server: { port: 5199, strictPort: true } });
+const server = await createServer({ root, logLevel: 'silent', server: { port: 5199, strictPort: true } });
 await server.listen();
-const url = `http://localhost:5199/${hash}`;
+const url = `http://localhost:5199/${route}`;
 
 const browser = await chromium.launch({ args: ['--use-gl=angle', '--enable-unsafe-swiftshader'] });
 const page = await browser.newPage({ viewport: { width: 1600, height: 1000 }, deviceScaleFactor: 1 });
@@ -31,7 +32,7 @@ page.on('console', m => m.type() === 'error' && errors.push(m.text()));
 
 await page.goto(url, { waitUntil: 'load' });
 // Wait for the opening fly-to to finish so the frame is deterministic, then settle.
-await page.waitForFunction(() => window.FLEET && !window.FLEET.rig.fly, null, { timeout: 30000 }).catch(() => {});
+await page.waitForFunction(() => document.body.dataset.view === 'fleet' || (window.FLEET && !window.FLEET.rig.fly), null, { timeout: 30000 }).catch(() => {});
 await page.waitForTimeout(WAIT);
 
 const outPath = join(root, 'shots', outName);
@@ -45,7 +46,8 @@ if (errors.length) {
 }
 console.log(`shot → shots/${outName}`);
 
-const golden = join(root, 'reference', 'golden.png');
+const golden = join(root, 'reference', process.env.GOLDEN ?? 'golden.png');
+if (route !== 'ship/asv-07' && !process.env.GOLDEN) { process.exit(errors.length ? 1 : 0); }
 if (!existsSync(golden)) {
   console.log('no reference/golden.png yet — nothing to diff against');
   process.exit(errors.length ? 1 : 0);

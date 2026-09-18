@@ -6,7 +6,7 @@ import type { CameraRig } from './camera';
 export interface InputHandlers {
   /** A drag, wheel or key that should take over from an automated mode. */
   takeOver(): void;
-  pickRoom(index: number): void;
+  pickRoom(index: number, target: import('three').Object3D): void;
   jumpTo(index: number): void;
   toggleUi(): void;
   clearSelection(): void;
@@ -84,7 +84,7 @@ export function bindInput(
     const m = new Vector2((e.clientX / innerWidth) * 2 - 1, -(e.clientY / innerHeight) * 2 + 1);
     ray.setFromCamera(m, camera);
     const hit = ray.intersectObjects(targets.objects, false)[0];
-    if (hit) h.pickRoom(hit.object.userData.room as number);
+    if (hit) h.pickRoom(hit.object.userData.room as number, hit.object);
   });
 
   const endDrag = (e: PointerEvent) => {

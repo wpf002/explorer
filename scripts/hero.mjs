@@ -16,7 +16,7 @@ const browser = await chromium.launch({ args: ['--use-gl=angle', '--enable-unsaf
 for (const id of ids) {
   // A fresh page each time: a hash-only change would not reload the viewer.
   const page = await browser.newPage({ viewport: { width: 1280, height: 800 }, deviceScaleFactor: 1 });
-  await page.goto(`http://localhost:5198/${(process.env.HERO_PATH ?? '#ship=ID').replace('ID', id)}`, { waitUntil: 'load' });
+  await page.goto(`http://localhost:5198/${(process.env.HERO_PATH ?? 'ship/ID').replace('ID', id)}`, { waitUntil: 'load' });
   await page.waitForFunction(() => window.FLEET && !window.FLEET.rig.fly, null, { timeout: 30000 });
   await page.evaluate(() => {
     const h = window.FLEET.spec.camera.hero;

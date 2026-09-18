@@ -1,5 +1,6 @@
 import { Object3D, PerspectiveCamera, Vector3 } from 'three';
-import type { PlanShape, ShipSpec } from '../schema';
+import type { ShipSpec } from '../schema';
+import { shapeEl } from './silhouette';
 import type { Cut } from '../state';
 import { clamp } from '../util';
 
@@ -87,33 +88,4 @@ export class DeckPlan {
       this.cut.setAttribute('y1', String(d)); this.cut.setAttribute('y2', String(d));
     }
   }
-}
-
-function shapeEl(s: PlanShape): SVGElement {
-  if (s.kind === 'axis') {
-    const l = document.createElementNS(NS, 'line');
-    l.setAttribute('class', 'axis');
-    l.setAttribute('x1', String(s.x1)); l.setAttribute('y1', String(s.y1));
-    l.setAttribute('x2', String(s.x2)); l.setAttribute('y2', String(s.y2));
-    return l;
-  }
-  const cls = 'hull' + (s.ghost ? ' tr' : '');
-  if (s.kind === 'rect') {
-    const r = document.createElementNS(NS, 'rect');
-    r.setAttribute('class', cls);
-    r.setAttribute('x', String(s.x)); r.setAttribute('y', String(s.y));
-    r.setAttribute('width', String(s.w)); r.setAttribute('height', String(s.h));
-    if (s.rx !== undefined) r.setAttribute('rx', String(s.rx));
-    return r;
-  }
-  if (s.kind === 'polygon') {
-    const p = document.createElementNS(NS, 'polygon');
-    p.setAttribute('class', cls);
-    p.setAttribute('points', s.points);
-    return p;
-  }
-  const p = document.createElementNS(NS, 'path');
-  p.setAttribute('class', cls);
-  p.setAttribute('d', s.d);
-  return p;
 }

@@ -4,7 +4,7 @@ import {
 } from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
-import { validateShip, type ShipSpec } from '../schema';
+import type { ShipSpec } from '../schema';
 import { col } from '../util';
 import { buildMaterials, type MaterialSet } from './materials';
 import { createBuilder, type BuildApi } from './builder';
@@ -12,25 +12,8 @@ import { tagFromNames } from './tagging';
 import type { ShipModel } from './model';
 import { glowTex } from './textures';
 
-const SHIP_JSON = import.meta.glob<{ default: unknown }>('/ships/*/ship.json');
 const BUILD_JS = import.meta.glob<{ default: (api: BuildApi) => void }>('/ships/*/build.js');
 const MODELS = import.meta.glob<string>('/ships/*/*.glb', { query: '?url', import: 'default' });
-
-export const shipIds = (): string[] =>
-  Object.keys(SHIP_JSON).map(p => p.split('/')[2]).sort();
-
-export async function loadSpec(id: string): Promise<ShipSpec> {
-  const loader = SHIP_JSON[`/ships/${id}/ship.json`];
-  if (!loader) throw new Error(`no ship "${id}" in ships/`);
-  const raw = (await loader()).default;
-  const issues = validateShip(raw);
-  if (issues.length) {
-    throw new Error(`ships/${id}/ship.json failed validation:\n` + issues.map(i => `  ${i.path}: ${i.message}`).join('\n'));
-  }
-  const spec = raw as ShipSpec;
-  if (spec.id !== id) throw new Error(`ships/${id}/ship.json declares id "${spec.id}"`);
-  return spec;
-}
 
 export interface LoadedShip {
   spec: ShipSpec;

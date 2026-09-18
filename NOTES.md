@@ -58,3 +58,22 @@ tone mapped and the pass now does, so it reads a little brighter. Left alone on 
   (150k) and that the model's X extent is within 15% of `length_m`.
   `npm run validate:fast` skips the browser.
 - `npm run hero` renders `ships/<id>/hero.webp` from `camera.hero` (falls back to home).
+
+## Phase 3
+
+- Routes: `/` fleet index, `/ship/:id` viewer, `/compare?a=&b=[&layout=overlay]`. Room and
+  mode stay in the hash. Old `/#ship=x&room=y` links redirect. Links are plain anchors, so
+  every route boots on a fresh page and the viewer never has to tear down.
+- Deep links need the host to serve `index.html` for unknown paths. Vite dev and preview
+  do this already.
+- No UI framework. The index and compare panels are small enough as template strings, and
+  the viewer stays framework-free as the roadmap asks.
+- Fleet index: true-scale lineup (stern-aligned silhouettes from `plan.shapes`), class and
+  role filters, sort, and a search that also matches room names and codes and links
+  straight to the room. `listed: false` hides fixtures.
+- Compare: both ships in one scene with one orbit camera, side by side on Z or overlaid on
+  the same origin with B as an x-ray. The right panel overlays both silhouettes and a stat
+  table; differing rows show the delta and bars scaled to the larger value. Clicking a
+  room opens it in its own ship.
+- `npm run shot [route] [name.png]`: the route defaults to `ship/asv-07`, which is the only
+  one diffed against the golden.

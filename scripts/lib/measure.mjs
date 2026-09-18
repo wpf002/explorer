@@ -15,7 +15,7 @@ export async function measureShips(root, ids) {
       const page = await browser.newPage({ viewport: { width: 800, height: 500 } });
       const errors = [];
       page.on('pageerror', e => errors.push(String(e)));
-      await page.goto(`http://localhost:5194/${(process.env.MEASURE_PATH ?? "#ship=ID").replace("ID", id)}`);
+      await page.goto(`http://localhost:5194/${(process.env.MEASURE_PATH ?? "ship/ID").replace("ID", id)}`);
       try {
         await page.waitForFunction(() => window.FLEET?.stats, null, { timeout: 30000 });
         out[id] = await page.evaluate(() => window.FLEET.stats());
