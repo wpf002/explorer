@@ -77,3 +77,29 @@ tone mapped and the pass now does, so it reads a little brighter. Left alone on 
   room opens it in its own ship.
 - `npm run shot [route] [name.png]`: the route defaults to `ship/asv-07`, which is the only
   one diffed against the golden.
+
+## Phase 4
+
+All five items are in, driven by `ship.json`:
+
+- **Systems overlay**: `systems[]` with polylines of room codes and `[x,y,z]` waypoints.
+  Drawn as animated dashed `LineSegments2` that follow spinning and exploding modules
+  (buffers rewritten in place, no reallocation). While one is shown the hull drops to 22%,
+  the ship's own emissives dim, and the route is mirrored in the deck plan. `#sys=<id>`
+  in the hash.
+- **Cross-links**: `rooms[].links` to a room in the same ship (fly-to) or another ship
+  (navigates). `ships/tw-2/` is the Trade-Wind shuttle, 12.5 m, linked from the ASV-07
+  hangar and the BCF-4 docking collar and back.
+- **Hotspots**: `rooms[].hotspots` in the marker parent's local space. They appear once
+  the camera is inside the selected room.
+- **Narrated tours**: `tour.segments[].caption` in a caption box with progress; "Narrate"
+  reads captions with the browser's speech synthesis, or plays `tour.audio` if a ship ships
+  one.
+- **Variants**: a `ship.json` with `extends` is a JSON diff: top-level fields replace,
+  `roomPatches` merges by code (`null` retires a room), `addRooms` appends. The model is the
+  base's. Retired rooms keep tagging the base model's meshes but get no marker, and systems
+  and links that pointed at them are pruned. `ships/asv-07r/` is the survey refit.
+
+Viewer constants that were tuned for 300 m ships (marker glow size, explode travel, roam
+speed, label fade and occlusion skin) now scale with `length_m`, which the 12.5 m shuttle
+needed.

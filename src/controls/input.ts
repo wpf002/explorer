@@ -51,7 +51,7 @@ export function bindInput(
       if (pinch0) {
         const k = pinch0 / d;
         if (S.mode === 'orbit') { rig.r *= k; rig.applyOrbit(); }
-        else rig.pos.add(rig.forward().multiplyScalar((d - pinch0) * .4));
+        else rig.pos.add(rig.forward().multiplyScalar((d - pinch0) * .4 * rig.scale));
       }
       pinch0 = d;
       return;
@@ -102,7 +102,7 @@ export function bindInput(
     if (S.mode === 'tour') h.takeOver();
     const k = Math.exp(e.deltaY * .0011);
     if (S.mode === 'orbit') { rig.r *= k; rig.applyOrbit(); }
-    else rig.pos.add(rig.forward().multiplyScalar(-e.deltaY * .08));
+    else rig.pos.add(rig.forward().multiplyScalar(-e.deltaY * .08 * rig.scale));
   }, { passive: false });
 
   addEventListener('keydown', e => {

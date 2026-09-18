@@ -11,7 +11,13 @@ export class Labels {
   private tmp = new Vector3();
   private frame = 0;
 
+  /** Distances that fade labels, scaled with the ship. */
+  private far: number;
+  private skin: number;
+
   constructor(private spec: ShipSpec, onPick: (i: number) => void) {
+    this.far = 420 * spec.length_m / 300;
+    this.skin = 2.5 * Math.min(1, spec.length_m / 300 * 4);
     const host = $('#labels');
     host.textContent = '';
     spec.rooms.forEach((r, i) => {
@@ -53,7 +59,7 @@ export class Labels {
       }
       const x = (p.x * .5 + .5) * w, y = (-p.y * .5 + .5) * h;
       el.style.transform = `translate(${x.toFixed(1)}px, ${(y - 26).toFixed(1)}px) translate(-50%,-50%)`;
-      el.classList.toggle('far', d > 420);
+      el.classList.toggle('far', d > this.far);
       el.style.zIndex = String(Math.round(1000 - d));
     }
     // A third of the rooms per frame keeps the occlusion rays cheap.
@@ -62,7 +68,7 @@ export class Labels {
       markers[i].getWorldPosition(wp);
       const d = wp.distanceTo(camPos);
       this.ray.set(camPos, wp.sub(camPos).normalize());
-      this.ray.far = d - 2.5;
+      this.ray.far = d - this.skin;
       this.els[i].classList.toggle('occ', !!this.ray.intersectObjects(this.occluders, false)[0]);
     }
     this.frame++;

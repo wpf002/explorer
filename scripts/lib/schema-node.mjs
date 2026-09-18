@@ -1,2 +1,2 @@
-// Node 22+ strips types on import, so the validator has exactly one definition.
-export { validateShip } from '../../src/schema.ts';
+// Node 22+ strips types on import, so the validator shares the viewer's definitions.
+export { validateShip, applyVariant, isVariant } from '../../src/schema.ts';

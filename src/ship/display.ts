@@ -40,9 +40,10 @@ export class Display {
       mat.depthWrite = !(tr && u.kind === 'hull');
       mat.wireframe = S.wire && u.kind !== 'interior' && !emissive.has(u.matKey);
       mat.clippingPlanes = planes;
-      if (emissive.has(u.matKey)) mat.emissiveIntensity = u.baseEmissive * (S.bloom ? 1 : .45);
+      // A systems overlay dims the ship's own lighting so the routes carry the frame.
+      if (emissive.has(u.matKey)) mat.emissiveIntensity = u.baseEmissive * (S.bloom ? 1 : .45) * (S.system ? .3 : 1);
     }
-    for (const s of this.ship.model.sprites) s.visible = S.bloom;
+    for (const s of this.ship.model.sprites) s.visible = S.bloom && !S.system;
     this.stage.bloomPass.enabled = S.bloom;
     this.stage.setExposure(S.bloom ? 1.15 : 1.05);
   }
@@ -50,7 +51,8 @@ export class Display {
   applyExplode(S: ViewerState) {
     for (const mod of this.ship.spec.modules) {
       const node = this.ship.model.modules.get(mod.id);
-      if (node) node.position.set(...mod.explode).multiplyScalar(S.explode * 70);
+      // 70 m of travel at full separation for the 300 m reference, scaled with the ship.
+      if (node) node.position.set(...mod.explode).multiplyScalar(S.explode * 70 * this.ship.spec.length_m / 300);
     }
   }
 }

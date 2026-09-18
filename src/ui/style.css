@@ -278,3 +278,51 @@ table.cmp{width:100%;border-collapse:collapse;font-size:12px}
 .label.shiptag .d{width:7px;height:7px}
 .label.shiptag .c{font-size:10px;letter-spacing:.06em}
 .label.shiptag::before{content:"";position:absolute;left:50%;bottom:-9px;width:1px;height:8px;background:var(--line-2)}
+
+/* ============================================================
+   Systems, links, hotspots, captions
+   ============================================================ */
+.seg button.sysbtn{display:flex;align-items:center;justify-content:center;gap:6px}
+.seg button .d{width:6px;height:6px;border-radius:50%;background:var(--c);box-shadow:0 0 8px var(--c);flex:none}
+.seg button.sysbtn.on{background:color-mix(in srgb,var(--c) 16%,transparent);border-color:color-mix(in srgb,var(--c) 60%,transparent);color:var(--text)}
+#sysVal{transition:color .2s}
+.links{display:flex;flex-direction:column;gap:8px;margin-top:2px}
+.lrow{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.lrow.note{font:400 11.5px/1.4 var(--ff-body);color:var(--muted);gap:8px}
+.chip.sys,.chip.link{display:inline-flex;align-items:center;gap:6px;color:var(--text);cursor:pointer;transition:background .15s,border-color .15s}
+.chip.sys .d{width:6px;height:6px;border-radius:50%;background:var(--c);box-shadow:0 0 6px var(--c)}
+.chip.sys:hover{border-color:var(--c)}
+.chip.link em{font-style:normal;color:var(--accent)}
+.chip.link:hover{background:var(--accent-dim);border-color:rgba(130,230,242,.45)}
+.chip.link.out{border-style:dashed}
+
+#hotspots{position:fixed;inset:0;pointer-events:none;z-index:3;overflow:hidden}
+.hotspot{position:absolute;left:0;top:0;width:26px;height:26px;display:grid;place-items:center;pointer-events:auto;transform:translate(-9999px,-9999px)}
+.hotspot i{position:absolute;inset:6px;border:1.5px solid var(--accent);transform:rotate(45deg);background:rgba(6,10,18,.75);box-shadow:0 0 12px rgba(130,230,242,.55);transition:background .15s}
+.hotspot::before{content:"";position:absolute;inset:0;border:1px solid rgba(130,230,242,.5);transform:rotate(45deg) scale(.6);opacity:0;animation:ping 2.2s ease-out infinite}
+.hotspot span{position:relative;font:600 9.5px/1 var(--ff-mono);color:var(--accent)}
+.hotspot:hover i,.hotspot.on i{background:var(--accent)}
+.hotspot:hover span,.hotspot.on span{color:var(--accent-ink)}
+@keyframes ping{0%{opacity:.9;transform:rotate(45deg) scale(.6)}100%{opacity:0;transform:rotate(45deg) scale(1.5)}}
+#hotpop{position:fixed;left:0;top:0;z-index:6;width:260px;padding:12px 14px 13px;background:var(--panel-2);border:1px solid rgba(130,230,242,.45);border-radius:3px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 12px 40px rgba(0,0,0,.45);
+  opacity:0;pointer-events:none;transition:opacity .2s;transform:translate(-9999px,-9999px)}
+#hotpop.show{opacity:1;pointer-events:auto}
+#hotpop h4{margin:0 18px 6px 0;font:700 13px/1.15 var(--ff-display);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+#hotpop p{margin:0;font-size:12.5px;line-height:1.5}
+#hotpop .x{position:absolute;right:6px;top:5px;width:20px;height:20px;color:var(--muted);font-size:15px}
+#hotpop .x:hover{color:var(--text)}
+
+#caption{position:fixed;left:50%;bottom:58px;z-index:5;width:min(620px,calc(100vw - 680px));min-width:320px;transform:translate(-50%,8px);opacity:0;pointer-events:none;transition:opacity .35s,transform .35s;
+  background:var(--panel);border:1px solid var(--line-2);border-radius:3px;padding:12px 16px 0;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+#caption.show{opacity:1;transform:translate(-50%,0)}
+body.hideui #caption{opacity:0}
+.cap-head{display:flex;gap:12px;align-items:baseline;margin-bottom:6px}
+#capIdx{font:500 10px/1 var(--ff-mono);color:var(--accent);letter-spacing:.08em}
+#capName{font:700 12px/1 var(--ff-display);letter-spacing:.2em;text-transform:uppercase}
+#capText{margin:0 0 12px;font-size:13px;line-height:1.55;color:var(--text);min-height:1.55em}
+#caption.nocap #capText{display:none}
+.cap-bar{height:2px;margin:0 -16px;background:var(--line)}
+.cap-bar i{display:block;height:100%;background:var(--accent);transform-origin:0 50%;transform:scaleX(0);box-shadow:0 0 8px var(--accent)}
+
+.plan .sysroute{fill:none;stroke-width:1.4;vector-effect:non-scaling-stroke;stroke-dasharray:3 2;opacity:.95;filter:drop-shadow(0 0 2px currentColor);animation:flow 1.2s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-10}}

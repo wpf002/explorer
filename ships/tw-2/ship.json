@@ -1,0 +1,133 @@
+{
+  "id": "tw-2",
+  "name": "TW-2",
+  "class": "Trade-Wind-class",
+  "role": "crew and cargo shuttle",
+  "length_m": 12.5,
+  "crew": 2,
+  "summary": "A 12.5 m landing shuttle: two pilots, six passengers and a stern cargo bay. The ASV-07 carries two in its hangar; the BCF-4 uses one as a crew tender.",
+
+  "decks": [{ "code": "Main", "name": "Main Deck", "short": "Main" }],
+
+  "modules": [
+    { "id": "fuselage", "explode": [0, 0, 0] },
+    { "id": "wings", "explode": [0, 0.45, 0] },
+    { "id": "drives", "explode": [-1, 0, 0] }
+  ],
+
+  "rooms": [
+    {
+      "code": "CPT-01", "name": "Cockpit", "deck": "Main", "color": "#8fe8f5",
+      "view": [0.55, 0.6, 1], "dist": 9, "radius": 1.1,
+      "close": { "pos": [2.1, 0.8, 0.35], "look": [5.3, 0.45, -0.1] },
+      "description": "Two seats side by side under a 3.8 m canopy, with a wraparound console and twin flight displays. Either seat flies the full envelope; the right seat carries the docking controls and the tether winch. The canopy blanks to 4% transmission on atmospheric entry. A bulkhead door seals the cockpit from the cabin in 2 s, and the cockpit holds 40 minutes of air on its own.",
+      "stats": [["Seats", "2"], ["Canopy", "3.8 m"], ["Displays", "2 + HUD"], ["Standalone air", "40 min"]],
+      "hotspots": [
+        { "pos": [3, 0.5, 0.55], "title": "Pilot seats", "text": "Crash-rated to 25 g. Either seat has full controls." },
+        { "pos": [4.3, 0.5, 0], "title": "Flight console", "text": "Twin displays and a head-up projection on the canopy for approach and landing." },
+        { "pos": [3.8, 1.55, 0], "title": "Canopy", "text": "Blanks to 4% transmission during entry heating." }
+      ]
+    },
+    {
+      "code": "CAB-02", "name": "Passenger Cabin", "deck": "Main", "color": "#8fe8f5",
+      "view": [0.1, 0.7, 1], "dist": 10, "radius": 1.2,
+      "close": { "pos": [1.5, 0.65, 0.35], "look": [-3.2, -0.15, -0.2] },
+      "description": "Six seats in three rows of two, 4.4 m of floor between the cockpit bulkhead and the cargo bay. Three ports a side. Seats fold flat to take two stretchers, which is how the ASV-07 medical bay receives surface casualties. The cabin runs at 101 kPa and matches either parent ship's pressure before docking so crew transfer without a pre-breathe.",
+      "stats": [["Seats", "6"], ["Stretchers", "2"], ["Ports", "6"], ["Pressure", "101 kPa"]],
+      "hotspots": [
+        { "pos": [-1, 0, 0.65], "title": "Seats", "text": "Three rows of two. Each folds flat; two pairs make a stretcher bay." },
+        { "pos": [-0.9, 1.15, 0], "title": "Overhead light", "text": "A single warm strip; it drops to red during landing." }
+      ]
+    },
+    {
+      "code": "CGO-03", "name": "Cargo Bay", "deck": "Main", "color": "#f0b64a",
+      "view": [-0.7, 0.3, 1], "dist": 9, "radius": 1,
+      "description": "A 1.8 m bay at the stern with a ventral ramp that lowers to the ground or to a hangar pad. It takes 1.2 t, or four standard sample cases plus crew kit. The ramp seals against the cabin bulkhead, so the bay can be vented and loaded in vacuum while the cabin stays pressurised. Tie-down points are on a 30 cm grid.",
+      "stats": [["Payload", "1.2 t"], ["Floor", "1.8 × 2.4 m"], ["Ramp", "Ventral"], ["Tie-downs", "30 cm grid"]],
+      "links": [
+        { "label": "Carried by", "ship": "asv-07", "room": "CRG-03" },
+        { "label": "Tender to", "ship": "bcf-4", "room": "OPS-08" }
+      ],
+      "hotspots": [{ "pos": [-4.3, -1.05, 0], "title": "Ramp", "text": "Lowers in 6 s and doubles as the airlock floor in vacuum." }]
+    },
+    {
+      "code": "DRV-04", "name": "Drives", "deck": "Main", "color": "#ffb070",
+      "view": [-1, 0.4, 0.7], "dist": 10, "radius": 1.1,
+      "description": "Two chemical-plasma hybrids in the tail, 42 kN each. Enough for a 2 g climb from a 0.4 g moon and a transfer back to a parent ship in orbit. Propellant sits in the wing roots, 1,900 kg of it. The engines gimbal ±8°; below 30 m the shuttle hovers on the four RCS blocks and the main drives cut out.",
+      "stats": [["Drives", "2"], ["Thrust", "84 kN"], ["Propellant", "1,900 kg"], ["Gimbal", "±8°"]]
+    }
+  ],
+
+  "systems": [
+    { "id": "power", "name": "Power", "color": "#ffb070",
+      "description": "Two fuel cells behind the cargo bay feed a single bus forward to the cockpit.",
+      "paths": [["DRV-04", [-3.6, 0, 0], [0, 0, 0], [2.2, 0.2, 0], "CPT-01"], [[0, 0, 0], "CAB-02"], [[-3.6, 0, 0], "CGO-03"]] },
+    { "id": "atmos", "name": "Atmos", "color": "#8fe8f5",
+      "description": "One scrubber under the cabin floor serves the cockpit and the cabin; the cargo bay is vented to pressurise.",
+      "paths": [["CAB-02", [1.9, 0.4, 0], "CPT-01"], ["CAB-02", [-3, 0, 0], "CGO-03"]] }
+  ],
+
+  "textures": {
+    "hull":  { "type": "plating", "seed": 41, "tint": "#b0b8c2", "width": 512, "height": 256, "repeat": [1.5, 1] },
+    "plate": { "type": "plating", "seed": 43, "tint": "#7c8690", "width": 512, "height": 256, "repeat": [1.5, 1] },
+    "dark":  { "type": "plating", "seed": 47, "tint": "#3e4955", "width": 256, "height": 128, "repeat": [1, 1] }
+  },
+
+  "materials": {
+    "hull":     { "color": "#e2e6ea", "metalness": 0.35, "roughness": 0.5, "doubleSide": true, "envMapIntensity": 0.9, "normalScale": 0.5, "texture": "hull" },
+    "plate":    { "color": "#cfd6dd", "metalness": 0.42, "roughness": 0.52, "doubleSide": true, "envMapIntensity": 0.85, "normalScale": 0.5, "texture": "plate" },
+    "dark":     { "color": "#9aa6b4", "metalness": 0.5, "roughness": 0.52, "doubleSide": true, "envMapIntensity": 0.8, "normalScale": 0.4, "texture": "dark" },
+    "bare":     { "color": "#4a5563", "metalness": 0.75, "roughness": 0.45, "doubleSide": true },
+    "glass":    { "color": "#8fd8ee", "metalness": 0.1, "roughness": 0.06, "emissive": "#1f6f86", "emissiveIntensity": 0.35, "transparent": true, "opacity": 0.4, "doubleSide": true },
+    "strip":    { "color": "#111111", "emissive": "#bff6ff", "emissiveIntensity": 2.2, "roughness": 1 },
+    "warm":     { "color": "#111111", "emissive": "#ffd9a0", "emissiveIntensity": 1.8, "roughness": 1 },
+    "amber":    { "color": "#111111", "emissive": "#f0b64a", "emissiveIntensity": 1.4, "roughness": 1 },
+    "drive":    { "color": "#111111", "emissive": "#ff9a3c", "emissiveIntensity": 2.4, "roughness": 1, "doubleSide": true },
+    "screen":   { "color": "#111111", "emissive": "#5fd4ff", "emissiveIntensity": 1.6, "roughness": 1 },
+    "interior": { "color": "#c8d4de", "metalness": 0.3, "roughness": 0.6, "emissive": "#2a3a48", "emissiveIntensity": 0.5 },
+    "crate":    { "color": "#b0603a", "metalness": 0.3, "roughness": 0.7 }
+  },
+
+  "plan": {
+    "viewBox": [-7.4, -2.75, 14.8, 5.5],
+    "bounds": { "x": [-7.1, 7.1], "y": [-2.6, 2.6] },
+    "labels": { "fwd": [7.1, 2.55], "aft": [-7.2, 2.55] },
+    "shapes": [
+      { "kind": "axis", "x1": -7.1, "y1": 0, "x2": 7.1, "y2": 0 },
+      { "kind": "rect", "x": -3.9, "y": -1.55, "w": 7.4, "h": 3.1, "rx": 0.3 },
+      { "kind": "polygon", "points": "3.5,-1.55 6.1,-0.6 6.65,-0.05 6.1,0.5 3.5,1.55" },
+      { "kind": "path", "d": "M1.6,0.7 A1.9,1.05 0 0 1 5.4,0.7 Z" },
+      { "kind": "polygon", "points": "-3.9,0.4 -2.3,0.4 -3.2,2.2 -4,2.2" },
+      { "kind": "rect", "x": -5.85, "y": -0.8, "w": 1.95, "h": 1.3 },
+      { "kind": "rect", "x": -2.6, "y": -0.72, "w": 3.2, "h": 0.32, "ghost": true },
+      { "kind": "rect", "x": -2.3, "y": -2, "w": 0.2, "h": 0.5 },
+      { "kind": "rect", "x": 4.3, "y": -2, "w": 0.2, "h": 0.5 }
+    ]
+  },
+
+  "tour": {
+    "duration": 70,
+    "path": [[-20, 5, 14], [-6, 8, 12], [8, 3, 13], [15, -2, 6], [15, 4, -6], [5, 7, -13], [-10, -3, -14], [-19, -4, 3]],
+    "look": [[0, 0, 0], [-1, 0, 0], [3, 0.5, 0], [4, 0.5, 0], [2, 0, 0], [-1, 1, 0], [-3.5, 0, 0], [-5, 0, 0]],
+    "segments": [
+      { "name": "Overview", "caption": "Twelve and a half metres, two pilots, six passengers. This is the smallest ship in the fleet and the only one that lands." },
+      { "name": "Cockpit", "room": "CPT-01", "caption": "Two seats under a 3.8 m canopy. Either seat flies the full envelope." },
+      { "name": "Cabin", "room": "CAB-02", "caption": "Six seats that fold flat into two stretcher bays for surface casualties." },
+      { "name": "Cargo & Drives", "room": "DRV-04", "caption": "A 1.2 t stern bay with a ventral ramp, ahead of two 42 kN drives." }
+    ]
+  },
+
+  "cut": { "cross": 7, "hlay": 2, "long": 5.5 },
+
+  "camera": {
+    "home": [-7.5, 4.5, 15],
+    "target": [0, 0, 0],
+    "start": [-14, 8, 28],
+    "near": 0.05,
+    "far": 3000,
+    "range": [1.5, 250],
+    "hero": { "pos": [-8.2, 3.1, 9.6], "target": [0.4, -0.3, 0] }
+  },
+
+  "model": { "type": "procedural", "entry": "build.js" }
+}

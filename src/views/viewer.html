@@ -23,6 +23,7 @@
       <button data-mode="orbit" class="on">Orbit</button><button data-mode="roam">Roam</button><button data-mode="tour">Tour</button>
     </div>
     <p class="hint" id="modeHint"></p>
+    <div class="check single" id="narrateWrap"><label><input type="checkbox" id="optNarrate"> Narrate the tour aloud</label></div>
   </section>
   <section>
     <h3>Section cut <span class="val" id="cutVal">OFF</span></h3>
@@ -48,6 +49,11 @@
   <section>
     <h3>Deck isolation</h3>
     <div id="deckSegs"></div>
+  </section>
+  <section id="systemsSection">
+    <h3>Systems overlay <span class="val" id="sysVal">OFF</span></h3>
+    <div id="sysSegs"></div>
+    <p class="hint" id="sysHint">Routes are drawn through the hull; the hull drops to x-ray while one is shown.</p>
   </section>
   <section id="explodeSection">
     <h3>Exploded view</h3>
@@ -79,6 +85,7 @@
       <svg id="plan" aria-label="Side elevation of the ship with room markers">
         <g transform="scale(1,-1)">
           <g id="planHull"></g>
+          <g id="planSys"></g>
           <line id="planCut" class="cut" x1="0" y1="0" x2="0" y2="0" visibility="hidden"/>
           <g id="planDots"></g>
           <circle id="planSel" class="sel" r="5" visibility="hidden"/>
@@ -95,10 +102,18 @@
     <div class="chips" id="dChips"></div>
     <p id="dDesc"></p>
     <dl class="kv" id="dStats"></dl>
+    <div class="links" id="dLinks"></div>
     <div class="btns"><button class="fly" id="dFly">Step inside</button><button class="close" id="dClose">Close</button></div>
   </div>
 </aside>
 <button class="toggle" id="tr" title="Toggle room index" aria-label="Toggle room index">▶</button>
 
+<div id="hotspots"></div>
+<div id="hotpop" role="dialog" aria-live="polite"><button class="x" aria-label="Close">×</button><h4></h4><p></p></div>
+<div id="caption" aria-live="polite">
+  <div class="cap-head"><span id="capIdx"></span><b id="capName"></b></div>
+  <p id="capText"></p>
+  <div class="cap-bar"><i id="capProg"></i></div>
+</div>
 <div id="toast"></div>
 <div id="bottom"><div id="hint"></div></div>

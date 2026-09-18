@@ -16,6 +16,9 @@ import { RoomIndex } from '../ui/detail';
 import { Labels } from '../ui/labels';
 import { DeckPlan } from '../ui/plan';
 import { hideToast, showToast } from '../ui/toast';
+import { Hotspots } from '../ui/hotspots';
+import { Captions } from '../ui/caption';
+import { Systems } from '../ship/systems';
 import { createState, readHash, writeHash, type Mode } from '../state';
 import { $, clamp, col } from '../util';
 
@@ -33,10 +36,14 @@ export async function mountViewer(app: HTMLElement, id: string) {
 
   const ship = await loadShip(stage.renderer, spec);
   stage.scene.add(ship.model.root);
+  const systems = new Systems(ship);
+  stage.scene.add(systems.group);
+  addEventListener('resize', () => systems.resize(innerWidth, innerHeight));
 
   const S = createState();
   const display = new Display(ship, stage);
   const rig = new CameraRig(new Vector3(...spec.camera.home), new Vector3(...spec.camera.target), spec.camera.range);
+  rig.scale = spec.length_m / 300;
   const tour = new Tour(spec.tour);
 
   /* selection ring, drawn over everything at the selected room */
@@ -66,7 +73,14 @@ export async function mountViewer(app: HTMLElement, id: string) {
     selRing.material.color = col(spec.rooms[i].color);
   }
 
-  const rooms = new RoomIndex(spec, i => pick(i));
+  const hotspots = new Hotspots(spec);
+  const captions = new Captions(spec.tour, spec.model.ship ?? spec.id);
+  const rooms = new RoomIndex(spec, i => pick(i), {
+    systemsAt: code => systems.systemsAt(code),
+    onSystem: sid => setSystem(sid),
+    onLink: l => { const k = spec.rooms.findIndex(r => r.code === l.room); if (k >= 0) pick(k); },
+    hotspots: i => hotspots.count(i),
+  });
   const labels = new Labels(spec, i => pick(i));
   const plan = new DeckPlan(spec, i => pick(i));
   $('#dFly').addEventListener('click', () => S.selected >= 0 && pick(S.selected, true));
@@ -76,11 +90,12 @@ export async function mountViewer(app: HTMLElement, id: string) {
     rig.fly = null;
     hideToast();
     if (m === 'orbit') {
-      if (S.mode === 'roam') rig.target.copy(rig.pos).add(rig.forward().multiplyScalar(Math.max(40, rig.pos.length() * .5)));
+      if (S.mode === 'roam') rig.target.copy(rig.pos).add(rig.forward().multiplyScalar(Math.max(40 * rig.scale, rig.pos.length() * .5)));
       rig.syncOrbit();
     }
     if (m === 'roam') rig.syncYaw();
     if (m === 'tour') tour.reset();
+    captions.show(m === 'tour');
     S.mode = m;
     panels.syncMode(m);
     canvas.classList.toggle('roam', m === 'roam');
@@ -89,12 +104,35 @@ export async function mountViewer(app: HTMLElement, id: string) {
 
   const refresh = () => { display.applyMaterials(S); labels.refreshOccluders(ship.model.meshes); };
 
+  /* Systems overlay drops the hull to x-ray while shown, and puts it back after. */
+  let opacityBeforeSystem: number | null = null;
+  function setSystem(id: string | null) {
+    S.system = id;
+    writeHash(S, spec);
+    systems.set(id);
+    panels.syncSystem(id);
+    if (id && opacityBeforeSystem === null && S.opacity > .4) {
+      opacityBeforeSystem = S.opacity;
+      S.opacity = .22;
+    } else if (!id && opacityBeforeSystem !== null) {
+      S.opacity = opacityBeforeSystem;
+      opacityBeforeSystem = null;
+    }
+    panels.syncOpacity(S.opacity);
+    refresh();
+    if (id) {
+      const sy = spec.systems!.find(x => x.id === id)!;
+      showToast(`${sy.name} · ${systems.roomsOf(id).length} rooms`, 2000);
+    }
+  }
+
   const panels = new Panels(spec, S, {
     mode: m => setMode(m),
     cut: c => { S.cut = c; display.updateCut(S); panels.syncCut(S, display.cutMetres(S)); refresh(); },
     cutPos: v => { S.cutPos = v; display.updateCut(S); panels.syncCut(S, display.cutMetres(S)); },
     flip: v => { S.flip = v; display.updateCut(S); panels.syncCut(S, display.cutMetres(S)); },
-    opacity: v => { S.opacity = v; panels.syncOpacity(v); panels.markPreset('none'); refresh(); },
+    opacity: v => { S.opacity = v; opacityBeforeSystem = null; panels.syncOpacity(v); panels.markPreset('none'); refresh(); },
+    system: id => setSystem(id),
     explode: v => { S.explode = v; panels.syncExplode(v); display.applyExplode(S); },
     deck: code => { S.deck = code; refresh(); rooms.dim(code); labels.dim(code); },
     preset: p => {
@@ -150,15 +188,17 @@ export async function mountViewer(app: HTMLElement, id: string) {
       if (S.mode === 'orbit') {
         if (S.spin) { rig.theta += dt * .12; rig.applyOrbit(); }
       } else if (S.mode === 'roam') {
-        roamStep(rig, keys, dt);
+        roamStep(rig, keys, dt, rig.scale);
       } else {
         const seg = tour.step(dt, rig.pos, rig.target);
         if (seg) {
           const el = document.getElementById('tourSeg');
           if (el) el.textContent = seg.name;
-          showToast('Tour · ' + seg.name, 3200);
+          if (!seg.caption) showToast('Tour · ' + seg.name, 3200);
+          captions.segment(tour.seg, tour.t);
           select(seg.room ? spec.rooms.findIndex(r => r.code === seg.room) : -1);
         }
+        captions.progress(tour.t);
       }
     }
     rig.apply(stage.camera);
@@ -175,8 +215,15 @@ export async function mountViewer(app: HTMLElement, id: string) {
     } else selRing.material.opacity = 0;
 
     if (S.labels && !S.uiHidden) labels.update(ship.markers, stage.camera, rig.pos);
+    systems.update(T, rig.pos);
+    const inside = S.selected >= 0 && !rig.fly
+      && roomWorld(ship, S.selected, tmp).distanceTo(rig.pos) < Math.max(12, spec.rooms[S.selected].dist * .4);
+    hotspots.update(ship.markers, S.selected, inside && !S.uiHidden, stage.camera);
     frameN++;
-    if (frameN % 2 === 0 && !S.uiHidden) plan.update(ship.markers, stage.camera, rig.pos, S.selected, S.cut, S.cutPos);
+    if (frameN % 2 === 0 && !S.uiHidden) {
+      plan.update(ship.markers, stage.camera, rig.pos, S.selected, S.cut, S.cutPos);
+      plan.drawSystem(systems.planPaths(), systems.color);
+    }
 
     stage.renderer.info.reset();
     stage.composer.render();
@@ -205,6 +252,7 @@ export async function mountViewer(app: HTMLElement, id: string) {
   rig.pos.set(...spec.camera.start);
   const target = new Vector3(...spec.camera.target);
   if (hash.mode && hash.mode !== 'orbit') setMode(hash.mode);
+  if (hash.system && spec.systems?.some(x => x.id === hash.system)) setSystem(hash.system);
   const roomIndex = hash.room ? spec.rooms.findIndex(r => r.code === hash.room) : -1;
   if (roomIndex >= 0) {
     select(roomIndex);

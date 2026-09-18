@@ -1,4 +1,4 @@
-import { validateShip, type ShipSpec } from './schema';
+import { applyVariant, isVariant, validateShip, type ShipSpec } from './schema';
 
 /** Every ship.json, bundled eagerly: the index needs them all and they are small. */
 const RAW = import.meta.glob<unknown>('/ships/*/ship.json', { eager: true, import: 'default' });
@@ -14,8 +14,22 @@ let cache: Map<string, FleetEntry> | null = null;
 export function fleet(): Map<string, FleetEntry> {
   if (cache) return cache;
   cache = new Map();
-  for (const [path, raw] of Object.entries(RAW)) {
-    const id = idOf(path);
+  const raws = new Map(Object.entries(RAW).map(([path, raw]) => [idOf(path), raw]));
+  const resolved = new Map<string, unknown>();
+  const resolve = (id: string, seen: string[] = []): unknown => {
+    if (resolved.has(id)) return resolved.get(id);
+    const raw = raws.get(id);
+    if (!isVariant(raw)) { resolved.set(id, raw); return raw; }
+    if (seen.includes(id)) throw new Error(`variant cycle: ${[...seen, id].join(' → ')}`);
+    const base = resolve(raw.extends, [...seen, id]);
+    if (!base || validateShip(base).length) throw new Error(`ships/${id}: base "${raw.extends}" is missing or invalid`);
+    const out = applyVariant(base as ShipSpec, raw);
+    resolved.set(id, out);
+    return out;
+  };
+  for (const id of raws.keys()) {
+    let raw: unknown;
+    try { raw = resolve(id); } catch (e) { console.error(String(e)); continue; }
     const issues = validateShip(raw);
     if (issues.length) {
       console.error(`ships/${id}/ship.json failed validation:\n` + issues.map(i => `  ${i.path}: ${i.message}`).join('\n'));

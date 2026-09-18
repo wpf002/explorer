@@ -13,7 +13,7 @@ export function tagFromNames(root: Object3D, spec: ShipSpec): ShipModel {
   const spinNodes = new Map<string, Object3D>();
   const roomNodes = new Map<string, Object3D>();
 
-  const deckOf = new Map(spec.rooms.map(r => [r.code, r.deck]));
+  const deckOf = new Map([...spec.rooms, ...(spec.retired ?? [])].map(r => [r.code, r.deck]));
   const deckCodes = new Set(spec.decks.map(d => d.code));
 
   root.traverse(o => {

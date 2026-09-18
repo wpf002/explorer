@@ -10,6 +10,7 @@ export interface PanelHandlers {
   opacity(v: number): void;
   preset(p: string): void;
   deck(code: string): void;
+  system(id: string | null): void;
   explode(v: number): void;
   option(key: 'labels' | 'bloom' | 'stars' | 'spinNode' | 'wire' | 'lamp' | 'spin', v: boolean): void;
 }
@@ -34,6 +35,7 @@ export class Panels {
   constructor(private spec: ShipSpec, private S: ViewerState, private h: PanelHandlers) {
     this.buildHeader();
     this.buildDeckButtons();
+    this.buildSystemButtons();
     this.wire();
   }
 
@@ -74,6 +76,41 @@ export class Panels {
       host.querySelectorAll<HTMLButtonElement>('button[data-deck]').forEach(x => x.classList.toggle('on', x === b));
       this.h.deck(b.dataset.deck!);
     });
+  }
+
+  /** Systems overlay: Off plus one button per ship.json system, three to a row. */
+  private buildSystemButtons() {
+    const systems = this.spec.systems ?? [];
+    const section = $('#systemsSection');
+    if (!systems.length) { section.style.display = 'none'; return; }
+    const host = $('#sysSegs');
+    host.textContent = '';
+    const entries = [{ id: '', name: 'Off', color: '' }, ...systems];
+    for (let i = 0; i < entries.length; i += 3) {
+      const row = document.createElement('div');
+      row.className = 'seg c3';
+      for (const e of entries.slice(i, i + 3)) {
+        const b = document.createElement('button');
+        b.dataset.sys = e.id;
+        b.className = e.id ? 'sysbtn' : 'on';
+        if (e.color) b.style.setProperty('--c', e.color);
+        b.innerHTML = e.id ? `<span class="d"></span>${e.name}` : e.name;
+        row.appendChild(b);
+      }
+      host.appendChild(row);
+    }
+    host.addEventListener('click', e => {
+      const b = (e.target as HTMLElement).closest<HTMLButtonElement>('button[data-sys]');
+      if (b) this.h.system(b.dataset.sys || null);
+    });
+  }
+
+  syncSystem(id: string | null) {
+    const sys = this.spec.systems?.find(s => s.id === id);
+    $('#sysSegs').querySelectorAll<HTMLButtonElement>('button[data-sys]').forEach(b => b.classList.toggle('on', (b.dataset.sys || null) === id));
+    $('#sysVal').textContent = sys ? sys.name : 'OFF';
+    $('#sysVal').style.color = sys ? sys.color : '';
+    $('#sysHint').textContent = sys?.description ?? 'Routes are drawn through the hull; the hull drops to x-ray while one is shown.';
   }
 
   private seg(id: string, attr: string, cb: (v: string) => void) {

@@ -28,6 +28,26 @@ export interface RoomSpec {
   close?: { pos: Vec3; look: Vec3 };
   description: string;
   stats: [string, string][];
+  /** Rooms this one connects to: in this ship (`room`) or another (`ship`, optional `room`). */
+  links?: LinkSpec[];
+  /** Clickable points inside the interior, in the marker parent's local space. */
+  hotspots?: HotspotSpec[];
+}
+
+export interface LinkSpec { label: string; ship?: string; room?: string; }
+
+export interface HotspotSpec { pos: Vec3; title: string; text: string; }
+
+/**
+ * A ship system drawn as glowing routes. Each path is a polyline whose points are room
+ * codes (the room marker) or [x,y,z] waypoints in ship space.
+ */
+export interface SystemSpec {
+  id: string;
+  name: string;
+  color: string;
+  description?: string;
+  paths: (string | Vec3)[][];
 }
 
 export interface ModuleSpec {
@@ -90,7 +110,9 @@ export interface TourSpec {
   duration: number;
   path: Vec3[];
   look: Vec3[];
-  segments: { name: string; room?: string }[];
+  segments: { name: string; room?: string; caption?: string }[];
+  /** Optional narration track, relative to the ship folder; plays in step with the tour. */
+  audio?: string;
 }
 
 export interface CutSpec {
@@ -100,9 +122,10 @@ export interface CutSpec {
   long: number;
 }
 
+/** `ship` is the folder the model lives in; variants inherit their base's. */
 export type ModelSpec =
-  | { type: 'procedural'; entry: string }
-  | { type: 'gltf'; url: string };
+  | { type: 'procedural'; entry: string; ship?: string }
+  | { type: 'gltf'; url: string; ship?: string };
 
 export interface CameraSpec {
   /** Where the opening move ends. */
@@ -131,6 +154,9 @@ export interface ShipSpec {
   listed?: boolean;
   decks: DeckSpec[];
   rooms: RoomSpec[];
+  /** Base rooms a variant removed. Kept so the base model's tags still resolve. */
+  retired?: RoomSpec[];
+  systems?: SystemSpec[];
   modules: ModuleSpec[];
   spinning?: SpinSpec;
   textures?: Record<string, TextureSpec>;
@@ -140,6 +166,59 @@ export interface ShipSpec {
   cut: CutSpec;
   camera: CameraSpec;
   model: ModelSpec;
+  /** Set on variants: the ship this one was derived from. */
+  extends?: string;
+}
+
+/* ---------- variants ---------- */
+
+/**
+ * A variant is a JSON diff on a base ship: `extends` names the base, top-level fields
+ * replace the base's, `roomPatches` merges into rooms by code (null removes the room),
+ * `addRooms` appends. The model is always the base's.
+ */
+export interface VariantSpec extends Partial<Omit<ShipSpec, 'rooms'>> {
+  id: string;
+  extends: string;
+  roomPatches?: Record<string, Partial<RoomSpec> | null>;
+  addRooms?: RoomSpec[];
+  rooms?: never;
+}
+
+export const isVariant = (raw: unknown): raw is VariantSpec =>
+  typeof raw === 'object' && raw !== null && typeof (raw as { extends?: unknown }).extends === 'string';
+
+/** Resolve a variant against its (already resolved) base. Returns a plain ShipSpec-shaped object. */
+export function applyVariant(base: ShipSpec, v: VariantSpec): ShipSpec {
+  const { roomPatches = {}, addRooms = [], extends: from, ...top } = v;
+  const rooms: RoomSpec[] = [];
+  const retired: RoomSpec[] = [...(base.retired ?? [])];
+  for (const r of base.rooms) {
+    if (!(r.code in roomPatches)) { rooms.push(r); continue; }
+    const patch = roomPatches[r.code];
+    if (patch === null) retired.push(r);
+    else rooms.push({ ...r, ...patch, code: r.code });
+  }
+  rooms.push(...addRooms);
+  const live = new Set(rooms.map(r => r.code));
+  // Anything that pointed at a removed room loses that point, link or path.
+  const keep = (p: string | Vec3) => typeof p !== 'string' || live.has(p);
+  const systems = (top.systems ?? base.systems)?.map(sy => ({ ...sy, paths: sy.paths.map(p => p.filter(keep)).filter(p => p.length >= 2) }));
+  for (let i = 0; i < rooms.length; i++) {
+    const links = rooms[i].links?.filter(l => l.ship || !l.room || live.has(l.room));
+    if (links) rooms[i] = { ...rooms[i], links };
+  }
+  const segments = (top.tour ?? base.tour).segments.map(sg => (sg.room && !live.has(sg.room) ? { ...sg, room: undefined } : sg));
+  return {
+    ...base,
+    ...top,
+    tour: { ...(top.tour ?? base.tour), segments },
+    model: { ...base.model, ship: base.model.ship ?? base.id },
+    rooms,
+    retired,
+    systems,
+    extends: from,
+  } as ShipSpec;
 }
 
 /* ---------- validation ---------- */
@@ -199,7 +278,43 @@ export function validateShip(raw: unknown): Issue[] {
     if (!isStr(r?.description)) bad(`${at}.description`, 'required string');
     if (!Array.isArray(r?.stats) || r.stats.some((p: any) => !Array.isArray(p) || p.length !== 2 || !isStr(p[0]) || !isStr(p[1])))
       bad(`${at}.stats`, 'required array of [label, value] string pairs');
+    if (r?.links !== undefined) {
+      if (!Array.isArray(r.links)) bad(`${at}.links`, 'must be an array');
+      else r.links.forEach((l: any, k: number) => {
+        if (!isStr(l?.label)) bad(`${at}.links[${k}].label`, 'required string');
+        if (!isStr(l?.ship) && !isStr(l?.room)) bad(`${at}.links[${k}]`, 'needs a ship, a room, or both');
+      });
+    }
+    if (r?.hotspots !== undefined) {
+      if (!Array.isArray(r.hotspots)) bad(`${at}.hotspots`, 'must be an array');
+      else r.hotspots.forEach((h: any, k: number) => {
+        if (!isVec3(h?.pos)) bad(`${at}.hotspots[${k}].pos`, 'required [x,y,z]');
+        if (!isStr(h?.title) || !isStr(h?.text)) bad(`${at}.hotspots[${k}]`, 'required title and text');
+      });
+    }
   });
+  // In-ship links resolve here; links to other ships are checked by the fleet validator.
+  if (Array.isArray(s.rooms)) s.rooms.forEach((r: any, i: number) => (r?.links ?? []).forEach((l: any, k: number) => {
+    if (isStr(l?.room) && !l.ship && !roomCodes.has(l.room)) bad(`rooms[${i}].links[${k}].room`, `unknown room "${l.room}"`);
+  }));
+
+  if (s.systems !== undefined) {
+    if (!Array.isArray(s.systems)) bad('systems', 'must be an array');
+    else s.systems.forEach((sy: any, i: number) => {
+      const at = `systems[${i}]`;
+      if (!isStr(sy?.id)) bad(`${at}.id`, 'required string');
+      if (!isStr(sy?.name)) bad(`${at}.name`, 'required string');
+      if (!isStr(sy?.color)) bad(`${at}.color`, 'required colour string');
+      if (!Array.isArray(sy?.paths) || !sy.paths.length) { bad(`${at}.paths`, 'required non-empty array'); return; }
+      sy.paths.forEach((p: any, k: number) => {
+        if (!Array.isArray(p) || p.length < 2) { bad(`${at}.paths[${k}]`, 'needs at least two points'); return; }
+        p.forEach((pt: any, j: number) => {
+          if (typeof pt === 'string') { if (roomCodes.size && !roomCodes.has(pt)) bad(`${at}.paths[${k}][${j}]`, `unknown room "${pt}"`); }
+          else if (!isVec3(pt)) bad(`${at}.paths[${k}][${j}]`, 'must be a room code or [x,y,z]');
+        });
+      });
+    });
+  }
 
   if (s.spinning !== undefined) {
     const sp = s.spinning as any;
@@ -225,6 +340,7 @@ export function validateShip(raw: unknown): Issue[] {
     if (!Array.isArray(tour.segments) || tour.segments.length === 0) bad('tour.segments', 'required non-empty array');
     else tour.segments.forEach((sg: any, i: number) => {
       if (!isStr(sg?.name)) bad(`tour.segments[${i}].name`, 'required string');
+      if (sg?.caption !== undefined && !isStr(sg.caption)) bad(`tour.segments[${i}].caption`, 'must be a string');
       if (sg?.room !== undefined && roomCodes.size && !roomCodes.has(sg.room)) bad(`tour.segments[${i}].room`, `unknown room "${sg.room}"`);
     });
   }

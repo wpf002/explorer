@@ -13,6 +13,8 @@ export class CameraRig {
   phi = 0;
   r = 0;
   range: [number, number] = [8, 1600];
+  /** Ship length over the 300 m reference; scales roam and wheel speeds. */
+  scale = 1;
   fly: FlyLeg | null = null;
 
   constructor(pos: Vector3, target: Vector3, range?: [number, number]) {
@@ -79,10 +81,11 @@ export class CameraRig {
 const UP = new Vector3(0, 1, 0);
 
 /** WASD / Space / C free flight. */
-export function roamStep(rig: CameraRig, keys: Set<string>, dt: number) {
+/** `scale` is ship length over the 300 m reference, so a shuttle is not crossed in a blink. */
+export function roamStep(rig: CameraRig, keys: Set<string>, dt: number, scale = 1) {
   const fwd = rig.forward();
   const right = new Vector3().crossVectors(fwd, UP).normalize();
-  const sp = (keys.has('shift') ? 110 : 34) * dt;
+  const sp = (keys.has('shift') ? 110 : 34) * dt * scale;
   const mv = new Vector3();
   if (keys.has('w')) mv.add(fwd);
   if (keys.has('s')) mv.sub(fwd);
@@ -91,5 +94,5 @@ export function roamStep(rig: CameraRig, keys: Set<string>, dt: number) {
   if (keys.has(' ') || keys.has('e')) mv.y += 1;
   if (keys.has('c') || keys.has('q')) mv.y -= 1;
   if (mv.lengthSq()) rig.pos.add(mv.normalize().multiplyScalar(sp));
-  rig.target.copy(rig.pos).add(fwd.multiplyScalar(20));
+  rig.target.copy(rig.pos).add(fwd.multiplyScalar(20 * scale));
 }

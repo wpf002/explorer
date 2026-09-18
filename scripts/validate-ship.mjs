@@ -6,7 +6,7 @@
 import { readdirSync, readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { validateShip } from './lib/schema-node.mjs';
+import { validateShip, applyVariant, isVariant } from './lib/schema-node.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const shipsDir = join(root, 'ships');
@@ -48,7 +48,7 @@ function checkBudgets(id, s) {
   if (!s) return ['not measured'];
   if (s.error) return [`viewer failed to load: ${s.error}`];
   const out = [];
-  const spec = JSON.parse(readFileSync(join(shipsDir, id, 'ship.json'), 'utf8'));
+  const spec = resolveSpec(id);
   if (s.triangles > BUDGET.triangles) out.push(`${fmt(s.triangles)} triangles, over the ${fmt(BUDGET.triangles)} budget`);
   const len = s.bounds.max[0] - s.bounds.min[0];
   if (Math.abs(len - spec.length_m) / spec.length_m > BUDGET.scale) {
@@ -57,26 +57,46 @@ function checkBudgets(id, s) {
   return out;
 }
 
-async function checkShip(id) {
-  const dir = join(shipsDir, id);
-  const jsonPath = join(dir, 'ship.json');
-  if (!existsSync(jsonPath)) return ['missing ship.json'];
+/** ship.json with variants applied. Throws with a readable message. */
+function resolveSpec(id, seen = []) {
+  const jsonPath = join(shipsDir, id, 'ship.json');
+  if (!existsSync(jsonPath)) throw new Error(`missing ships/${id}/ship.json`);
+  let raw;
+  try { raw = JSON.parse(readFileSync(jsonPath, 'utf8')); }
+  catch (e) { throw new Error(`ships/${id}/ship.json is not valid JSON: ${e.message}`); }
+  if (!isVariant(raw)) return raw;
+  if (seen.includes(id)) throw new Error(`variant cycle: ${[...seen, id].join(' → ')}`);
+  const base = resolveSpec(raw.extends, [...seen, id]);
+  const issues = validateShip(base);
+  if (issues.length) throw new Error(`base "${raw.extends}" is invalid`);
+  return applyVariant(base, raw);
+}
 
+async function checkShip(id) {
   let spec;
-  try { spec = JSON.parse(readFileSync(jsonPath, 'utf8')); }
-  catch (e) { return [`ship.json is not valid JSON: ${e.message}`]; }
+  try { spec = resolveSpec(id); } catch (e) { return [e.message]; }
 
   const problems = validateShip(spec).map(i => `${i.path}: ${i.message}`);
   if (problems.length) return problems;
   if (spec.id !== id) problems.push(`id "${spec.id}" does not match folder name "${id}"`);
 
+  // Links to other ships must land on a real ship and, if given, a real room.
+  for (const r of spec.rooms) for (const l of r.links ?? []) {
+    if (!l.ship) continue;
+    let other;
+    try { other = resolveSpec(l.ship); } catch { problems.push(`${r.code} links to unknown ship "${l.ship}"`); continue; }
+    if (l.room && !other.rooms?.some(x => x.code === l.room)) problems.push(`${r.code} links to ${l.ship} room "${l.room}", which does not exist`);
+  }
+
+  // Variants use their base's model; its extra room_* nodes are the retired rooms.
+  const modelDir = join(shipsDir, spec.model.ship ?? id);
   const deckCodes = new Set(spec.decks.map(d => d.code));
-  const roomCodes = new Set(spec.rooms.map(r => r.code));
+  const roomCodes = new Set([...spec.rooms, ...(spec.retired ?? [])].map(r => r.code));
   const moduleIds = new Set(spec.modules.map(m => m.id));
 
   const names = spec.model.type === 'gltf'
-    ? glbNodeNames(join(dir, spec.model.url), problems)
-    : await proceduralNames(dir, spec, problems);
+    ? glbNodeNames(join(modelDir, spec.model.url), problems)
+    : await proceduralNames(modelDir, spec, problems);
   if (!names) return problems;
 
   const seenRooms = new Set();
@@ -96,7 +116,7 @@ async function checkShip(id) {
       problems.push(`node "${name}" does not use a hull_/int_/glow_/room_/spin_/mod_ prefix`);
     }
   }
-  for (const code of roomCodes) {
+  for (const { code } of spec.rooms) {
     if (!seenRooms.has(code) && !spec.rooms.find(r => r.code === code).position) {
       problems.push(`room ${code} has neither a room_${code} node in the model nor a position in ship.json`);
     }
@@ -104,7 +124,7 @@ async function checkShip(id) {
 
   // Budgets (phase 5): keep the numbers visible from the start.
   if (spec.model.type === 'gltf') {
-    const bytes = readFileSync(join(dir, spec.model.url)).length;
+    const bytes = readFileSync(join(modelDir, spec.model.url)).length;
     if (bytes > 8 * 1024 * 1024) problems.push(`${spec.model.url} is ${(bytes / 1048576).toFixed(1)} MB, over the 8 MB budget`);
   }
   return problems;

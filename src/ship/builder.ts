@@ -67,8 +67,10 @@ export function createBuilder(spec: ShipSpec, mats: MaterialSet): { api: BuildAp
   let serial = 0;
 
   const deckCodes = new Set(spec.decks.map(d => d.code));
-  const roomCodes = new Set(spec.rooms.map(r => r.code));
-  const deckOfRoom = new Map(spec.rooms.map(r => [r.code, r.deck]));
+  // Retired rooms still tag the base model's meshes; they just get no marker.
+  const allRooms = [...spec.rooms, ...(spec.retired ?? [])];
+  const roomCodes = new Set(allRooms.map(r => r.code));
+  const deckOfRoom = new Map(allRooms.map(r => [r.code, r.deck]));
   const moduleIds = new Set(spec.modules.map(m => m.id));
 
   const material = (key: string) => {

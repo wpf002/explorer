@@ -32,15 +32,17 @@ export async function loadShip(renderer: WebGLRenderer, spec: ShipSpec): Promise
   let plumeTime: (t: number) => void = () => {};
 
   if (spec.model.type === 'procedural') {
-    const entry = BUILD_JS[`/ships/${spec.id}/${spec.model.entry}`];
-    if (!entry) throw new Error(`ships/${spec.id}/${spec.model.entry} not found`);
+    const dir = spec.model.ship ?? spec.id;
+    const entry = BUILD_JS[`/ships/${dir}/${spec.model.entry}`];
+    if (!entry) throw new Error(`ships/${dir}/${spec.model.entry} not found`);
     const { api, result } = createBuilder(spec, materials);
     (await entry()).default(api);
     model = result.model;
     plumeTime = result.plumeTime;
   } else {
-    const url = MODELS[`/ships/${spec.id}/${spec.model.url}`];
-    if (!url) throw new Error(`ships/${spec.id}/${spec.model.url} not found`);
+    const dir = spec.model.ship ?? spec.id;
+    const url = MODELS[`/ships/${dir}/${spec.model.url}`];
+    if (!url) throw new Error(`ships/${dir}/${spec.model.url} not found`);
     const gltf = new GLTFLoader();
     const draco = new DRACOLoader();
     draco.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.7/');
@@ -82,7 +84,8 @@ export async function loadShip(renderer: WebGLRenderer, spec: ShipSpec): Promise
       depthWrite: false, blending: AdditiveBlending,
     }));
     s.name = `glow_marker_${room.code}`;
-    s.scale.set(7, 7, 1);
+    const size = (room.radius ?? 5.5) * 1.27;
+    s.scale.set(size, size, 1);
     s.userData.baseOpacity = .7;
     node.add(s);
     model.sprites.push(s);

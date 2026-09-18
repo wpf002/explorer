@@ -187,8 +187,9 @@ export async function mountCompare(app: HTMLElement) {
     if (S.labels && !S.uiHidden) {
       [[slotA, statsA], [slotB, statsB]].forEach(([slot, st], i) => {
         const s = st as ShipStats, g = slot as Group;
-        tmp.set(0, s.bounds.max[1] + maxLen * .03, (s.bounds.min[2] + s.bounds.max[2]) / 2).add(g.position);
-        if (layout === 'overlay') tmp.y += i * maxLen * .05;
+        // A's tag sits toward its bow, B's toward its stern, so the two never stack.
+        const x = i ? s.bounds.min[0] * .45 : s.bounds.max[0] * .45;
+        tmp.set(x, s.bounds.max[1] + maxLen * .03, (s.bounds.min[2] + s.bounds.max[2]) / 2).add(g.position);
         tmp.project(world.camera);
         const el = tags[i];
         if (tmp.z > 1) { el.style.transform = 'translate(-9999px,-9999px)'; return; }
@@ -284,7 +285,13 @@ function drawTable(A: ShipSpec, B: ShipSpec, sa: ShipStats, sb: ShipStats) {
     </tr>`;
   }).join('');
   const txt = text.map(([label, a, b]) => `<tr class="${a !== b ? 'diff txt' : 'txt'}"><th>${label}</th><td>${esc(a)}</td><td>${esc(b)}</td></tr>`).join('');
-  document.getElementById('cmpTable')!.innerHTML = head + '<tbody>' + num + txt + '</tbody>';
+  // Rooms by name that only one ship has: the useful row for a variant against its base.
+  const names = (x: ShipSpec) => new Set(x.rooms.map(r => r.name));
+  const onlyA = [...names(A)].filter(n => !names(B).has(n)), onlyB = [...names(B)].filter(n => !names(A).has(n));
+  const list = (xs: string[]) => xs.length ? xs.map(esc).join('<br>') : '—';
+  const uniq = onlyA.length + onlyB.length && onlyA.length + onlyB.length < A.rooms.length + B.rooms.length
+    ? `<tr class="diff txt uniq"><th>Rooms only here</th><td>${list(onlyA)}</td><td>${list(onlyB)}</td></tr>` : '';
+  document.getElementById('cmpTable')!.innerHTML = head + '<tbody>' + num + txt + uniq + '</tbody>';
 }
 
 const span = (s: ShipStats, axis: 1 | 2) => Math.round(s.bounds.max[axis] - s.bounds.min[axis]);

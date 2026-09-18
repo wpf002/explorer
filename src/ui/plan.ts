@@ -58,6 +58,15 @@ export class DeckPlan {
     });
   }
 
+  /** Active system routes, redrawn only when the set of paths changes shape. */
+  drawSystem(paths: [number, number][][], color: string | null) {
+    const g = svgEl<SVGGElement>('planSys');
+    const d = paths.map(p => 'M' + p.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join('L')).join('');
+    if (g.dataset.d === d && g.dataset.c === (color ?? '')) return;
+    g.dataset.d = d; g.dataset.c = color ?? '';
+    g.innerHTML = d ? `<path class="sysroute" d="${d}" style="stroke:${color}"/>` : '';
+  }
+
   update(markers: Object3D[], camera: PerspectiveCamera, camPos: Vector3, selected: number, cut: Cut, cutPos: number) {
     for (let i = 0; i < markers.length; i++) {
       markers[i].getWorldPosition(this.tmp);
