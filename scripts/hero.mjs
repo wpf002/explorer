@@ -9,18 +9,25 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const ids = readdirSync(join(root, 'ships'), { withFileTypes: true })
   .filter(d => d.isDirectory()).map(d => d.name).sort();
 
-const server = await createServer({ root, server: { port: 5198, strictPort: true } });
+const server = await createServer({ root, logLevel: 'silent', server: { port: 5198, strictPort: true } });
 await server.listen();
 const browser = await chromium.launch({ args: ['--use-gl=angle', '--enable-unsafe-swiftshader'] });
-const page = await browser.newPage({ viewport: { width: 1280, height: 800 }, deviceScaleFactor: 1 });
 
 for (const id of ids) {
-  await page.goto(`http://localhost:5198/#ship=${id}`, { waitUntil: 'load' });
-  await page.waitForTimeout(5000);
+  // A fresh page each time: a hash-only change would not reload the viewer.
+  const page = await browser.newPage({ viewport: { width: 1280, height: 800 }, deviceScaleFactor: 1 });
+  await page.goto(`http://localhost:5198/${(process.env.HERO_PATH ?? '#ship=ID').replace('ID', id)}`, { waitUntil: 'load' });
+  await page.waitForFunction(() => window.FLEET && !window.FLEET.rig.fly, null, { timeout: 30000 });
+  await page.evaluate(() => {
+    const h = window.FLEET.spec.camera.hero;
+    if (h) window.FLEET.pose(h.pos, h.target);
+  });
+  await page.waitForTimeout(1500);
   await page.keyboard.press('h'); // hide the UI chrome
   await page.waitForTimeout(400);
   await page.screenshot({ path: join(root, 'ships', id, 'hero.webp'), type: 'webp', quality: 82 });
   console.log(`hero → ships/${id}/hero.webp`);
+  await page.close();
 }
 
 await browser.close();

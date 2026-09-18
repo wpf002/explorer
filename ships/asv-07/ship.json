@@ -5,6 +5,7 @@
   "role": "deep-space exploration cruiser",
   "length_m": 300,
   "crew": 240,
+  "summary": "A 300 m exploration cruiser built round a 90 m spin ring. Twelve rooms from a domed bridge to a three-drive engine room, with a hangar for two shuttles and a fusion core aft.",
 
   "decks": [
     { "code": "A", "name": "Command Level", "short": "A · Cmd" },
@@ -186,7 +187,8 @@
     "start": [-170, 75, 380],
     "near": 0.5,
     "far": 8000,
-    "range": [8, 1600]
+    "range": [8, 1600],
+    "hero": { "pos": [-130, 48, 190], "target": [-5, -4, 0] }
   },
 
   "model": { "type": "procedural", "entry": "build.js" }

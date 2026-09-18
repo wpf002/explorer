@@ -198,7 +198,7 @@ export default function build(api) {
   mesh(box(18, 9, .3), 'field', 'CRG-03', 'interior', cargo).position.set(-85, -2, 27.6);        // force-field curtain
   mesh(box(21.4, .3, 13.4), 'dark', 'CRG-03', 'interior', cargo).position.set(-85, -7.85, 20);   // hangar deck
   for (let k = -2; k <= 2; k++) mesh(box(.15, .05, 13), 'strip', 'CRG-03', 'glow', cargo).position.set(-85 + k * 4.4, -7.65, 20);
-  const pad = api.group(cargo, [-85, -7.5, 20]);
+  const pad = api.group(cargo, [-85, -7.5, 20], { animated: true });
   mesh(new CylinderGeometry(5.6, 5.6, .5, 40), 'plate', 'CRG-03', 'interior', pad);
   mesh(new TorusGeometry(5.4, .12, 8, 64).rotateX(Math.PI / 2), 'strip', 'CRG-03', 'glow', pad).position.y = .28;
   for (let k = 0; k < 8; k++) {
@@ -236,7 +236,7 @@ export default function build(api) {
       .position.set(Math.cos(a) * 2.3, .32, Math.sin(a) * 2.3);
   }
   [15.2, 24.8].forEach(z => pipe(cargo, -95.5, -74.5, 3.4, z, .22, 'C'));                        // gantry rails
-  const gantry = api.group(cargo, [-88, 3.1, 20]);
+  const gantry = api.group(cargo, [-88, 3.1, 20], { animated: true });
   mesh(box(.6, .5, 10.2), 'bare', 'CRG-01', 'interior', gantry);
   mesh(box(1.2, 1.2, 1.2), 'dark', 'CRG-01', 'interior', gantry).position.y = -.8;
   for (let k = -1; k <= 1; k++) mesh(box(5, .1, .6), 'warm', 'CRG-01', 'glow', cargo).position.set(-85 + k * 7, 3.8, 20);

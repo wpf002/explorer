@@ -21,8 +21,11 @@ export interface BuildApi {
   module(id: string): Group;
   /** `spin_<id>` node the viewer rotates per ship.json `spinning`. */
   spin(parent: Object3D, id: string): Group;
-  /** Plain group for local transforms; not tagged, not exploded. */
-  group(parent: Object3D, position?: Vec3): Group;
+  /**
+   * Plain group for local transforms; not tagged, not exploded. Pass `animated: true`
+   * when the build script moves it, so static batching keeps it as its own node.
+   */
+  group(parent: Object3D, position?: Vec3, opts?: { animated?: boolean }): Group;
   /** `room_<CODE>` marker. `code` must appear in ship.json `rooms`. */
   room(code: string, parent: Object3D, position: Vec3): Object3D;
   /** Tagged mesh. `token` is a deck code for hull, or a room/deck code for interiors. */
@@ -124,9 +127,10 @@ export function createBuilder(spec: ShipSpec, mats: MaterialSet): { api: BuildAp
       spinNodes.set(id, g);
       return g;
     },
-    group(parent, position) {
+    group(parent, position, opts) {
       const g = new Group();
       if (position) g.position.set(...position);
+      if (opts?.animated) g.userData.animated = true;
       parent.add(g);
       return g;
     },

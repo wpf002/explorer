@@ -7,6 +7,7 @@ import { createPlanet } from './render/planet';
 import { loadShip, loadSpec, roomWorld, shipIds } from './ship/loader';
 import { ringTex } from './ship/textures';
 import { Display } from './ship/display';
+import { shipStats } from './ship/stats';
 import { CameraRig, roamStep } from './controls/camera';
 import { Tour } from './controls/tour';
 import { bindInput } from './controls/input';
@@ -217,7 +218,12 @@ async function boot() {
     rig.fly!.t0.copy(target);
   }
 
-  Object.assign(window, { FLEET: { S, rig, ship, spec } });
+  Object.assign(window, { FLEET: { S, rig, ship, spec, stats: () => shipStats(ship),
+    /** Jump the camera to a pose with no fly-to; used by the hero render. */
+    pose: (p: [number, number, number], t: [number, number, number]) => {
+      rig.fly = null; rig.pos.set(...p); rig.target.set(...t); rig.syncOrbit(); rig.syncYaw();
+    },
+  } });
 }
 
 boot().catch(err => {

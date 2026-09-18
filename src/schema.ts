@@ -114,6 +114,8 @@ export interface CameraSpec {
   far?: number;
   /** Orbit radius clamp. */
   range?: [number, number];
+  /** Framing for the fleet-index hero render. Defaults to home/target. */
+  hero?: { pos: Vec3; target: Vec3 };
 }
 
 export interface ShipSpec {
@@ -123,6 +125,10 @@ export interface ShipSpec {
   role: string;
   length_m: number;
   crew: number;
+  /** One or two sentences for the fleet index card. */
+  summary?: string;
+  /** False hides the ship from the fleet index (test fixtures). Defaults to true. */
+  listed?: boolean;
   decks: DeckSpec[];
   rooms: RoomSpec[];
   modules: ModuleSpec[];
@@ -153,6 +159,8 @@ export function validateShip(raw: unknown): Issue[] {
 
   for (const k of ['id', 'name', 'class', 'role'] as const) if (!isStr(s[k])) bad(k, 'required string');
   for (const k of ['length_m', 'crew'] as const) if (!isNum(s[k])) bad(k, 'required number');
+  if (s.summary !== undefined && !isStr(s.summary)) bad('summary', 'must be a string');
+  if (s.listed !== undefined && typeof s.listed !== 'boolean') bad('listed', 'must be a boolean');
 
   const deckCodes = new Set<string>();
   if (!Array.isArray(s.decks) || s.decks.length === 0) bad('decks', 'required non-empty array');
@@ -227,7 +235,10 @@ export function validateShip(raw: unknown): Issue[] {
 
   const cam = s.camera as any;
   if (!cam) bad('camera', 'required');
-  else for (const k of ['home', 'target', 'start']) if (!isVec3(cam[k])) bad(`camera.${k}`, 'required [x,y,z]');
+  else {
+    for (const k of ['home', 'target', 'start']) if (!isVec3(cam[k])) bad(`camera.${k}`, 'required [x,y,z]');
+    if (cam.hero !== undefined && !(isVec3(cam.hero?.pos) && isVec3(cam.hero?.target))) bad('camera.hero', 'must be {pos,target} of [x,y,z]');
+  }
 
   if (typeof s.materials !== 'object' || s.materials === null) bad('materials', 'required object');
   else for (const [k, m] of Object.entries(s.materials as Record<string, any>)) {

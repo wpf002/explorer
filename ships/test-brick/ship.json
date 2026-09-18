@@ -5,6 +5,7 @@
   "role": "schema conformance fixture",
   "length_m": 30,
   "crew": 3,
+  "listed": false,
 
   "decks": [{ "code": "A", "name": "Single Deck", "short": "A · Deck" }],
 

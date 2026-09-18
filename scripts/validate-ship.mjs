@@ -12,19 +12,50 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const shipsDir = join(root, 'ships');
 const ids = readdirSync(shipsDir, { withFileTypes: true }).filter(d => d.isDirectory()).map(d => d.name).sort();
 
+const BUDGET = { triangles: 150_000, scale: 0.15 };
+const fast = process.argv.includes('--fast');
+
+if (!ids.length) { console.error('no ships found under ships/'); process.exit(1); }
+const problems = {};
+for (const id of ids) problems[id] = await checkShip(id);
+
+// Geometry budgets need the real model, so they run in a headless browser.
+const stats = {};
+if (!fast) {
+  const { measureShips } = await import('./lib/measure.mjs');
+  const ok = ids.filter(id => !problems[id].length);
+  Object.assign(stats, await measureShips(root, ok));
+  for (const id of ok) problems[id].push(...checkBudgets(id, stats[id]));
+}
+
 let failed = 0;
 for (const id of ids) {
-  const problems = await checkShip(id);
-  if (problems.length) {
+  const s = stats[id];
+  const info = s && !s.error ? `  ${fmt(s.triangles)} tris · ${s.drawCalls} draws · ${s.meshes} meshes` : '';
+  if (problems[id].length) {
     failed++;
-    console.error(`✗ ${id}`);
-    for (const p of problems) console.error(`    ${p}`);
+    console.error(`✗ ${id}${info}`);
+    for (const p of problems[id]) console.error(`    ${p}`);
   } else {
-    console.log(`✓ ${id}`);
+    console.log(`✓ ${id}${info}`);
   }
 }
-if (!ids.length) { console.error('no ships found under ships/'); process.exit(1); }
 process.exit(failed ? 1 : 0);
+
+function fmt(n) { return n >= 1000 ? (n / 1000).toFixed(1) + 'k' : String(n); }
+
+function checkBudgets(id, s) {
+  if (!s) return ['not measured'];
+  if (s.error) return [`viewer failed to load: ${s.error}`];
+  const out = [];
+  const spec = JSON.parse(readFileSync(join(shipsDir, id, 'ship.json'), 'utf8'));
+  if (s.triangles > BUDGET.triangles) out.push(`${fmt(s.triangles)} triangles, over the ${fmt(BUDGET.triangles)} budget`);
+  const len = s.bounds.max[0] - s.bounds.min[0];
+  if (Math.abs(len - spec.length_m) / spec.length_m > BUDGET.scale) {
+    out.push(`model is ${len.toFixed(1)} m along X but ship.json says length_m ${spec.length_m} (±${BUDGET.scale * 100}%)`);
+  }
+  return out;
+}
 
 async function checkShip(id) {
   const dir = join(shipsDir, id);

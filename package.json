@@ -10,6 +10,7 @@
     "shot": "node scripts/shot.mjs",
     "hero": "node scripts/hero.mjs",
     "validate": "node scripts/validate-ship.mjs",
+    "validate:fast": "node scripts/validate-ship.mjs --fast",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

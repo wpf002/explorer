@@ -46,9 +46,15 @@ tone mapped and the pass now does, so it reads a little brighter. Left alone on 
   swallowed by a gas giant.
 - `plan` markers scale with `plan.viewBox` width for the same reason.
 
-## Next
+## Phase 2
 
-Phase 2: pick the second real ship (deliberately different silhouette — no ring, fewer
-decks), build it in Blender against the phase-1 name prefixes, and fix schema gaps rather
-than special-casing the viewer. `npm run hero` already renders `ships/<id>/hero.webp` for
-the fleet index that phase 3 needs.
+- `ships/bcf-4/`: a 420 m Longhaul-class bulk freighter. Three decks (`Ops`, `Hold`,
+  `Eng`), thirteen rooms, four interiors (bridge, galley, reactor hall, machine shop),
+  no ring. It exercised multi-letter deck codes and a room marker on an animated node
+  (the spine gantry) without any viewer changes.
+- No Blender on this machine, so the ship is procedural. The glTF path stays covered by
+  `test-brick`.
+- `npm run validate` now loads every ship headless and checks the triangle budget
+  (150k) and that the model's X extent is within 15% of `length_m`.
+  `npm run validate:fast` skips the browser.
+- `npm run hero` renders `ships/<id>/hero.webp` from `camera.hero` (falls back to home).
