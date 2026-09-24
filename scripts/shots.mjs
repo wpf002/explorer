@@ -9,7 +9,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { PNG } from 'pngjs';
 import pixelmatch from 'pixelmatch';
-import { launch, settled } from './lib/browser.mjs';
+import { launch, newPage, settled, TIMEOUT } from './lib/browser.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const update = process.argv.includes('--update');
@@ -27,7 +27,7 @@ const browser = await launch();
 const rows = [], errors = [];
 for (const id of ids) {
   for (const preset of PRESETS) {
-    const page = await browser.newPage({ viewport: { width: 1280, height: 800 }, deviceScaleFactor: 1 });
+    const page = await newPage(browser, { viewport: { width: 1280, height: 800 }, deviceScaleFactor: 1 });
     page.on('pageerror', e => errors.push(`${id}/${preset}: ${e}`));
     await page.goto(`http://localhost:5188/ship/${id}?quality=high`);
     await settled(page).catch(() => errors.push(`${id}/${preset}: viewer did not settle`));
@@ -35,7 +35,7 @@ for (const id of ids) {
     await page.keyboard.press('h');
     await page.waitForTimeout(900);
     const file = join(out, `${id}-${preset}.png`);
-    await page.screenshot({ path: file });
+    await page.screenshot({ path: file, timeout: TIMEOUT });
     await page.close();
 
     const g = join(gold, `${id}-${preset}.png`);

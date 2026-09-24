@@ -3,7 +3,7 @@
  * and diffed against reference/golden.png. Rendering differences do not fail the run;
  * the number is there so a human looks at the image.
  */
-import { launch, settled } from './lib/browser.mjs';
+import { launch, newPage, settled, TIMEOUT } from './lib/browser.mjs';
 import { createServer } from 'vite';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -27,7 +27,7 @@ const [pathPart, hashPart] = route.split('#');
 const url = `http://localhost:5199/${pathPart}${pathPart.includes('?') ? '&' : '?'}quality=high${hashPart ? '#' + hashPart : ''}`;
 
 const browser = await launch();
-const page = await browser.newPage({ viewport: { width: 1600, height: 1000 }, deviceScaleFactor: 1 });
+const page = await newPage(browser, { viewport: { width: 1600, height: 1000 }, deviceScaleFactor: 1 });
 const errors = [];
 page.on('pageerror', e => errors.push(String(e)));
 page.on('console', m => m.type() === 'error' && errors.push(m.text()));
@@ -38,7 +38,7 @@ await settled(page).catch(() => {});
 await page.waitForTimeout(WAIT);
 
 const outPath = join(root, 'shots', outName);
-await page.screenshot({ path: outPath });
+await page.screenshot({ path: outPath, timeout: TIMEOUT });
 await browser.close();
 await server.close();
 
