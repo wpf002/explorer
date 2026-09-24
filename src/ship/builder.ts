@@ -8,7 +8,8 @@ import { col } from '../util';
 import { glowTex } from './textures';
 import type { MaterialSet } from './materials';
 import type { Animator, MeshTag, ShipModel, TaggedMesh } from './model';
-import { box, coneX, cylX, plumeGeometry, plumeMaterial, spanTo, trussPoints, Y_UP } from './geometry';
+import { box, coneX, cylX, plumeGeometry, spanTo, trussPoints, Y_UP } from './geometry';
+import type { PlumeMaterial } from './plume-material';
 
 /**
  * The API a ship's `build.js` receives. It imports nothing, so procedural ships share
@@ -53,7 +54,7 @@ export interface BuildApi {
 
 export interface BuildResult { model: ShipModel; plumeTime: (t: number) => void; }
 
-export function createBuilder(spec: ShipSpec, mats: MaterialSet): { api: BuildApi; result: BuildResult } {
+export function createBuilder(spec: ShipSpec, mats: MaterialSet, plume: PlumeMaterial): { api: BuildApi; result: BuildResult } {
   const root = new Group();
   root.name = 'ship';
   const meshes: TaggedMesh[] = [];
@@ -63,7 +64,7 @@ export function createBuilder(spec: ShipSpec, mats: MaterialSet): { api: BuildAp
   const roomNodes = new Map<string, Object3D>();
   const animators: Animator[] = [];
   const glowMap = glowTex();
-  const plumeMat = plumeMaterial();
+  const plumeMat = plume.material;
   let serial = 0;
 
   const deckCodes = new Set(spec.decks.map(d => d.code));
@@ -228,7 +229,7 @@ export function createBuilder(spec: ShipSpec, mats: MaterialSet): { api: BuildAp
     api,
     result: {
       model: { root, meshes, sprites, modules, spinNodes, roomNodes, animators },
-      plumeTime: (t: number) => { plumeMat.uniforms.t.value = t; },
+      plumeTime: plume.setTime,
     },
   };
 }

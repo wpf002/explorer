@@ -8,6 +8,7 @@ import type { ShipSpec } from '../schema';
 import { col } from '../util';
 import { buildMaterials, type MaterialSet } from './materials';
 import { createBuilder, type BuildApi } from './builder';
+import { createPlumeMaterial } from './plume-material';
 import { tagFromNames } from './tagging';
 import type { ShipModel } from './model';
 import { glowTex } from './textures';
@@ -36,7 +37,7 @@ export async function loadShip(renderer: WebGLRenderer, spec: ShipSpec): Promise
     const dir = spec.model.ship ?? spec.id;
     const entry = BUILD_JS[`/ships/${dir}/${spec.model.entry}`];
     if (!entry) throw new Error(`ships/${dir}/${spec.model.entry} not found`);
-    const { api, result } = createBuilder(spec, materials);
+    const { api, result } = createBuilder(spec, materials, await createPlumeMaterial());
     (await entry()).default(api);
     model = result.model;
     plumeTime = result.plumeTime;

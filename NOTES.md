@@ -194,3 +194,28 @@ WebGPU move, which is a project rather than a patch.
 
 ASV-07's spinal corridor is now fitted out (deck plates, rails, hand rails, wall panels,
 hatch rings) and its bulkheads and ring hub are open, so the 180 m run reads end to end.
+
+## Node pipeline (three r186, WebGPU)
+
+`GPU=1 vite build` swaps `three` for `three/webgpu` (exact-match alias) and takes the node
+path: `WebGPURenderer` + `PostProcessing` with `pass() → ao() → bloom() → fxaa()`. It runs on
+the WebGPU backend and, with `?backend=webgl`, on the WebGL2 backend; both render the whole
+app at 120 fps in headless Chromium.
+
+What had to change for it:
+
+- `__GPU__` is a Vite `define`, not a runtime flag, so the unused renderer — and the three.js
+  build behind it — is dropped from the bundle.
+- The planet and the drive plume are GLSL `ShaderMaterial`s on WebGL and TSL
+  `MeshBasicNodeMaterial`s on the node path (`planet-gpu.ts`, `plume-material.ts`).
+- Fat lines come from `three/addons/lines/webgpu/` with `Line2NodeMaterial`; the WebGL addon
+  imports `UniformsLib`, which the node build does not export.
+- `renderer.capabilities.getMaxAnisotropy()` does not exist on the node renderer.
+- No MSAA on the node path: the AO node cannot gather from a multisampled depth texture, so
+  FXAA covers the edges instead.
+
+Ambient occlusion works here and did not on the composer, because the pass hands the AO node
+a real depth and normal buffer through MRT.
+
+Still to check on the node path before it could be the default: section cuts
+(`material.clippingPlanes`), the compare view, hero renders and the screenshot suite.

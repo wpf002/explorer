@@ -103,7 +103,7 @@ export async function mountCompare(app: HTMLElement) {
   /* ---------- scene ---------- */
   const maxLen = Math.max(A.length_m, B.length_m);
   const canvas = $<HTMLCanvasElement>('#gl');
-  const world = createWorld(canvas, maxLen / 300, 0.5, Math.max(A.camera.far ?? 8000, B.camera.far ?? 8000));
+  const world = await createWorld(canvas, maxLen / 300, 0.5, Math.max(A.camera.far ?? 8000, B.camera.far ?? 8000));
   const [shipA, shipB] = await Promise.all([loadShip(world.renderer, A), loadShip(world.renderer, B)]);
   const slotA = new Group(), slotB = new Group();
   slotA.add(shipA.model.root); slotB.add(shipB.model.root);

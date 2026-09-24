@@ -35,12 +35,19 @@ The viewer is generic three.js; every ship is data in `ships/<id>/`. Adding a sh
 
 ```bash
 npm install
-npm run dev          # http://localhost:5173
+npm run dev          # http://localhost:5173 (WebGL pipeline)
+npm run build:gpu    # node/TSL pipeline, then: npx vite preview --outDir dist-gpu
 npm run build        # dist/
 npm run validate     # schema, mesh names, links, budgets (headless)
 npm run shots        # every ship × solid / x-ray / section vs reference/goldens
 npm run hero         # ships/<id>/hero.webp for the index
 ```
+
+Two render pipelines share the same source. The default is WebGL with an `EffectComposer`
+chain (tonemap → bloom → output) and fitted sun shadows. `GPU=1` swaps three.js for its node
+build: `WebGPURenderer` with a TSL chain (scene pass → GTAO → bloom → FXAA), falling back to
+a WebGL2 backend where WebGPU is missing. The planet and drive-plume shaders exist in both
+GLSL and TSL; `__GPU__` is a compile-time constant, so only one backend reaches a bundle.
 
 Budgets per ship: 150k triangles, 300 draw calls, model length within 15% of `length_m`, glTF under 8 MB. Tagged meshes are merged at load, which takes the ASV-07 from 674 draw calls to 112 and the BCF-4 from 1,270 to 109.
 
