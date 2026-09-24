@@ -59,6 +59,7 @@ export default function build(api) {
     mesh(box(.7, 1.1, .7), 'dark', 'BRG-02', 'interior', cmd).position.set(3.6, 5.5, z);
   }
   mesh(box(.5, .4, 7.4), 'dark', 'BRG-02', 'interior', cmd).position.set(6.6, 5, 0);
+  mesh(box(10, .1, .25), 'strip', 'BRG-02', 'glow', cmd).position.set(2, 8.5, 0);
   // CIC below the bridge: plot table ringed by four consoles
   mesh(box(11, .3, 8), 'plate', 'CIC-01', 'interior', cmd).position.set(-1, .6, 0);
   mesh(new CylinderGeometry(1.5, 1.7, .5, 20), 'core', 'CIC-01', 'interior', cmd).position.set(-1, 1.1, 0);
@@ -69,6 +70,8 @@ export default function build(api) {
     const sc = mesh(box(.06, .55, 1.3), 'screen', 'CIC-01', 'glow', cmd);
     sc.position.set(-1 + Math.cos(a) * 2.5, 1.9, Math.sin(a) * 2.5); sc.rotation.y = -a;
   }
+  mesh(box(9, .12, .3), 'warm', 'CIC-01', 'glow', cmd).position.set(-1, 3.9, 0);
+  mesh(box(.3, .12, 6.6), 'warm', 'CIC-01', 'glow', cmd).position.set(3.2, 3.9, 0);
   glow(cmd, -1, 1.6, 0, 7, '#8fe8f5', .3);
 
   /* ---------------- Midships: VLS, berths, airlock, sick bay (deck Ops) ---------------- */

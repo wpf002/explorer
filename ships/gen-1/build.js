@@ -99,6 +99,7 @@ export default function build(api) {
   }
   mesh(new CylinderGeometry(4, 4, 18, 16), 'core', 'IND-01', 'interior', spine).position.set(14, -4, 0);
   for (let k = -1; k <= 1; k++) mesh(box(56, .4, 1.4), 'warm', 'IND-01', 'glow', spine).position.set(0, 14.4, k * 10);
+  for (let k = -1; k <= 1; k++) mesh(box(56, .4, 1.2), 'warm', 'IND-01', 'glow', spine).position.set(0, -2, k * 11);
   windowStrip(spine, 0, 6, 17.4, 60, 'IND-01', 'warm'); windowStrip(spine, 0, 6, -17.4, 60, 'IND-01', 'warm');
   // infirmary and archive blisters
   mesh(box(30, 12, 16), 'plate', 'Spine', 'hull', spine).position.set(300, 20, 0);

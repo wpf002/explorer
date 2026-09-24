@@ -36,28 +36,12 @@
       "view": [0.8, 0.5, 0.8],
       "dist": 11,
       "radius": 1.1,
-      "close": {
-        "pos": [4.2, 1.6, 1.6],
-        "look": [9.6, 1.4, -0.3]
-      },
       "description": "Two seats under a wrapped forward window that looks down as well as ahead, because on the last thirty metres the crew are watching the ground, not the horizon. Landing is flown by the computer and supervised by hand; either seat can take over with a throttle and a stick. The window carries an etched horizon line for manual attitude if the displays go dark.",
       "stats": [
         ["Seats", "2"],
         ["Window", "Wrapped, 210°"],
         ["Landing", "Auto, hand override"],
         ["Backup Attitude", "Etched horizon"]
-      ],
-      "hotspots": [
-        {
-          "pos": [6.6, 1.6, 0.9],
-          "title": "Pilot Seat",
-          "text": "Both seats face 12° down so the crew see the pad on final."
-        },
-        {
-          "pos": [8.4, 1.5, 0],
-          "title": "Throttle Quadrant",
-          "text": "Four levers, one per engine, ganged unless a crew splits them."
-        }
       ]
     },
     {
@@ -68,28 +52,12 @@
       "view": [0.1, 0.6, 1],
       "dist": 13,
       "radius": 1.3,
-      "close": {
-        "pos": [4.4, 1.6, 0.4],
-        "look": [-4.5, 1.2, 0]
-      },
       "description": "Six jump seats along the walls with the floor clear between them, because everything the crew carry down rides on their backs or in the bay below. The cabin holds 101 kPa on the surface and drops to 55 kPa of oxygen-rich mix before an EVA, which cuts pre-breathe to twenty minutes. Two lights, one warm, one red for night landings.",
       "stats": [
         ["Seats", "6"],
         ["Cabin Pressure", "101 kPa"],
         ["EVA Prep", "55 kPa mix"],
         ["Pre-breathe", "20 min"]
-      ],
-      "hotspots": [
-        {
-          "pos": [-0.2, 1.4, 2.4],
-          "title": "Jump Seat",
-          "text": "Folds flat against the wall. The floor is kept clear for suited crew."
-        },
-        {
-          "pos": [0, 4.3, 0],
-          "title": "Cabin Light",
-          "text": "Warm for transit, red from ten minutes before a night landing."
-        }
       ]
     },
     {

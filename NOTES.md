@@ -143,3 +143,18 @@ rejected by the validator and became `RGA-01`.
 
 Declared `length_m` is the model's X extent, not the hull's: the tug is 58 m over its arms
 and the lander 20 m over its legs. The validator enforces the match at ±15%.
+
+## Interiors
+
+Nothing casts shadows, so a compartment is lit by whatever the sun happens to hit; the
+inside of a hull is usually the dark side. `interiorFill` (a point light on the camera in
+`src/render/environment.ts`) fades in while the camera is inside the selected room and
+fades out again, which is what makes the ASV-07 bridge, the BCF-4 galley and the GEN-1 farm
+drum readable.
+
+"Inside" is measured against the room's `close` pose when it has one, not against the label
+marker: markers often sit outside the hull where the label has to be legible.
+
+Ships carry `close` only for compartments with enough fitted-out geometry to be worth
+entering. KV-9's CIC and bridge, LDR-5's flight deck and cabin, and GEN-1's bridge and
+foundry are described but not entered — the button reads "Fly Closer" there.

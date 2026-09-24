@@ -36,6 +36,8 @@ export default function build(api) {
     sc.position.set(8.1, 1.7, z); sc.rotation.z = -.45;
   }
   mesh(box(.5, .3, 2.4), 'dark', 'CPT-01', 'interior', hull).position.set(8.4, 1.25, 0);
+  mesh(box(3.6, .08, .2), 'warm', 'CPT-01', 'glow', hull).position.set(7.2, 3.1, 0);
+  for (const z of [1.9, -1.9]) mesh(box(2.6, .08, .16), 'strip', 'CPT-01', 'glow', hull).position.set(7, 2.4, z);
 
   // cabin: six jump seats along the walls, overhead rail, EVA suits aft
   mesh(box(9, .25, 7), 'plate', 'CAB-02', 'interior', hull).position.set(0, .6, 0);

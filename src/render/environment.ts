@@ -1,10 +1,11 @@
 import {
   AmbientLight, BackSide, Color, DirectionalLight, HemisphereLight, Mesh, MeshBasicMaterial,
-  PerspectiveCamera, PMREMGenerator, Scene, SphereGeometry, SpotLight, Vector3, WebGLRenderer,
+  PerspectiveCamera, PMREMGenerator, PointLight, Scene, SphereGeometry, SpotLight, Vector3,
+  WebGLRenderer,
 } from 'three';
 import { col } from '../util';
 
-export interface Lighting { sun: DirectionalLight; lamp: SpotLight; }
+export interface Lighting { sun: DirectionalLight; lamp: SpotLight; interiorFill: PointLight; }
 
 /**
  * Three dropped `useLegacyLights` in r165, so an intensity of 1 is a good deal dimmer
@@ -33,7 +34,12 @@ export function createLighting(scene: Scene, camera: PerspectiveCamera): Lightin
   lamp.target.position.set(0, 0, -1);
   camera.add(lamp.target);
 
-  return { sun, lamp };
+  // Nothing casts shadows, so an interior is lit by whatever the sun happens to hit.
+  // This comes up only while the camera is inside a room, to keep the fittings readable.
+  const interiorFill = new PointLight(col('#dce9f2'), 0, 0, 1.1);
+  camera.add(interiorFill);
+
+  return { sun, lamp, interiorFill };
 }
 
 /** A dark sky, a blue planet and the sun, baked to a PMREM for hull reflections. */

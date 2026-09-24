@@ -2,6 +2,9 @@ import { AdditiveBlending, Object3D, Sprite, SpriteMaterial, Vector3 } from 'thr
 import markup from './viewer.html?raw';
 import { createWorld } from '../render/world';
 import { LAMP_INTENSITY } from '../render/environment';
+
+/** Interior fill at the 300 m reference; it scales with the ship so small hulls stay lit. */
+const FILL = 9;
 import { loadShip, roomWorld } from '../ship/loader';
 import { getSpec } from '../fleet';
 import { spinners } from '../schema';
@@ -11,7 +14,7 @@ import { shipStats } from '../ship/stats';
 import { CameraRig, fitAspect, roamStep } from '../controls/camera';
 import { Tour } from '../controls/tour';
 import { bindInput } from '../controls/input';
-import { flyToRoom } from '../controls/flyto';
+import { flyToRoom, roomPose } from '../controls/flyto';
 import { Panels } from '../ui/panels';
 import { RoomIndex } from '../ui/detail';
 import { Labels } from '../ui/labels';
@@ -35,7 +38,7 @@ export async function mountViewer(app: HTMLElement, id: string) {
 
   const canvas = $<HTMLCanvasElement>('#gl');
   const stage = createWorld(canvas, spec.length_m / 300, spec.camera.near ?? 0.5, spec.camera.far ?? 8000);
-  const { lamp, stars } = stage;
+  const { lamp, stars, interiorFill } = stage;
 
   const ship = await loadShip(stage.renderer, spec);
   stage.scene.add(ship.model.root);
@@ -240,9 +243,20 @@ export async function mountViewer(app: HTMLElement, id: string) {
 
     if (S.labels && !S.uiHidden) labels.update(ship.markers, stage.camera, rig.pos);
     systems.update(T, rig.pos);
-    const inside = S.selected >= 0 && !rig.fly
-      && roomWorld(ship, S.selected, tmp).distanceTo(rig.pos) < Math.max(12, spec.rooms[S.selected].dist * .4);
+    // Measured against the room's own interior pose, since a label marker often sits
+    // outside the hull where the label has to be readable.
+    const room = S.selected >= 0 ? spec.rooms[S.selected] : null;
+    const anchor = room?.close && S.selected >= 0
+      ? roomPose(ship, S.selected, true).pos
+      : S.selected >= 0 ? roomWorld(ship, S.selected, tmp) : null;
+    const inside = !!anchor && !rig.fly
+      && anchor.distanceTo(rig.pos) < (room?.close ? Math.max(3 * rig.scale, room.dist * .3) : Math.max(12 * rig.scale, room!.dist * .4));
     hotspots.update(ship.markers, S.selected, inside && !S.uiHidden, stage.camera);
+    // Fade in and out rather than snapping at the threshold. The intensity follows the
+    // light's own decay, so a 12 m shuttle and a 1.2 km hull both land in the same place.
+    const wantFill = inside ? FILL * Math.pow(Math.max(.4, rig.scale), 1.1) : 0;
+    interiorFill.intensity += (wantFill - interiorFill.intensity) * Math.min(1, dt * 4);
+    interiorFill.distance = Math.max(26, 70 * rig.scale);
     frameN++;
     if (frameN % 2 === 0 && !S.uiHidden) {
       plan.update(ship.markers, stage.camera, rig.pos, S.selected, S.cut, S.cutPos);

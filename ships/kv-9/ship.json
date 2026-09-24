@@ -50,10 +50,6 @@
       "view": [0.5, 0.7, 1],
       "dist": 24,
       "radius": 2.6,
-      "close": {
-        "pos": [-1.2, 5.6, 2.6],
-        "look": [8.5, 5.2, -0.4]
-      },
       "description": "Three seats abreast behind a 1.1 m armoured slit: helm, weapons, sensors. The slit is the only direct view on the ship and closes behind a shutter at action stations, after which the crew fly on repeaters from the compartment below. Everything here is duplicated in the CIC, so a hit on the bridge costs the ship its windows and nothing else.",
       "stats": [
         ["Seats", "3"],
@@ -66,23 +62,6 @@
           "label": "Repeats to",
           "room": "CIC-01"
         }
-      ],
-      "hotspots": [
-        {
-          "pos": [5, 5.6, 0],
-          "title": "Helm Seat",
-          "text": "Centre of three. Gimbal-mounted and rated to 9 g on the burn axis."
-        },
-        {
-          "pos": [8.4, 7, 0],
-          "title": "Armoured Slit",
-          "text": "110 mm of transparent laminate in a shuttered recess."
-        },
-        {
-          "pos": [6.6, 5.2, 2.6],
-          "title": "Console Rail",
-          "text": "A single rail carries all three stations' displays; any seat can take any role."
-        }
       ]
     },
     {
@@ -93,10 +72,6 @@
       "view": [0.2, -0.4, 1],
       "dist": 26,
       "radius": 2.8,
-      "close": {
-        "pos": [4.2, 1.6, 3.4],
-        "look": [-2.5, 1, -0.6]
-      },
       "description": "Four consoles around a plot table on the ship's centre of armour, one deck below the bridge. The room fuses radar, lidar and passive tracks into a single picture and hands firing solutions to the railgun and the cells. It runs on its own power ring and holds six hours of air, so the ship fights from here after the bridge is shuttered.",
       "stats": [
         ["Consoles", "4"],
@@ -112,18 +87,6 @@
         {
           "label": "Fires",
           "room": "VLS-02"
-        }
-      ],
-      "hotspots": [
-        {
-          "pos": [-1, 1.5, 0],
-          "title": "Plot Table",
-          "text": "The fused picture: every track inside 40,000 km with its firing solution."
-        },
-        {
-          "pos": [1.1, 1.9, 2.1],
-          "title": "Weapons Console",
-          "text": "Assigns targets to the railgun and the eight cells. Two keys to release."
         }
       ]
     },
@@ -263,8 +226,8 @@
       "dist": 22,
       "radius": 2.4,
       "close": {
-        "pos": [-14, 0.4, 5.2],
-        "look": [-14, 0.2, 9.6]
+        "pos": [-14, 0.2, 8.4],
+        "look": [-14, 0.3, 4]
       },
       "description": "A 2.2 m lock on the port quarter with two suits racked either side of the inner door. It cycles in forty seconds and is the only way out of the ship under way. Hull repair kit and the magnetic crawler stow overhead; the bay is also where boarding parties stage, four at a time.",
       "stats": [

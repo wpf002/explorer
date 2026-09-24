@@ -37,6 +37,8 @@ export default function build(api) {
     sc.position.set(17.6, 1.2, z); sc.rotation.z = -.35;
   }
   mesh(box(2.2, .35, 5.4), 'dark', 'BRG-01', 'interior', cab).position.set(17.4, .2, 0);
+  mesh(box(7, .1, .26), 'warm', 'BRG-01', 'glow', cab).position.set(14.5, 3.1, 2.2);
+  mesh(box(7, .1, .26), 'warm', 'BRG-01', 'glow', cab).position.set(14.5, 3.1, -2.2);
   glow(cab, 16, 1.2, 0, 7, '#8fe8f5', .28);
   // two bunks and a locker aft of the cab
   mesh(box(3.4, .25, 6), 'plate', 'CRW-02', 'interior', cab).position.set(11.4, -.9, 0);

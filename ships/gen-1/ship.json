@@ -100,33 +100,12 @@
       "view": [0.7, -0.5, 0.8],
       "dist": 140,
       "radius": 14,
-      "close": {
-        "pos": [492, -28.2, 9],
-        "look": [518, -27, -1]
-      },
       "description": "Six stations in a blister under the shield, with the only forward-facing window on the ship. It is manned at one station for most of the voyage; the other five are for waypoint approaches and for the century-long deceleration. The ship's course is a document, not a decision, and the watch exists to notice the year something goes wrong with it.",
       "stats": [
         ["Stations", "6"],
         ["Routine Watch", "1"],
         ["Window", "20 m"],
         ["Course Authority", "Standing plan"]
-      ],
-      "hotspots": [
-        {
-          "pos": [502, -28.6, 0],
-          "title": "Plot Table",
-          "text": "The whole voyage on one plot: 1,180 years elapsed at this frame."
-        },
-        {
-          "pos": [512, -28, -4.5],
-          "title": "Watch Station",
-          "text": "One of six. Only this one is normally manned."
-        },
-        {
-          "pos": [517, -26, 0],
-          "title": "Forward Window",
-          "text": "The only window that looks where the ship is going."
-        }
       ]
     },
     {
@@ -231,8 +210,8 @@
       "dist": 180,
       "radius": 16,
       "close": {
-        "pos": [0, 12, 20],
-        "look": [0, 26, 8]
+        "pos": [38, 0, 0],
+        "look": [-20, 10, 6]
       },
       "description": "A 92 m drum turning at 3.4 rpm for 0.4 g at the wall, stacked with terraces under tuned lamps. It grows the grain and the oil crops: about two thirds of the ship's calories, with the rest from the second drum and the ring gardens. A drum can be sealed and sterilised in eleven hours, which has been necessary twice.",
       "stats": [
@@ -290,10 +269,6 @@
       "view": [0.2, 0.6, 1],
       "dist": 150,
       "radius": 15,
-      "close": {
-        "pos": [26, -10, 12],
-        "look": [-10, -9, -2]
-      },
       "description": "The ship's ability to make things rather than carry them: an induction foundry, five machine halls and a printer floor, all in a 70 m box amidships. Everything from ring plating to teeth comes out of here. The furnace has been cold twice in eleven hundred years, and both occasions have names.",
       "stats": [
         ["Halls", "5"],
@@ -305,18 +280,6 @@
         {
           "label": "Supplies",
           "room": "SHD-01"
-        }
-      ],
-      "hotspots": [
-        {
-          "pos": [14, -6, 0],
-          "title": "Furnace",
-          "text": "Forty-tonne induction melt. The ship measures its history by its two cold spells."
-        },
-        {
-          "pos": [-12, -10.5, -8],
-          "title": "Machine Hall",
-          "text": "One of five. Every part aboard has a drawing and a stock code."
         }
       ]
     },
