@@ -84,13 +84,13 @@ export async function loadShip(renderer: WebGLRenderer, spec: ShipSpec): Promise
 
     // Marker glow, in the room's own colour.
     const s = new Sprite(new SpriteMaterial({
-      map: glowMap, color: col(room.color), transparent: true, opacity: .7,
+      map: glowMap, color: col(room.color), transparent: true, opacity: .6,
       depthWrite: false, blending: AdditiveBlending,
     }));
     s.name = `glow_marker_${room.code}`;
-    const size = (room.radius ?? 5.5) * 1.27;
+    const size = (room.radius ?? 5.5) * 0.95;
     s.scale.set(size, size, 1);
-    s.userData.baseOpacity = .7;
+    s.userData.baseOpacity = .6;
     // Marker glows are a wayfinding aid seen from outside; up close they would fill the frame.
     s.userData.fadeNear = size * 2.5;
     node.add(s);

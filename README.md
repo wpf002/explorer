@@ -12,12 +12,20 @@ The viewer is generic three.js; every ship is data in `ships/<id>/`. Adding a sh
 | `bcf-4` | Longhaul-class freighter | 420 m | 768 container slots, three decks, no ring |
 | `asv-07` | Dome-class exploration cruiser | 300 m | Spin ring, twelve rooms, the original demo |
 | `asv-07r` | Dome-class survey refit | 300 m | A variant: `ship.json` with `extends`, no model of its own |
+| `iss` | International Space Station | 109 m | Real: 109 m truss, eight solar wings, sixteen modules |
 | `kv-9` | Lance-class patrol frigate | 95 m | 46 m spinal railgun, eight launch cells |
 | `srv-4` | Kite-class survey probe | 68 m | Uncrewed: 1,900 m² sail, 22 m magnetometer boom |
 | `tug-11` | Bollard-class orbital tug | 58 m | Four grapple arms, tow winch, glasshouse cab |
-| `ldr-5` | Anvil-class surface lander | 20 m | Four legs, four throttling engines, ventral ramp |
+| `sts-orbiter` | Space Shuttle orbiter | 37 m | Real: payload bay doors open, arm deployed |
+| `apollo-11` | Block II CSM + LM | 17 m | Real: the docked translunar stack |
+| `voyager` | Mariner Jupiter–Saturn | 16 m | Real: 3.66 m dish, three RTGs, the golden record |
 | `tw-2` | Trade-Wind-class shuttle | 12.5 m | Linked from the ASV-07 hangar and the BCF-4 collar |
+| `ldr-5` | Anvil-class surface lander | 20 m | Four legs, four throttling engines, ventral ramp |
+| `columbiad` | Verne projectile (1865/1902) | 3.9 m | Public domain: padded cabin, water buffer, three portholes |
 | `test-brick` | fixture | 30 m | Hand-written glTF that proves the loader is generic; hidden from the index |
+
+Four of these are real vehicles, built to published dimensions; one is out of copyright. The
+rest are original designs. No trademarked film or television ship is reproduced here.
 
 ## What the viewer does
 

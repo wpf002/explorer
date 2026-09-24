@@ -1,0 +1,372 @@
+{
+  "id": "columbiad",
+  "name": "COLUMBIAD",
+  "class": "Verne Projectile",
+  "role": "Cannon-Launched Lunar Capsule",
+  "length_m": 3.9,
+  "crew": 3,
+  "summary": "Jules Verne's 1865 aluminium shell, filmed by Méliès in 1902: nine feet across, padded inside, fired at the Moon from a nine-hundred-foot cannon. No engine, no steering, and no plan for coming back.",
+  "decks": [
+    {
+      "code": "Hull",
+      "name": "Shell",
+      "short": "Shell"
+    },
+    {
+      "code": "Cabin",
+      "name": "Cabin",
+      "short": "Cabin"
+    }
+  ],
+  "modules": [
+    {
+      "id": "shell",
+      "explode": [0, 0.6, 0]
+    },
+    {
+      "id": "cabin",
+      "explode": [0, -0.2, 0]
+    }
+  ],
+  "rooms": [
+    {
+      "code": "CAB-01",
+      "name": "Padded Cabin",
+      "deck": "Cabin",
+      "color": "#f0b64a",
+      "view": [0.6, 0.5, 1],
+      "dist": 6,
+      "radius": 0.55,
+      "close": {
+        "pos": [1.1, 0.1, 0.5],
+        "look": [-1.4, -0.2, -0.1]
+      },
+      "description": "Two and a half metres across, walled and floored in thick leather padding against the shock of firing. Three men, a gas lamp, instruments in brass cases and provisions for a year, all inside a volume smaller than a garden shed. The novel gives them chickens and a dog; the film gives them top hats.",
+      "stats": [
+        ["Diameter", "2.7 m"],
+        ["Crew", "3"],
+        ["Padding", "Leather over springs"],
+        ["Provisions", "1 year"]
+      ],
+      "hotspots": [
+        {
+          "pos": [-0.5, -0.65, 0.4],
+          "title": "Couch",
+          "text": "One of three, laid on the padded floor to spread the firing load."
+        },
+        {
+          "pos": [0.4, 0.75, 0],
+          "title": "Gas Lamp",
+          "text": "The only light aboard, burning gas carried in a cylinder under the floor."
+        },
+        {
+          "pos": [0.2, 0.2, 0.95],
+          "title": "Instrument Case",
+          "text": "Brass-cased thermometer, barometer and compass, useless the moment they left the air."
+        }
+      ]
+    },
+    {
+      "code": "FLR-02",
+      "name": "Water Buffer",
+      "deck": "Cabin",
+      "color": "#8fe8f5",
+      "view": [0.3, -0.8, 0.8],
+      "dist": 6,
+      "radius": 0.5,
+      "description": "Verne's answer to twenty thousand g at the muzzle: a false floor floating on a layer of water, with breakaway partitions to let the water out gradually as the floor descends. The mathematics does not hold, but the idea — a crushable layer between the crew and the shock — is what every lander since has used.",
+      "stats": [
+        ["Layer", "0.9 m of water"],
+        ["Partitions", "Breakaway"],
+        ["Peak Load", "≈ 20,000 g"],
+        ["Verdict", "Wrong, but the right idea"]
+      ]
+    },
+    {
+      "code": "PRT-03",
+      "name": "Portholes",
+      "deck": "Hull",
+      "color": "#8fe8f5",
+      "view": [0.2, 0.4, 1],
+      "dist": 5,
+      "radius": 0.45,
+      "description": "Three lenticular windows of glass four inches thick, set in brass frames around the shell's waist, with hinged plates to cover them. Through one of these the crew watch the Earth shrink; through another they push out the dog that dies on the voyage, which then follows the projectile all the way to the Moon.",
+      "stats": [
+        ["Windows", "3"],
+        ["Glass", "100 mm"],
+        ["Frames", "Brass, hinged covers"],
+        ["Famous For", "The dog"]
+      ]
+    },
+    {
+      "code": "NSE-04",
+      "name": "Ogive Nose",
+      "deck": "Hull",
+      "color": "#ffb070",
+      "view": [1, 0.3, 0.5],
+      "dist": 5,
+      "radius": 0.45,
+      "description": "A conical aluminium nose over a brass cap, chosen because aluminium was then a precious metal light enough to matter and strong enough to survive the barrel. The shell weighs about nine tonnes. In the film it lands, memorably, in the eye of the Moon; in the novel it misses and ends up in orbit.",
+      "stats": [
+        ["Material", "Cast aluminium"],
+        ["Mass", "≈ 8.7 t"],
+        ["Wall", "300 mm at the nose"],
+        ["Outcome", "Lunar orbit, not landing"]
+      ]
+    }
+  ],
+  "systems": [
+    {
+      "id": "atmos",
+      "name": "Air",
+      "color": "#8fe8f5",
+      "description": "Potassium chlorate for oxygen and caustic potash to take up the carbon dioxide — chemistry Verne got broadly right.",
+      "paths": [
+        [
+          "CAB-01",
+          [-1.1, -0.4, 0],
+          "FLR-02"
+        ],
+        [
+          "CAB-01",
+          [-0.3, 1.2, 0.9],
+          "PRT-03"
+        ]
+      ]
+    },
+    {
+      "id": "light",
+      "name": "Light",
+      "color": "#ffb070",
+      "description": "One gas lamp and three windows; the rest of the interior is padding and shadow.",
+      "paths": [
+        [
+          "CAB-01",
+          [0.4, 0.9, 0],
+          [-0.3, 1.2, 0.9],
+          "PRT-03"
+        ],
+        [
+          "CAB-01",
+          [1.2, 0.4, 0],
+          "NSE-04"
+        ]
+      ]
+    }
+  ],
+  "textures": {
+    "cast": {
+      "type": "plating",
+      "seed": 151,
+      "tint": "#9aa0a6",
+      "width": 256,
+      "height": 128,
+      "repeat": [2, 1]
+    }
+  },
+  "materials": {
+    "alum": {
+      "color": "#c9ced4",
+      "metalness": 0.72,
+      "roughness": 0.42,
+      "doubleSide": true,
+      "envMapIntensity": 1,
+      "normalScale": 0.5,
+      "texture": "cast"
+    },
+    "brass": {
+      "color": "#b98b3c",
+      "metalness": 0.9,
+      "roughness": 0.3,
+      "doubleSide": true,
+      "envMapIntensity": 1.3
+    },
+    "plate": {
+      "color": "#8d9298",
+      "metalness": 0.7,
+      "roughness": 0.5,
+      "doubleSide": true
+    },
+    "padding": {
+      "color": "#6c4b33",
+      "metalness": 0.05,
+      "roughness": 0.92,
+      "doubleSide": true
+    },
+    "couch": {
+      "color": "#4f3524",
+      "metalness": 0.05,
+      "roughness": 0.9,
+      "doubleSide": true
+    },
+    "water": {
+      "color": "#2b4a5e",
+      "metalness": 0.1,
+      "roughness": 0.2,
+      "transparent": true,
+      "opacity": 0.55,
+      "doubleSide": true
+    },
+    "crate": {
+      "color": "#7a6142",
+      "metalness": 0.05,
+      "roughness": 0.85
+    },
+    "glass": {
+      "color": "#a9dcee",
+      "metalness": 0.1,
+      "roughness": 0.05,
+      "emissive": "#1f6f86",
+      "emissiveIntensity": 0.25,
+      "transparent": true,
+      "opacity": 0.4,
+      "doubleSide": true
+    },
+    "warm": {
+      "color": "#111111",
+      "emissive": "#ffd9a0",
+      "emissiveIntensity": 2,
+      "roughness": 1
+    },
+    "bare": {
+      "color": "#7e868e",
+      "metalness": 0.78,
+      "roughness": 0.42,
+      "doubleSide": true
+    }
+  },
+  "plan": {
+    "viewBox": [-3.4, -1.3, 6.8, 2.55],
+    "bounds": {
+      "x": [-3.1, 3.1],
+      "y": [-1.1, 1.1]
+    },
+    "labels": {
+      "fwd": [3, 1.05],
+      "aft": [-3.1, 1.05]
+    },
+    "shapes": [
+      {
+        "kind": "axis",
+        "x1": -3.1,
+        "y1": 0,
+        "x2": 3.1,
+        "y2": 0
+      },
+      {
+        "kind": "rect",
+        "x": -1.82,
+        "y": -1.37,
+        "w": 2.27,
+        "h": 2.74
+      },
+      {
+        "kind": "polygon",
+        "points": "0.45,-1.37 1.95,-0.34 1.95,0.34 0.45,1.37"
+      },
+      {
+        "kind": "path",
+        "d": "M1.95,0.36 A0.36,0.36 0 0 1 1.95,-0.36 Z"
+      },
+      {
+        "kind": "rect",
+        "x": -1.82,
+        "y": -1.2,
+        "w": 1.9,
+        "h": 2.4,
+        "ghost": true
+      },
+      {
+        "kind": "rect",
+        "x": -1.7,
+        "y": -1.2,
+        "w": 0.6,
+        "h": 2.4
+      },
+      {
+        "kind": "rect",
+        "x": -0.44,
+        "y": 1.29,
+        "w": 0.28,
+        "h": 0.16
+      },
+      {
+        "kind": "rect",
+        "x": -0.44,
+        "y": -1.45,
+        "w": 0.28,
+        "h": 0.16
+      }
+    ]
+  },
+  "tour": {
+    "duration": 42,
+    "path": [
+      [-7, 3, 5],
+      [-3, 4.5, 3.5],
+      [3, 1.5, 5],
+      [6, -1, 2.5],
+      [6, 2.5, -3],
+      [2, 4, -5],
+      [-4, -1.5, -5],
+      [-7, -1.5, 1.5]
+    ],
+    "look": [
+      [0, 0, 0],
+      [-1, 0, 0],
+      [0.5, 0, 0],
+      [1, 0, 0],
+      [0.5, 0, 0],
+      [0, 0, 0],
+      [-1, 0, 0],
+      [-1.5, 0, 0]
+    ],
+    "segments": [
+      {
+        "name": "The Projectile",
+        "caption": "Nine feet across, cast in aluminium when aluminium was a precious metal, and fired out of a cannon."
+      },
+      {
+        "name": "Base",
+        "room": "FLR-02",
+        "caption": "A false floor on a layer of water: the wrong mathematics, and exactly the right instinct."
+      },
+      {
+        "name": "Portholes",
+        "room": "PRT-03",
+        "caption": "Three lenticular windows, four inches of glass, brass frames and hinged covers."
+      },
+      {
+        "name": "Cabin",
+        "room": "CAB-01",
+        "caption": "Three men, a gas lamp and a year of provisions, in a volume smaller than a garden shed."
+      },
+      {
+        "name": "Nose",
+        "room": "NSE-04",
+        "caption": "Eight and a half tonnes of shell. In the novel it misses the Moon; in the film it hits it in the eye."
+      }
+    ]
+  },
+  "cut": {
+    "cross": 2,
+    "hlay": 1.4,
+    "long": 1.4
+  },
+  "camera": {
+    "home": [-4.6, 2.8, 6.4],
+    "target": [-0.2, 0, 0],
+    "start": [-8, 5, 11],
+    "near": 0.01,
+    "far": 800,
+    "range": [0.6, 80],
+    "hero": {
+      "pos": [-4, 2.2, 5.6],
+      "target": [0, 0, 0]
+    }
+  },
+  "model": {
+    "type": "procedural",
+    "entry": "build.js"
+  }
+}

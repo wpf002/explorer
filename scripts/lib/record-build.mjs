@@ -6,7 +6,7 @@
 const node = (name = '') => ({
   name,
   position: { x: 0, y: 0, z: 0, set() { return this; }, copy() { return this; } },
-  rotation: { x: 0, y: 0, z: 0 },
+  rotation: { x: 0, y: 0, z: 0, set() { return this; } },
   scale: { set() { return this; } },
   quaternion: { setFromUnitVectors() { return this; } },
   material: { opacity: 1 },
@@ -16,7 +16,9 @@ const node = (name = '') => ({
 
 const geometry = () => {
   const g = {
-    rotateX: () => g, rotateY: () => g, rotateZ: () => g, translate: () => g,
+    rotateX: () => g, rotateY: () => g, rotateZ: () => g, translate: () => g, scale: () => g,
+    center: () => g, computeVertexNormals: () => g,
+    moveTo: () => g, lineTo: () => g, quadraticCurveTo: () => g, bezierCurveTo: () => g, closePath: () => g,
     attributes: { position: { count: 0 } },
   };
   return g;

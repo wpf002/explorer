@@ -1,0 +1,798 @@
+{
+  "id": "iss",
+  "name": "ISS",
+  "class": "International Space Station",
+  "role": "Crewed Orbital Laboratory",
+  "length_m": 109,
+  "crew": 7,
+  "summary": "A hundred and nine metres of truss carrying eight solar wings, with the pressurised modules crossing it at right angles. Sixteen modules, 388 m³ of living space, continuously crewed since November 2000 and assembled entirely in orbit.",
+  "decks": [
+    {
+      "code": "Truss",
+      "name": "Integrated Truss",
+      "short": "Truss"
+    },
+    {
+      "code": "US",
+      "name": "US Segment",
+      "short": "US"
+    },
+    {
+      "code": "Nodes",
+      "name": "Nodes",
+      "short": "Nodes"
+    },
+    {
+      "code": "RS",
+      "name": "Russian Segment",
+      "short": "RS"
+    },
+    {
+      "code": "Partner",
+      "name": "Partner Modules",
+      "short": "Partner"
+    }
+  ],
+  "modules": [
+    {
+      "id": "truss",
+      "explode": [0, 0.5, 0]
+    },
+    {
+      "id": "modules",
+      "explode": [0, -0.6, 0]
+    }
+  ],
+  "rooms": [
+    {
+      "code": "SOL-01",
+      "name": "Solar Array Wings",
+      "deck": "Truss",
+      "color": "#ffb070",
+      "view": [-0.4, 0.7, 1],
+      "dist": 120,
+      "radius": 8,
+      "description": "Eight wings, each 34 m by 12 m and carrying 32,800 cells. Together they make 84 to 120 kW, of which the station uses about half; the rest charges batteries for the 35 minutes of every orbit spent in Earth's shadow. The wings track the Sun on two axes and are feathered edge-on when a vehicle approaches.",
+      "stats": [
+        ["Wings", "8 × 34 m"],
+        ["Cells", "262,400"],
+        ["Output", "84–120 kW"],
+        ["Eclipse", "35 min per orbit"]
+      ],
+      "links": [
+        {
+          "label": "Aimed by",
+          "room": "SAR-02"
+        }
+      ]
+    },
+    {
+      "code": "SAR-02",
+      "name": "Rotary Joints",
+      "deck": "Truss",
+      "color": "#8fe8f5",
+      "view": [0.5, 0.6, 1],
+      "dist": 90,
+      "radius": 6,
+      "description": "Two 3.2 m joints that rotate the outboard truss once per orbit so the arrays face the Sun. The starboard joint ground itself up in 2007 on metal shavings from a failed race ring, and spacewalkers cleaned and relubricated it over five EVAs. Smaller beta joints tilt each wing on its own axis.",
+      "stats": [
+        ["Joints", "2 alpha · 8 beta"],
+        ["Diameter", "3.2 m"],
+        ["Rotation", "1 per orbit"],
+        ["Repaired", "2007–08, 5 EVAs"]
+      ]
+    },
+    {
+      "code": "RAD-03",
+      "name": "Thermal Radiators",
+      "deck": "Truss",
+      "color": "#ff5c7a",
+      "view": [0, 1, 0.6],
+      "dist": 100,
+      "radius": 7,
+      "description": "Three arrays of seven panels, pumping ammonia through 24 kW of heat rejection each. They are the reason the station's electrical load is capped: every watt drawn eventually leaves through these. The panels are hinged like a concertina and were launched folded into a 1.2 m stack.",
+      "stats": [
+        ["Arrays", "3 × 7 panels"],
+        ["Rejection", "70 kW total"],
+        ["Coolant", "Ammonia"],
+        ["Stowed Thickness", "1.2 m"]
+      ]
+    },
+    {
+      "code": "ARM-04",
+      "name": "Canadarm2",
+      "deck": "Truss",
+      "color": "#c9b8ff",
+      "view": [-0.4, 0.8, 0.8],
+      "dist": 70,
+      "radius": 5,
+      "description": "A 17.6 m arm with seven joints and a latching end effector at each end, so it walks hand over hand across the station's grapple fixtures. It berths visiting cargo ships, moves spacewalkers and built most of the truss it rides on. Its mobile base rolls the length of the truss on rails.",
+      "stats": [
+        ["Length", "17.6 m"],
+        ["Joints", "7"],
+        ["Handling Mass", "116 t"],
+        ["Base", "Rolls on truss rails"]
+      ],
+      "links": [
+        {
+          "label": "Berths at",
+          "room": "PMA-09"
+        }
+      ]
+    },
+    {
+      "code": "DST-01",
+      "name": "Destiny Laboratory",
+      "deck": "US",
+      "color": "#8fe8f5",
+      "view": [0.3, -0.7, 0.8],
+      "dist": 50,
+      "radius": 4,
+      "close": {
+        "pos": [0, -3, 1.4],
+        "look": [0, -3, 9]
+      },
+      "description": "The US laboratory: 8.5 m long, with 24 rack bays around a square cross-section — experiments on two walls, life support and avionics on the others. The 51 cm optical-quality window in the floor is the best imaging port on the station, and was fitted with a shutter because nobody wanted a micrometeoroid through it.",
+      "stats": [
+        ["Length", "8.5 m"],
+        ["Rack Bays", "24"],
+        ["Window", "51 cm optical"],
+        ["Launched", "February 2001"]
+      ],
+      "links": [
+        {
+          "label": "Connects to",
+          "room": "UNI-02"
+        },
+        {
+          "label": "Connects to",
+          "room": "HRM-03"
+        }
+      ],
+      "hotspots": [
+        {
+          "pos": [1.6, -2.8, 4.5],
+          "title": "Experiment Rack",
+          "text": "One of 24 bays. Racks are swapped through the hatch by hand."
+        },
+        {
+          "pos": [0, -4.6, 6],
+          "title": "Optical Window",
+          "text": "Fifty-one centimetres of fused silica, shuttered when not in use."
+        }
+      ]
+    },
+    {
+      "code": "UNI-02",
+      "name": "Unity Node",
+      "deck": "Nodes",
+      "color": "#8fe8f5",
+      "view": [0.6, -0.5, 0.6],
+      "dist": 44,
+      "radius": 3.5,
+      "description": "The first American module, launched in 1998 and still the junction at the centre of the station: six hatches, 50,000 mechanical items, 216 fluid and gas lines. It connects the Russian segment forward of it to the laboratory aft, and carries the airlock and Tranquility on its sides.",
+      "stats": [
+        ["Hatches", "6"],
+        ["Length", "5.5 m"],
+        ["Fluid Lines", "216"],
+        ["Launched", "December 1998"]
+      ]
+    },
+    {
+      "code": "HRM-03",
+      "name": "Harmony Node",
+      "deck": "Nodes",
+      "color": "#8fe8f5",
+      "view": [0.2, -0.6, 1],
+      "dist": 46,
+      "radius": 3.5,
+      "description": "The forward node and the station's utility hub: it feeds power, data, air and water to the two international laboratories berthed on its flanks, and carries two of the docking ports that crew vehicles use. Four crew sleep stations are fitted around its walls, which makes it the station's bedroom as well as its junction.",
+      "stats": [
+        ["Berthing Ports", "6"],
+        ["Sleep Stations", "4"],
+        ["Length", "7.2 m"],
+        ["Launched", "October 2007"]
+      ],
+      "links": [
+        {
+          "label": "Serves",
+          "room": "COL-05"
+        },
+        {
+          "label": "Serves",
+          "room": "KIB-06"
+        }
+      ]
+    },
+    {
+      "code": "ZVZ-04",
+      "name": "Russian Segment",
+      "deck": "RS",
+      "color": "#ffb070",
+      "view": [-0.3, -0.6, 1],
+      "dist": 60,
+      "radius": 5,
+      "description": "Zarya and Zvezda: the first module launched and the one that made the station habitable. Zvezda carries the galley, the toilet, two crew quarters and the engines that raise the orbit against atmospheric drag, about once a month. Its systems are a direct descendant of the Mir core module.",
+      "stats": [
+        ["Modules", "Zarya + Zvezda"],
+        ["Crew Quarters", "2"],
+        ["Reboost", "≈ monthly"],
+        ["Heritage", "Mir core"]
+      ]
+    },
+    {
+      "code": "COL-05",
+      "name": "Columbus Laboratory",
+      "deck": "Partner",
+      "color": "#8fe8f5",
+      "view": [0.8, -0.4, 0.6],
+      "dist": 44,
+      "radius": 3.5,
+      "description": "The European laboratory, 6.9 m long with ten payload racks and four external mounting points. It flies fluid physics, materials and human-physiology experiments, and is controlled from Oberpfaffenhofen rather than Houston. It was the smallest module Europe could build that still took a full-sized rack.",
+      "stats": [
+        ["Length", "6.9 m"],
+        ["Racks", "10 internal"],
+        ["External Payloads", "4"],
+        ["Control Centre", "Oberpfaffenhofen"]
+      ]
+    },
+    {
+      "code": "KIB-06",
+      "name": "Kibō Laboratory",
+      "deck": "Partner",
+      "color": "#8fe8f5",
+      "view": [-0.8, -0.3, 0.7],
+      "dist": 50,
+      "radius": 4,
+      "description": "The largest module on the station: an 11.2 m pressurised lab, a storage module stacked on top, a small robotic arm and an external platform that faces space through an airlock. Experiments ride out through that airlock on a slide table without anyone leaving the pressurised volume.",
+      "stats": [
+        ["Length", "11.2 m"],
+        ["Racks", "23"],
+        ["External Platform", "10 payloads"],
+        ["Airlock", "Slide table"]
+      ]
+    },
+    {
+      "code": "CUP-07",
+      "name": "Cupola",
+      "deck": "Nodes",
+      "color": "#ff5c7a",
+      "view": [0.2, -1, 0.5],
+      "dist": 40,
+      "radius": 3,
+      "description": "Seven windows in a dome on the nadir side of Tranquility: six around the sides and an 80 cm circular pane in the middle, the largest window ever flown. It was built as a workstation for the arm, and became the place the crew go to look at Earth. Shutters close over every pane when it is not in use.",
+      "stats": [
+        ["Windows", "7"],
+        ["Centre Pane", "80 cm"],
+        ["Purpose", "Robotics workstation"],
+        ["Launched", "February 2010"]
+      ],
+      "links": [
+        {
+          "label": "Flies",
+          "room": "ARM-04"
+        }
+      ]
+    },
+    {
+      "code": "QST-08",
+      "name": "Quest Airlock",
+      "deck": "US",
+      "color": "#8fe8f5",
+      "view": [0.9, -0.3, 0.6],
+      "dist": 42,
+      "radius": 3,
+      "description": "Two chambers: an equipment lock where the suits live and a crew lock small enough to depressurise quickly. Astronauts sleep a night inside it at reduced pressure before a spacewalk to purge nitrogen. It takes both American suits and, with an adapter, the Russian Orlan.",
+      "stats": [
+        ["Chambers", "2"],
+        ["Pre-breathe", "Campout, overnight"],
+        ["Suits", "EMU + Orlan"],
+        ["EVAs Supported", "270+"]
+      ]
+    },
+    {
+      "code": "PMA-09",
+      "name": "Docking Ports",
+      "deck": "Nodes",
+      "color": "#f0b64a",
+      "view": [0.2, -0.4, 1],
+      "dist": 46,
+      "radius": 3,
+      "description": "Two international docking adapters on the forward node take crew vehicles automatically; the berthing ports elsewhere need the arm to grapple a cargo ship and bolt it on. Between them the station can hold two crew vehicles and two cargo ships at once, which is what a seven-person crew and a resupply cadence require.",
+      "stats": [
+        ["Docking Adapters", "2, automatic"],
+        ["Berthing Ports", "4"],
+        ["Simultaneous Visitors", "Up to 4"],
+        ["Standard", "IDSS"]
+      ]
+    }
+  ],
+  "systems": [
+    {
+      "id": "power",
+      "name": "Power",
+      "color": "#ffb070",
+      "description": "Eight wings into four power channels, stepped down and distributed along the truss to every module.",
+      "paths": [
+        [
+          "SOL-01",
+          [-40, 0, 0],
+          [0, 0, 0],
+          [40, 0, 0],
+          "SAR-02"
+        ],
+        [
+          [0, 0, 0],
+          [0, -2.6, 0],
+          "UNI-02"
+        ],
+        [
+          [0, -2.6, 0],
+          "DST-01"
+        ],
+        [
+          [0, -2.6, 6],
+          [0, -2.6, 14],
+          "HRM-03"
+        ],
+        [
+          [0, -2.6, 14],
+          "COL-05"
+        ],
+        [
+          [0, -2.6, 14],
+          "KIB-06"
+        ],
+        [
+          [0, -2.6, -1.4],
+          "ZVZ-04"
+        ],
+        [
+          [0, -2.6, -1.4],
+          "CUP-07"
+        ],
+        [
+          [0, -2.6, -1.4],
+          "QST-08"
+        ],
+        [
+          [0, 0, 0],
+          [8, 2.6, 0],
+          "ARM-04"
+        ]
+      ]
+    },
+    {
+      "id": "thermal",
+      "name": "Thermal",
+      "color": "#ff5c7a",
+      "description": "Ammonia loops from every module out to the three radiator arrays on the truss.",
+      "paths": [
+        [
+          "DST-01",
+          [0, -1, 6],
+          [0, 2, 0],
+          "RAD-03"
+        ],
+        [
+          "HRM-03",
+          [0, -1, 14],
+          [0, 2, 0]
+        ],
+        [
+          "ZVZ-04",
+          [0, -1, -12],
+          [0, 2, 0]
+        ]
+      ]
+    },
+    {
+      "id": "atmos",
+      "name": "Atmos",
+      "color": "#8fe8f5",
+      "description": "One shared atmosphere across sixteen modules, scrubbed in Tranquility and in Zvezda.",
+      "paths": [
+        [
+          "ZVZ-04",
+          [0, -2.6, -1.4],
+          "UNI-02"
+        ],
+        [
+          "UNI-02",
+          [0, -2.6, 6],
+          "DST-01"
+        ],
+        [
+          "DST-01",
+          [0, -2.6, 14],
+          "HRM-03"
+        ],
+        ["HRM-03", "COL-05"],
+        ["HRM-03", "KIB-06"],
+        ["UNI-02", "CUP-07"],
+        ["UNI-02", "QST-08"],
+        [
+          "HRM-03",
+          [0, -2.6, 18.2],
+          "PMA-09"
+        ]
+      ]
+    },
+    {
+      "id": "data",
+      "name": "Data",
+      "color": "#c9b8ff",
+      "description": "Three tiers of command computers, with the Russian segment on its own bus and a gateway between them.",
+      "paths": [
+        [
+          "DST-01",
+          [0, -2.6, -1.4],
+          "ZVZ-04"
+        ],
+        [
+          "DST-01",
+          [0, -2.6, 14],
+          "HRM-03"
+        ],
+        [
+          "DST-01",
+          [0, 0, 0],
+          [8, 2.6, 0],
+          "ARM-04"
+        ],
+        [
+          "CUP-07",
+          [-6, -2.6, -1.4],
+          [0, 0, 0]
+        ],
+        [
+          "DST-01",
+          [0, 0, 0],
+          [-40, 0, 0],
+          "SOL-01"
+        ],
+        [
+          [0, 0, 0],
+          "RAD-03"
+        ],
+        ["HRM-03", "PMA-09"]
+      ]
+    }
+  ],
+  "textures": {
+    "skin": {
+      "type": "plating",
+      "seed": 137,
+      "tint": "#c2c6ca",
+      "width": 512,
+      "height": 256,
+      "repeat": [3, 1.5]
+    },
+    "gold": {
+      "type": "plating",
+      "seed": 139,
+      "tint": "#8f7f55",
+      "width": 512,
+      "height": 256,
+      "repeat": [6, 2]
+    }
+  },
+  "materials": {
+    "white": {
+      "color": "#eceef0",
+      "metalness": 0.25,
+      "roughness": 0.6,
+      "doubleSide": true,
+      "envMapIntensity": 0.9,
+      "normalScale": 0.4,
+      "texture": "skin"
+    },
+    "russ": {
+      "color": "#d9d2be",
+      "metalness": 0.3,
+      "roughness": 0.62,
+      "doubleSide": true,
+      "envMapIntensity": 0.85,
+      "normalScale": 0.45,
+      "texture": "skin"
+    },
+    "alum": {
+      "color": "#9aa2aa",
+      "metalness": 0.75,
+      "roughness": 0.4,
+      "doubleSide": true,
+      "envMapIntensity": 1
+    },
+    "cell": {
+      "color": "#8a6a2c",
+      "metalness": 0.6,
+      "roughness": 0.35,
+      "doubleSide": true,
+      "envMapIntensity": 1.1,
+      "normalScale": 0.6,
+      "texture": "gold"
+    },
+    "radiator": {
+      "color": "#e4e8ea",
+      "metalness": 0.45,
+      "roughness": 0.4,
+      "doubleSide": true,
+      "envMapIntensity": 1
+    },
+    "rack": {
+      "color": "#3a4047",
+      "metalness": 0.4,
+      "roughness": 0.65,
+      "doubleSide": true
+    },
+    "glass": {
+      "color": "#8fd8ee",
+      "metalness": 0.1,
+      "roughness": 0.05,
+      "emissive": "#1f6f86",
+      "emissiveIntensity": 0.3,
+      "transparent": true,
+      "opacity": 0.4,
+      "doubleSide": true
+    },
+    "screen": {
+      "color": "#111111",
+      "emissive": "#5fd4ff",
+      "emissiveIntensity": 1.4,
+      "roughness": 1
+    },
+    "warm": {
+      "color": "#111111",
+      "emissive": "#ffd9a0",
+      "emissiveIntensity": 1.5,
+      "roughness": 1
+    },
+    "strip": {
+      "color": "#111111",
+      "emissive": "#bff6ff",
+      "emissiveIntensity": 1.8,
+      "roughness": 1
+    },
+    "amber": {
+      "color": "#111111",
+      "emissive": "#f0b64a",
+      "emissiveIntensity": 1.4,
+      "roughness": 1
+    },
+    "interior": {
+      "color": "#c8ced3",
+      "metalness": 0.3,
+      "roughness": 0.6,
+      "emissive": "#2a3a48",
+      "emissiveIntensity": 0.4
+    },
+    "bare": {
+      "color": "#7e868e",
+      "metalness": 0.78,
+      "roughness": 0.42,
+      "doubleSide": true
+    }
+  },
+  "plan": {
+    "viewBox": [-62, -23, 124, 46],
+    "bounds": {
+      "x": [-58, 58],
+      "y": [-20, 20]
+    },
+    "labels": {
+      "fwd": [57, 20],
+      "aft": [-58, 20]
+    },
+    "shapes": [
+      {
+        "kind": "axis",
+        "x1": -58,
+        "y1": 0,
+        "x2": 58,
+        "y2": 0
+      },
+      {
+        "kind": "rect",
+        "x": -54,
+        "y": -1.8,
+        "w": 108,
+        "h": 3.6
+      },
+      {
+        "kind": "rect",
+        "x": -47.3,
+        "y": 2.4,
+        "w": 2.6,
+        "h": 3.6
+      },
+      {
+        "kind": "rect",
+        "x": -35.3,
+        "y": 2.4,
+        "w": 2.6,
+        "h": 3.6
+      },
+      {
+        "kind": "rect",
+        "x": 32.7,
+        "y": 2.4,
+        "w": 2.6,
+        "h": 3.6
+      },
+      {
+        "kind": "rect",
+        "x": 44.7,
+        "y": 2.4,
+        "w": 2.6,
+        "h": 3.6
+      },
+      {
+        "kind": "rect",
+        "x": -47.3,
+        "y": -6,
+        "w": 2.6,
+        "h": 3.6
+      },
+      {
+        "kind": "rect",
+        "x": -35.3,
+        "y": -6,
+        "w": 2.6,
+        "h": 3.6
+      },
+      {
+        "kind": "rect",
+        "x": 32.7,
+        "y": -6,
+        "w": 2.6,
+        "h": 3.6
+      },
+      {
+        "kind": "rect",
+        "x": 44.7,
+        "y": -6,
+        "w": 2.6,
+        "h": 3.6
+      },
+      {
+        "kind": "rect",
+        "x": -15.8,
+        "y": 5,
+        "w": 3.6,
+        "h": 11,
+        "ghost": true
+      },
+      {
+        "kind": "rect",
+        "x": -1.8,
+        "y": 5,
+        "w": 3.6,
+        "h": 11,
+        "ghost": true
+      },
+      {
+        "kind": "rect",
+        "x": 12.2,
+        "y": 5,
+        "w": 3.6,
+        "h": 11,
+        "ghost": true
+      },
+      {
+        "kind": "rect",
+        "x": -12,
+        "y": -6.8,
+        "w": 24,
+        "h": 4.4,
+        "rx": 2
+      },
+      {
+        "kind": "rect",
+        "x": -2.2,
+        "y": -10.2,
+        "w": 4.4,
+        "h": 4,
+        "rx": 1
+      },
+      {
+        "kind": "rect",
+        "x": -7.5,
+        "y": -8.4,
+        "w": 3,
+        "h": 2.2
+      },
+      {
+        "kind": "rect",
+        "x": 6,
+        "y": -1.6,
+        "w": 4.4,
+        "h": 1.6
+      }
+    ]
+  },
+  "tour": {
+    "duration": 84,
+    "path": [
+      [-150, 55, 120],
+      [-60, 95, 80],
+      [50, 30, 110],
+      [130, -25, 50],
+      [130, 55, -60],
+      [45, 85, -105],
+      [-80, -30, -105],
+      [-152, -28, 30]
+    ],
+    "look": [
+      [0, 0, 0],
+      [-30, 0, 0],
+      [0, -2, 6],
+      [0, -2, 0],
+      [20, 0, 0],
+      [0, 0, 6],
+      [-20, 0, 0],
+      [-40, 0, 0]
+    ],
+    "segments": [
+      {
+        "name": "Assembly Complete",
+        "caption": "A hundred and nine metres of truss, sixteen pressurised modules, and a crew of seven since the year 2000."
+      },
+      {
+        "name": "Port Arrays",
+        "room": "SOL-01",
+        "caption": "Eight wings and a quarter of a million cells, feathered edge-on whenever a vehicle approaches."
+      },
+      {
+        "name": "Laboratory",
+        "room": "DST-01",
+        "caption": "Twenty-four rack bays and the best window on the station, cut into the floor."
+      },
+      {
+        "name": "Nodes",
+        "room": "UNI-02",
+        "caption": "Six hatches and two hundred fluid lines at the junction where the two halves of the station meet."
+      },
+      {
+        "name": "Starboard Arrays",
+        "room": "SAR-02",
+        "caption": "The joint that turns the outboard truss once an orbit, and which spacewalkers rebuilt in 2008."
+      },
+      {
+        "name": "Cupola",
+        "room": "CUP-07",
+        "caption": "Seven windows on the nadir side, built for flying the arm and used for looking at Earth."
+      },
+      {
+        "name": "Partner Labs",
+        "room": "KIB-06",
+        "caption": "Kibō and Columbus on the forward node, with an airlock that pushes experiments outside on a slide table."
+      },
+      {
+        "name": "Radiators",
+        "room": "RAD-03",
+        "caption": "Seventy kilowatts of heat leaving through three concertina arrays; everything the station draws ends up here."
+      }
+    ]
+  },
+  "cut": {
+    "cross": 58,
+    "hlay": 20,
+    "long": 30
+  },
+  "camera": {
+    "home": [-62, 42, 118],
+    "target": [0, -2, 2],
+    "start": [-120, 78, 210],
+    "near": 0.2,
+    "far": 6000,
+    "range": [4, 1200],
+    "hero": {
+      "pos": [-58, 34, 96],
+      "target": [0, -2, 4]
+    }
+  },
+  "model": {
+    "type": "procedural",
+    "entry": "build.js"
+  }
+}

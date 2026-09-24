@@ -219,3 +219,20 @@ a real depth and normal buffer through MRT.
 
 Still to check on the node path before it could be the default: section cuts
 (`material.clippingPlanes`), the compare view, hero renders and the screenshot suite.
+
+## Real and public-domain ships
+
+Added `apollo-11` (Block II CSM + LM, docked), `sts-orbiter` (Space Shuttle, doors open),
+`iss` (assembly complete), `voyager` and `columbiad` (the Verne/Méliès projectile, 1865/1902).
+Dimensions and stats come from published vehicle data; the copy is written to the same voice
+as the rest of the fleet.
+
+Trademarked ships from film and television are deliberately absent: the hull designs are
+protected and this repository is public.
+
+Two build-script lessons from these: the recording stub in `scripts/lib/record-build.mjs`
+needed `rotation.set` and the `Shape`/`ExtrudeGeometry` methods, and deck codes are still
+single tokens — `DST-01` is a room code and was rejected as a deck.
+
+The orbiter's wings, fin and body flap are `ExtrudeGeometry` planforms rather than boxes,
+which is the pattern to use for any aerodynamic hull.
