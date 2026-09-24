@@ -2,7 +2,7 @@
   "id": "asv-07",
   "name": "ASV-07",
   "class": "Dome-class",
-  "role": "deep-space exploration cruiser",
+  "role": "Deep-Space Exploration Cruiser",
   "length_m": 300,
   "crew": 240,
   "summary": "A 300 m exploration cruiser built round a 90 m spin ring. Twelve rooms from a domed bridge to a three-drive engine room, with a hangar for two shuttles and a fusion core aft.",
@@ -80,29 +80,29 @@
       "description": "The neural hub of the ship. A semicircular ring of command stations wraps the central holographic star-chart table, fronted by one huge curved composite-armour observation window. Tactical situation, navigation solving and damage control run in parallel on three independent redundant cores.",
       "stats": [
         ["Stations", "11"],
-        ["Redundant cores", "3"],
+        ["Redundant Cores", "3"],
         ["Viewport", "Curved composite-armour glass"],
-        ["Airtight class", "AAA"]
+        ["Airtight Class", "AAA"]
       ],
       "hotspots": [
         {
           "pos": [112, 12.6, 0],
-          "title": "Star-chart holotable",
+          "title": "Star-Chart Holotable",
           "text": "2.2 m projection table. The plot refreshes from long-range sensors every 400 ms and replays up to 72 h of track history."
         },
         {
           "pos": [118.2, 11, 0.2],
-          "title": "Command ring",
+          "title": "Command Ring",
           "text": "Eleven consoles in a 144° arc, 6.2 m from the table. Any station takes any role; seats lock at 3 g."
         },
         {
           "pos": [104.6, 12, 4.6],
-          "title": "Situation boards",
+          "title": "Situation Boards",
           "text": "Two 3.2 m panels for damage control and power state. They stay lit for 6 h on emergency power."
         },
         {
           "pos": [112, 17.6, 0],
-          "title": "Bridge dome",
+          "title": "Bridge Dome",
           "text": "18 m composite-armour glazing, 22 cm thick. A blast shutter drops over it in 2.5 s."
         }
       ]
@@ -121,7 +121,7 @@
       },
       "description": "Forward-most pressurised space. A 22 m transparent-alloy nose cone with a tiered viewing deck; the only room aboard that runs with no artificial lighting during planetary approach.",
       "stats": [
-        ["Viewing tiers", "3"],
+        ["Viewing Tiers", "3"],
         ["Glazing", "22 m transparent alloy"],
         ["Capacity", "60"],
         ["Lighting", "Ambient only"]
@@ -129,12 +129,12 @@
       "hotspots": [
         {
           "pos": [137.5, 5.5, 0],
-          "title": "Viewing tiers",
+          "title": "Viewing Tiers",
           "text": "Three stepped decks at 7.5, 5.5 and 3.3 m radius. Sixty seats; the lowest tier is standing room."
         },
         {
           "pos": [146, 1.5, 0],
-          "title": "Nose glazing",
+          "title": "Nose Glazing",
           "text": "Transparent alloy, 40 cm at the base tapering to 18 cm at the tip. Rated for a 2 g micrometeoroid flux."
         }
       ]
@@ -153,20 +153,20 @@
       },
       "description": "Six automated surgical pods and cryo-rest cabinets line the walls. The central sterile field is equipped with a regenerator and a teleconsultation holotable, allowing severe trauma care entirely without outside support.",
       "stats": [
-        ["Surgical pods", "6"],
-        ["Cryo cabinets", "18"],
+        ["Surgical Pods", "6"],
+        ["Cryo Cabinets", "18"],
         ["Regenerators", "2"],
         ["Cleanliness", "ISO 5"]
       ],
       "hotspots": [
         {
           "pos": [57, 6.4, -3.4],
-          "title": "Surgical pod",
+          "title": "Surgical Pod",
           "text": "One of six sealed pods with robotic arms and an independent air supply. A pod runs a full operation without staff inside."
         },
         {
           "pos": [60, 6.6, 7.4],
-          "title": "Cryo cabinets",
+          "title": "Cryo Cabinets",
           "text": "Eighteen cabinets along both walls. Each holds one casualty at 4 °C for up to 40 days."
         },
         {
@@ -190,20 +190,20 @@
       },
       "description": "Four sealed lab cells around a shared sample airlock. Spectrometry, materials and xenobiology benches; each cell can be vented to vacuum on its own.",
       "stats": [
-        ["Lab cells", "4"],
-        ["Sample airlock", "1"],
+        ["Lab Cells", "4"],
+        ["Sample Airlock", "1"],
         ["Containment", "BSL-4 equivalent"],
-        ["Bench power", "240 kW"]
+        ["Bench Power", "240 kW"]
       ],
       "hotspots": [
         {
           "pos": [40, -2.2, 6.5],
-          "title": "Sample airlock",
+          "title": "Sample Airlock",
           "text": "Shared airlock at the centre of the four cells. Samples pass through a 30 s UV and vacuum cycle."
         },
         {
           "pos": [35, -2.2, 3.5],
-          "title": "Lab cell",
+          "title": "Lab Cell",
           "text": "3.2 m sealed cell with its own vent line. Any cell can drop to vacuum without affecting the others."
         }
       ]
@@ -222,9 +222,9 @@
       },
       "description": "Closed-loop air and water. Three parallel scrubber stacks, each able to carry the full crew alone, feed a 900 m³ buffer reservoir under the deck plates.",
       "stats": [
-        ["Scrubber stacks", "3"],
-        ["Water reserve", "900 m³"],
-        ["O₂ margin", "41 days"],
+        ["Scrubber Stacks", "3"],
+        ["Water Reserve", "900 m³"],
+        ["O₂ Margin", "41 days"],
         ["Redundancy", "N+2"]
       ],
       "links": [
@@ -249,8 +249,8 @@
       "description": "The 180 m pressurised spine that ties every module together. Twin maglev sleds run the length in 40 seconds; the strip lighting shifts colour to mark ship time.",
       "stats": [
         ["Length", "180 m"],
-        ["Maglev sleds", "2"],
-        ["Transit time", "40 s"],
+        ["Maglev Sleds", "2"],
+        ["Transit Time", "40 s"],
         ["Bulkheads", "9"]
       ],
       "links": [
@@ -262,7 +262,7 @@
       "hotspots": [
         {
           "pos": [-12, -3.2, 0],
-          "title": "Maglev sled",
+          "title": "Maglev Sled",
           "text": "One of two sleds on the spine rail. Twelve seats; the 180 m run takes 40 s."
         }
       ]
@@ -280,7 +280,7 @@
       "stats": [
         ["Diameter", "90 m"],
         ["Spin", "4.2 rpm"],
-        ["Rim gravity", "0.9 g"],
+        ["Rim Gravity", "0.9 g"],
         ["Quarters", "240"]
       ],
       "links": [
@@ -301,9 +301,9 @@
       "radius": 7,
       "description": "Six ring segments given over to stacked growth trays under tuned LED canopies. Supplies roughly a third of crew calories and most of the fresh-water polishing.",
       "stats": [
-        ["Growth area", "1,100 m²"],
+        ["Growth Area", "1,100 m²"],
         ["Crops", "38 cultivars"],
-        ["Calorie share", "31%"],
+        ["Calorie Share", "31%"],
         ["Lighting", "220 kW LED"]
       ],
       "links": [
@@ -330,12 +330,12 @@
         ["Volume", "14,000 m³"],
         ["Containers", "96"],
         ["Gantry", "20 t"],
-        ["Sub-bay", "Shielded"]
+        ["Sub-Bay", "Shielded"]
       ],
       "hotspots": [
         {
           "pos": [-88, 2.3, 20],
-          "title": "Gantry crane",
+          "title": "Gantry Crane",
           "text": "20 t crane on twin rails. It moves containers between the hold grid and the hangar pad."
         }
       ]
@@ -355,9 +355,9 @@
       "description": "Houses two Trade-Wind-class shuttles and an engineering drone. The side opening keeps pressure behind a force-field curtain, so craft launch without venting the bay. The floor is a rotating launch pad.",
       "stats": [
         ["Shuttles", "2"],
-        ["Eng. drones", "1"],
-        ["Side door", "Field curtain 18 × 9 m"],
-        ["Launch pad", "Rotating"]
+        ["Eng. Drones", "1"],
+        ["Side Door", "Field curtain 18 × 9 m"],
+        ["Launch Pad", "Rotating"]
       ],
       "links": [
         {
@@ -368,22 +368,22 @@
       "hotspots": [
         {
           "pos": [-79.5, -5, 20],
-          "title": "Trade-Wind shuttle",
+          "title": "Trade-Wind Shuttle",
           "text": "One of two 12.5 m crew shuttles. Eight seats and a 1.2 t cargo bay; the ship's only landing craft."
         },
         {
           "pos": [-85, -7.1, 21.5],
-          "title": "Rotating launch pad",
+          "title": "Rotating Launch Pad",
           "text": "11 m turntable that swings a shuttle to face the door before launch."
         },
         {
           "pos": [-85, -7.6, 17.2],
-          "title": "Taxi lanes",
+          "title": "Taxi Lanes",
           "text": "Five lit strips 4.4 m apart mark the lanes from the pad to the field curtain."
         },
         {
           "pos": [-85, -3, 15.5],
-          "title": "Engineering drone",
+          "title": "Engineering Drone",
           "text": "Four-rotor EVA drone for hull inspection. Range 400 m on a tether, 90 min on battery."
         }
       ]
@@ -405,7 +405,7 @@
         ["Output", "1.8 GW"],
         ["Shield", "2 m WB₂"],
         ["Radiators", "8"],
-        ["Idle throttle", "4%"]
+        ["Idle Throttle", "4%"]
       ],
       "links": [
         {
@@ -416,12 +416,12 @@
       "hotspots": [
         {
           "pos": [-111, 4.8, 0],
-          "title": "Toroidal core",
+          "title": "Toroidal Core",
           "text": "Fusion torus 8.4 m across. Plasma current is 12 MA at full output."
         },
         {
           "pos": [-111, -4, 4],
-          "title": "Shield wall",
+          "title": "Shield Wall",
           "text": "2 m of tungsten boride between the core and the rest of the ship."
         }
       ]
@@ -438,7 +438,7 @@
       "stats": [
         ["Drives", "3"],
         ["Thrust", "4.5 MN"],
-        ["Burn rating", "90 days"],
+        ["Burn Rating", "90 days"],
         ["Gimbal", "±6°"]
       ],
       "links": [

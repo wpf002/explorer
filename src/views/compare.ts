@@ -38,9 +38,9 @@ export async function mountCompare(app: HTMLElement) {
     <div id="vignette"></div>
     <div id="labels"></div>
     <div id="top">
-      <a class="navback" href="/" title="Back to the fleet">◂ Fleet</a>
+      <a class="navback" href="/" title="Back to the Fleet">◂ Fleet</a>
       <div class="shipname">COMPARE</div>
-      <div class="shipclass"><b style="color:${A_COL}">${esc(A.name)}</b> ${esc(A.class)} <i>vs</i> <b style="color:${B_COL}">${esc(B.name)}</b> ${esc(B.class)} <i>|</i> True scale</div>
+      <div class="shipclass"><b style="color:${A_COL}">${esc(A.name)}</b> ${esc(A.class)} <i>vs</i> <b style="color:${B_COL}">${esc(B.name)}</b> ${esc(B.class)} <i>|</i> True Scale</div>
       <div id="stats">
         <div class="stat">FPS <span id="fps">—</span></div>
         <div class="stat">Tris <span id="tris">—</span></div>
@@ -56,16 +56,16 @@ export async function mountCompare(app: HTMLElement) {
         </section>
         <section>
           <h3>Layout</h3>
-          <div class="seg c2" id="layoutSeg"><button data-v="side">Side by side</button><button data-v="overlay">Overlay</button></div>
-          <p class="hint">Overlay puts both origins on the same point and draws ${esc(B.name)} as an x-ray, so the hull difference reads directly.</p>
+          <div class="seg c2" id="layoutSeg"><button data-v="side">Side by Side</button><button data-v="overlay">Overlay</button></div>
+          <p class="hint">Overlay puts both origins on the same point and draws ${esc(B.name)} as an X-Ray, so the hull difference reads directly.</p>
         </section>
         <section>
-          <h3>Display options</h3>
+          <h3>Display Options</h3>
           <div class="check">
-            <label><input type="checkbox" id="optTags" checked> Ship tags</label>
-            <label><input type="checkbox" id="optBloom" checked> Bloom glow</label>
+            <label><input type="checkbox" id="optTags" checked> Ship Tags</label>
+            <label><input type="checkbox" id="optBloom" checked> Bloom Glow</label>
             <label><input type="checkbox" id="optStars" checked> Starfield</label>
-            <label><input type="checkbox" id="optSpin"> Auto-spin</label>
+            <label><input type="checkbox" id="optSpin"> Auto-Spin</label>
           </div>
         </section>
       </div>
@@ -74,7 +74,7 @@ export async function mountCompare(app: HTMLElement) {
     <aside class="panel" id="right" aria-label="Comparison">
       <div class="panel-scroll">
         <div class="plan">
-          <h3>Silhouettes <span class="val">True scale</span></h3>
+          <h3>Silhouettes <span class="val">True Scale</span></h3>
           <svg id="cmpPlan" aria-label="Both side elevations overlaid at the same scale"></svg>
           <div class="legend"><span><i style="background:${A_COL}"></i>${esc(A.name)}</span><span><i style="background:${B_COL}"></i>${esc(B.name)}</span></div>
         </div>
@@ -84,7 +84,7 @@ export async function mountCompare(app: HTMLElement) {
     </aside>
     <button class="toggle" id="tr" title="Toggle comparison" aria-label="Toggle comparison">▶</button>
     <div id="toast"></div>
-    <div id="bottom"><div id="hint"><b>drag</b> rotate <i>·</i> <b>right-drag</b> pan <i>·</i> <b>scroll</b> zoom <i>·</i> <b>click</b> a room to open it in its ship <i>·</i> <b>H</b> hides UI</div></div>`;
+    <div id="bottom"><div id="hint"><b>Drag</b> rotate <i>·</i> <b>Right-drag</b> pan <i>·</i> <b>Scroll</b> zoom <i>·</i> <b>Click</b> a room to open it in its ship <i>·</i> <b>H</b> hides UI</div></div>`;
 
   const go = (a: string, b: string, l = layout) => { location.search = `?a=${a}&b=${b}${l === 'overlay' ? '&layout=overlay' : ''}`; };
   $<HTMLSelectElement>('#pickA').addEventListener('change', e => go((e.target as HTMLSelectElement).value, bId));
@@ -305,7 +305,7 @@ function drawTable(A: ShipSpec, B: ShipSpec, sa: ShipStats, sb: ShipStats) {
   const onlyA = [...names(A)].filter(n => !names(B).has(n)), onlyB = [...names(B)].filter(n => !names(A).has(n));
   const list = (xs: string[]) => xs.length ? xs.map(esc).join('<br>') : '—';
   const uniq = onlyA.length + onlyB.length && onlyA.length + onlyB.length < A.rooms.length + B.rooms.length
-    ? `<tr class="diff txt uniq"><th>Rooms only here</th><td>${list(onlyA)}</td><td>${list(onlyB)}</td></tr>` : '';
+    ? `<tr class="diff txt uniq"><th>Rooms Only Here</th><td>${list(onlyA)}</td><td>${list(onlyB)}</td></tr>` : '';
   document.getElementById('cmpTable')!.innerHTML = head + '<tbody>' + num + txt + uniq + '</tbody>';
 }
 

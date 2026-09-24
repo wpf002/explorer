@@ -49,7 +49,7 @@ export class RoomIndex {
     $('#dDesc').textContent = r.description;
     $('#dStats').innerHTML = r.stats.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('');
     this.renderLinks(r.code, r.links ?? [], this.extras.hotspots(i));
-    $('#dFly').textContent = r.close ? 'Step inside' : 'Fly closer';
+    $('#dFly').textContent = r.close ? 'Step Inside' : 'Fly Closer';
     detail.classList.add('open');
   }
 

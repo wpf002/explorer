@@ -4,7 +4,7 @@
 <div id="labels"></div>
 
 <div id="top">
-  <a class="navback" href="/" title="Back to the fleet" aria-label="Back to the fleet">◂ Fleet</a>
+  <a class="navback" href="/" title="Back to the Fleet" aria-label="Back to the fleet">◂ Fleet</a>
   <div class="shipname" id="shipName"></div>
   <div class="shipclass" id="shipClass"></div>
   <div id="stats">
@@ -18,28 +18,28 @@
 <aside class="panel" id="left" aria-label="Viewer controls">
  <div class="panel-scroll">
   <section>
-    <h3>View mode</h3>
+    <h3>View Mode</h3>
     <div class="seg c3" id="modeSeg">
       <button data-mode="orbit" class="on">Orbit</button><button data-mode="roam">Roam</button><button data-mode="tour">Tour</button>
     </div>
     <p class="hint" id="modeHint"></p>
-    <div class="check single" id="narrateWrap"><label><input type="checkbox" id="optNarrate"> Narrate the tour aloud</label></div>
+    <div class="check single" id="narrateWrap"><label><input type="checkbox" id="optNarrate"> Narrate the Tour Aloud</label></div>
   </section>
   <section>
-    <h3>Section cut <span class="val" id="cutVal">OFF</span></h3>
+    <h3>Section Cut <span class="val" id="cutVal">OFF</span></h3>
     <div class="seg c4" id="cutSeg">
       <button data-cut="off" class="on">Off</button><button data-cut="cross">Cross</button><button data-cut="hlay">H-lay</button><button data-cut="long">Long</button>
     </div>
     <div class="slider">
-      <div class="lab"><span>Cut position</span><output id="cutPosOut">0.0 m</output></div>
+      <div class="lab"><span>Cut Position</span><output id="cutPosOut">0.0 m</output></div>
       <input type="range" id="cutPos" min="-1" max="1" step="0.005" value="0" disabled>
     </div>
-    <div class="check single"><label><input type="checkbox" id="cutFlip" disabled> Flip cut direction</label></div>
+    <div class="check single"><label><input type="checkbox" id="cutFlip" disabled> Flip Cut Direction</label></div>
   </section>
   <section>
-    <h3>Hull transparency</h3>
+    <h3>Hull Transparency</h3>
     <div class="slider" style="margin-top:0">
-      <div class="lab"><span>Hull opacity</span><output id="opOut">100%</output></div>
+      <div class="lab"><span>Hull Opacity</span><output id="opOut">100%</output></div>
       <input type="range" id="opacity" min="0" max="1" step="0.01" value="1">
     </div>
     <div class="seg c4" id="presetSeg" style="margin-top:10px">
@@ -47,34 +47,34 @@
     </div>
   </section>
   <section>
-    <h3>Deck isolation</h3>
+    <h3>Deck Isolation</h3>
     <div id="deckSegs"></div>
   </section>
   <section id="systemsSection">
-    <h3>Systems overlay <span class="val" id="sysVal">OFF</span></h3>
+    <h3>Systems Overlay <span class="val" id="sysVal">OFF</span></h3>
     <div id="sysSegs"></div>
-    <p class="hint" id="sysHint">Routes are drawn through the hull; the hull drops to x-ray while one is shown.</p>
+    <p class="hint" id="sysHint">Routes are drawn through the hull; the hull drops to X-Ray while one is shown.</p>
   </section>
   <section id="explodeSection">
-    <h3>Exploded view</h3>
+    <h3>Exploded View</h3>
     <div class="slider" style="margin-top:0">
-      <div class="lab"><span>Module separation</span><output id="expOut">0%</output></div>
+      <div class="lab"><span>Module Separation</span><output id="expOut">0%</output></div>
       <input type="range" id="explode" min="0" max="1" step="0.01" value="0">
     </div>
   </section>
   <section>
-    <h3>Display options <span class="val" id="qualVal">AUTO</span></h3>
+    <h3>Display Options <span class="val" id="qualVal">AUTO</span></h3>
     <div class="seg c3" id="qualSeg" style="margin-bottom:12px">
       <button data-q="auto">Auto</button><button data-q="high">High</button><button data-q="low">Low</button>
     </div>
     <div class="check">
-      <label><input type="checkbox" id="optLabels" checked> Room labels</label>
-      <label><input type="checkbox" id="optBloom" checked> Bloom glow</label>
+      <label><input type="checkbox" id="optLabels" checked> Room Labels</label>
+      <label><input type="checkbox" id="optBloom" checked> Bloom Glow</label>
       <label><input type="checkbox" id="optStars" checked> Starfield</label>
       <label id="optSpinNodeWrap"><input type="checkbox" id="optSpinNode" checked> <span id="optSpinNodeLabel">Spin</span></label>
       <label><input type="checkbox" id="optWire"> Wireframe</label>
       <label><input type="checkbox" id="optLamp"> Headlamp</label>
-      <label><input type="checkbox" id="optSpin"> Auto-spin</label>
+      <label><input type="checkbox" id="optSpin"> Auto-Spin</label>
     </div>
   </section>
  </div>
@@ -84,7 +84,7 @@
 <aside class="panel" id="right" aria-label="Room index">
   <div class="panel-scroll">
     <div class="plan">
-      <h3>Deck plan <span class="val">Side elevation</span></h3>
+      <h3>Deck Plan <span class="val">Side Elevation</span></h3>
       <svg id="plan" aria-label="Side elevation of the ship with room markers">
         <g transform="scale(1,-1)">
           <g id="planHull"></g>
@@ -97,7 +97,7 @@
         <text id="planFwd" text-anchor="end">FWD</text><text id="planAft">AFT</text>
       </svg>
     </div>
-    <h3>Room index</h3>
+    <h3>Room Index</h3>
     <div class="rooms" id="rooms"></div>
   </div>
   <div id="detail">
@@ -106,7 +106,7 @@
     <p id="dDesc"></p>
     <dl class="kv" id="dStats"></dl>
     <div class="links" id="dLinks"></div>
-    <div class="btns"><button class="fly" id="dFly">Step inside</button><button class="close" id="dClose">Close</button></div>
+    <div class="btns"><button class="fly" id="dFly">Step Inside</button><button class="close" id="dClose">Close</button></div>
   </div>
 </aside>
 <button class="toggle" id="tr" title="Toggle room index" aria-label="Toggle room index">▶</button>

@@ -22,7 +22,7 @@ export function mountFleet(app: HTMLElement) {
     <div id="vignette"></div>
     <div id="top">
       <div class="shipname">FLEET</div>
-      <div class="shipclass"><b>Explorer</b> · every ship at true scale <i>|</i> Ships <b>${ships.length}</b> <i>|</i> Rooms <b>${rooms}</b></div>
+      <div class="shipclass"><b>Explorer</b> · Every Ship at True Scale <i>|</i> Ships <b>${ships.length}</b> <i>|</i> Rooms <b>${rooms}</b></div>
       <div id="stats">
         <a class="stat link" href="/compare">Compare ▸</a>
       </div>
@@ -41,7 +41,7 @@ export function mountFleet(app: HTMLElement) {
           </dl>
         </div>
         <div class="lineup">
-          <h3>Lineup <span class="val">True scale · side elevation</span></h3>
+          <h3>Lineup <span class="val">True Scale · Side Elevation</span></h3>
           <svg id="lineup" aria-label="Every ship's side elevation at the same scale"></svg>
         </div>
       </section>
@@ -58,7 +58,7 @@ export function mountFleet(app: HTMLElement) {
       <section class="cards" id="cards"></section>
       <p class="empty" id="empty" hidden>No ship or room matches that.</p>
     </main>
-    <div id="bottom"><div id="hint"><b>click</b> a ship to explore <i>·</i> <b>/</b> search <i>·</i> search matches room names across the fleet</div></div>`;
+    <div id="bottom"><div id="hint"><b>Click</b> a ship to explore <i>·</i> <b>/</b> to search <i>·</i> Search matches room names across the fleet</div></div>`;
 
   startSky(document.getElementById('sky') as HTMLCanvasElement);
   drawLineup(ships);
@@ -106,12 +106,9 @@ function mark(host: HTMLElement, on: HTMLElement) {
   host.querySelectorAll('button').forEach(b => b.classList.toggle('on', b === on));
 }
 
-/** "deep-space exploration cruiser" → "Exploration cruiser" style labels for filter buttons. */
+/** Filter buttons show the whole role, so "Cargo Shuttle" never stands in for two roles. */
 function short(v: string) {
-  if (v === 'All') return v;
-  const w = v.split(' ');
-  const s = w.length > 2 ? w.slice(-2).join(' ') : v;
-  return s[0].toUpperCase() + s.slice(1);
+  return v;
 }
 
 function order(a: ShipSpec, b: ShipSpec, sort: Sort) {

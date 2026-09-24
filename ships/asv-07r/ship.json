@@ -2,36 +2,77 @@
   "id": "asv-07r",
   "extends": "asv-07",
   "name": "ASV-07R",
-  "role": "long-range survey refit",
+  "role": "Long-Range Survey Refit",
   "crew": 186,
   "summary": "The Dome-class hull after a survey refit: the hangar becomes a drone bay, hydroponics is stripped out for sample stores, and a deep-field array goes up on the comms mast. Same hull, different rooms.",
-
   "roomPatches": {
     "CRG-03": {
       "name": "Survey Drone Bay",
       "description": "The hangar after refit. The shuttle pad now launches six long-range survey drones on 30-day sorties; the field curtain stays, sized down to 9 × 6 m. One Trade-Wind shuttle is kept aboard for crew transfer, parked on the old gantry rails. Drone telemetry lands in the survey lab and in the deep-field array's buffer, not on the bridge.",
-      "stats": [["Survey drones", "6"], ["Sortie", "30 days"], ["Shuttles", "1"], ["Curtain", "9 × 6 m"]],
-      "links": [{ "label": "Drone data to", "room": "FWD-06" }, { "label": "Trade-Wind shuttle", "ship": "tw-2" }]
+      "stats": [
+        ["Survey Drones", "6"],
+        ["Sortie", "30 days"],
+        ["Shuttles", "1"],
+        ["Curtain", "9 × 6 m"]
+      ],
+      "links": [
+        {
+          "label": "Drone data to",
+          "room": "FWD-06"
+        },
+        {
+          "label": "Trade-Wind shuttle",
+          "ship": "tw-2"
+        }
+      ]
     },
     "FWD-06": {
       "name": "Survey Lab",
       "description": "The science lab after refit, with two of its four cells merged into a 7 m imaging suite. Spectrometry and materials benches stay; the xenobiology bench moves to the old hydroponics segments on the ring. Sample stores run at −80 °C in the second cell. Any cell can still be vented to vacuum on its own.",
-      "stats": [["Cells", "3"], ["Imaging suite", "7 m"], ["Sample store", "−80 °C"], ["Bench power", "310 kW"]],
-      "links": [{ "label": "Drones from", "room": "CRG-03" }, { "label": "Array feed", "room": "SRV-02" }]
+      "stats": [
+        ["Cells", "3"],
+        ["Imaging Suite", "7 m"],
+        ["Sample Store", "−80 °C"],
+        ["Bench Power", "310 kW"]
+      ],
+      "links": [
+        {
+          "label": "Drones from",
+          "room": "CRG-03"
+        },
+        {
+          "label": "Array feed",
+          "room": "SRV-02"
+        }
+      ]
     },
     "RNG-05": null
   },
-
   "addRooms": [
     {
-      "code": "SRV-02", "name": "Deep-Field Array", "deck": "A", "color": "#c9b8ff",
-      "position": [98, 24, 0], "view": [0.3, 0.55, 1], "dist": 36, "radius": 5,
+      "code": "SRV-02",
+      "name": "Deep-Field Array",
+      "deck": "A",
+      "color": "#c9b8ff",
+      "position": [98, 24, 0],
+      "view": [0.3, 0.55, 1],
+      "dist": 36,
+      "radius": 5,
       "description": "The comms dish replaced by a 7 m deep-field receiver with a cryo-cooled focal plane at 40 K. It integrates on one target for up to 90 days while the ship holds attitude to 0.2 arcseconds. Raw data runs to the survey lab at 40 Gb/s; a compressed copy goes home on the old comms band.",
-      "stats": [["Aperture", "7 m"], ["Focal plane", "40 K"], ["Pointing", "0.2″"], ["Downlink", "40 Gb/s"]],
-      "links": [{ "label": "Feeds", "room": "FWD-06" }]
+      "stats": [
+        ["Aperture", "7 m"],
+        ["Focal Plane", "40 K"],
+        ["Pointing", "0.2″"],
+        ["Downlink", "40 Gb/s"]
+      ],
+      "links": [
+        {
+          "label": "Feeds",
+          "room": "FWD-06"
+        }
+      ]
     }
   ],
-
   "camera": {
     "home": [-95, 42, 225],
     "target": [-5, 0, 0],
@@ -39,6 +80,9 @@
     "near": 0.5,
     "far": 8000,
     "range": [8, 1600],
-    "hero": { "pos": [150, 70, 170], "target": [10, 2, 0] }
+    "hero": {
+      "pos": [150, 70, 170],
+      "target": [10, 2, 0]
+    }
   }
 }

@@ -2,64 +2,150 @@
   "id": "test-brick",
   "name": "TEST-BRICK",
   "class": "Brick-class",
-  "role": "schema conformance fixture",
+  "role": "Schema Conformance Fixture",
   "length_m": 30,
   "crew": 3,
   "listed": false,
-
-  "decks": [{ "code": "A", "name": "Single Deck", "short": "A · Deck" }],
-
-  "modules": [{ "id": "body", "explode": [1, 0, 0] }],
-
-  "rooms": [
+  "decks": [
     {
-      "code": "BOX-01", "name": "Forward Cell", "deck": "A", "color": "#8fe8f5",
-      "view": [0.6, 0.5, 1], "dist": 30, "radius": 4,
-      "description": "The bow third of the brick. Exists to prove a glTF with nothing but named nodes gets labels, a deck plan dot and a working fly-to.",
-      "stats": [["Volume", "480 m³"], ["Hatches", "1"], ["Pressurised", "Yes"], ["Fit-out", "None"]]
-    },
-    {
-      "code": "BOX-02", "name": "Midships Cell", "deck": "A", "color": "#f0b64a",
-      "view": [0, 1, 0.6], "dist": 34, "radius": 4,
-      "description": "Centre of mass and origin of the coordinate frame. Used to check that room markers read from the model rather than from ship.json.",
-      "stats": [["Volume", "480 m³"], ["Hatches", "2"], ["Pressurised", "Yes"], ["Fit-out", "None"]]
-    },
-    {
-      "code": "BOX-03", "name": "Aft Cell", "deck": "A", "color": "#ffb070",
-      "view": [-0.6, 0.4, 1], "dist": 30, "radius": 4,
-      "description": "The stern third. No interior geometry at all, which is the case every real ship falls back to for rooms that do not earn a fit-out.",
-      "stats": [["Volume", "480 m³"], ["Hatches", "1"], ["Pressurised", "No"], ["Fit-out", "None"]]
+      "code": "A",
+      "name": "Single Deck",
+      "short": "A · Deck"
     }
   ],
-
+  "modules": [
+    {
+      "id": "body",
+      "explode": [1, 0, 0]
+    }
+  ],
+  "rooms": [
+    {
+      "code": "BOX-01",
+      "name": "Forward Cell",
+      "deck": "A",
+      "color": "#8fe8f5",
+      "view": [0.6, 0.5, 1],
+      "dist": 30,
+      "radius": 4,
+      "description": "The bow third of the brick. Exists to prove a glTF with nothing but named nodes gets labels, a deck plan dot and a working fly-to.",
+      "stats": [
+        ["Volume", "480 m³"],
+        ["Hatches", "1"],
+        ["Pressurised", "Yes"],
+        ["Fit-Out", "None"]
+      ]
+    },
+    {
+      "code": "BOX-02",
+      "name": "Midships Cell",
+      "deck": "A",
+      "color": "#f0b64a",
+      "view": [0, 1, 0.6],
+      "dist": 34,
+      "radius": 4,
+      "description": "Centre of mass and origin of the coordinate frame. Used to check that room markers read from the model rather than from ship.json.",
+      "stats": [
+        ["Volume", "480 m³"],
+        ["Hatches", "2"],
+        ["Pressurised", "Yes"],
+        ["Fit-Out", "None"]
+      ]
+    },
+    {
+      "code": "BOX-03",
+      "name": "Aft Cell",
+      "deck": "A",
+      "color": "#ffb070",
+      "view": [-0.6, 0.4, 1],
+      "dist": 30,
+      "radius": 4,
+      "description": "The stern third. No interior geometry at all, which is the case every real ship falls back to for rooms that do not earn a fit-out.",
+      "stats": [
+        ["Volume", "480 m³"],
+        ["Hatches", "1"],
+        ["Pressurised", "No"],
+        ["Fit-Out", "None"]
+      ]
+    }
+  ],
   "materials": {
-    "hull": { "color": "#8e99a5", "metalness": 0.4, "roughness": 0.6, "doubleSide": true }
+    "hull": {
+      "color": "#8e99a5",
+      "metalness": 0.4,
+      "roughness": 0.6,
+      "doubleSide": true
+    }
   },
-
   "plan": {
     "viewBox": [-26, -14, 52, 28],
-    "bounds": { "x": [-22, 22], "y": [-11, 11] },
-    "labels": { "fwd": [22, 12], "aft": [-24, 12] },
+    "bounds": {
+      "x": [-22, 22],
+      "y": [-11, 11]
+    },
+    "labels": {
+      "fwd": [22, 12],
+      "aft": [-24, 12]
+    },
     "shapes": [
-      { "kind": "axis", "x1": -22, "y1": 0, "x2": 22, "y2": 0 },
-      { "kind": "rect", "x": -15, "y": -6, "w": 30, "h": 12, "rx": 1 }
+      {
+        "kind": "axis",
+        "x1": -22,
+        "y1": 0,
+        "x2": 22,
+        "y2": 0
+      },
+      {
+        "kind": "rect",
+        "x": -15,
+        "y": -6,
+        "w": 30,
+        "h": 12,
+        "rx": 1
+      }
     ]
   },
-
   "tour": {
     "duration": 40,
-    "path": [[60, 25, 60], [0, 40, 70], [-60, 20, 50], [-70, -20, -40], [0, -30, -70], [60, 10, -50]],
-    "look": [[0, 0, 0], [10, 0, 0], [0, 0, 0], [-10, 0, 0], [0, 0, 0], [10, 0, 0]],
+    "path": [
+      [60, 25, 60],
+      [0, 40, 70],
+      [-60, 20, 50],
+      [-70, -20, -40],
+      [0, -30, -70],
+      [60, 10, -50]
+    ],
+    "look": [
+      [0, 0, 0],
+      [10, 0, 0],
+      [0, 0, 0],
+      [-10, 0, 0],
+      [0, 0, 0],
+      [10, 0, 0]
+    ],
     "segments": [
-      { "name": "Overview" },
-      { "name": "Forward Cell", "room": "BOX-01" },
-      { "name": "Midships Cell", "room": "BOX-02" },
-      { "name": "Aft Cell", "room": "BOX-03" }
+      {
+        "name": "Overview"
+      },
+      {
+        "name": "Forward Cell",
+        "room": "BOX-01"
+      },
+      {
+        "name": "Midships Cell",
+        "room": "BOX-02"
+      },
+      {
+        "name": "Aft Cell",
+        "room": "BOX-03"
+      }
     ]
   },
-
-  "cut": { "cross": 18, "hlay": 8, "long": 8 },
-
+  "cut": {
+    "cross": 18,
+    "hlay": 8,
+    "long": 8
+  },
   "camera": {
     "home": [-30, 18, 55],
     "target": [0, 0, 0],
@@ -68,6 +154,8 @@
     "far": 4000,
     "range": [4, 600]
   },
-
-  "model": { "type": "gltf", "url": "model.glb" }
+  "model": {
+    "type": "gltf",
+    "url": "model.glb"
+  }
 }

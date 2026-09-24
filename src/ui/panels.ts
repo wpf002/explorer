@@ -17,13 +17,13 @@ export interface PanelHandlers {
 
 export const MODE_HINT: Record<Mode, string> = {
   orbit: 'Drag to rotate · scroll to zoom · click a room label to fly there',
-  roam: 'WASD move · right-click / hold-drag to look · Shift boost · Space/C up & down · keys 1–9 jump to rooms · H hides UI',
-  tour: 'An automated cruise around the ship · switch modes anytime to take over',
+  roam: 'WASD to move · right-click or hold-drag to look · Shift to boost · Space/C for up and down · keys 1–9 jump to rooms · H hides the UI',
+  tour: 'An automated cruise around the ship · switch modes at any time to take over',
 };
 
 const BOTTOM_HINT: Record<Mode, string> = {
-  orbit: '<b>drag</b> rotate <i>·</i> <b>right-drag</b> pan <i>·</i> <b>scroll</b> zoom <i>·</i> <b>1–9</b> jump to rooms <i>·</i> <b>H</b> hides UI',
-  roam: '<b>WASD</b> move <i>·</i> <b>right-click / hold-drag</b> to look <i>·</i> <b>Shift</b> boost <i>·</i> <b>Space/C</b> up & down <i>·</i> <b>1–9</b> jump to rooms <i>·</i> <b>H</b> hides UI',
+  orbit: '<b>Drag</b> rotate <i>·</i> <b>Right-drag</b> pan <i>·</i> <b>Scroll</b> zoom <i>·</i> <b>1–9</b> jump to rooms <i>·</i> <b>H</b> hides UI',
+  roam: '<b>WASD</b> move <i>·</i> <b>Right-click / hold-drag</b> to look <i>·</i> <b>Shift</b> boost <i>·</i> <b>Space/C</b> up &amp; down <i>·</i> <b>1–9</b> jump to rooms <i>·</i> <b>H</b> hides UI',
   tour: 'Tour <i>·</i> <span id="tourShip"></span> <i>·</i> <b id="tourSeg"></b>',
 };
 
@@ -110,7 +110,7 @@ export class Panels {
     $('#sysSegs').querySelectorAll<HTMLButtonElement>('button[data-sys]').forEach(b => b.classList.toggle('on', (b.dataset.sys || null) === id));
     $('#sysVal').textContent = sys ? sys.name : 'OFF';
     $('#sysVal').style.color = sys ? sys.color : '';
-    $('#sysHint').textContent = sys?.description ?? 'Routes are drawn through the hull; the hull drops to x-ray while one is shown.';
+    $('#sysHint').textContent = sys?.description ?? 'Routes are drawn through the hull; the hull drops to X-Ray while one is shown.';
   }
 
   private seg(id: string, attr: string, cb: (v: string) => void) {

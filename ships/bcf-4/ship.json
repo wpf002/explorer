@@ -2,7 +2,7 @@
   "id": "bcf-4",
   "name": "BCF-4",
   "class": "Longhaul-class",
-  "role": "bulk cargo freighter",
+  "role": "Bulk Cargo Freighter",
   "length_m": 420,
   "crew": 18,
   "summary": "A 282 m truss spine carrying 768 container slots in eight cassette bays, crewed by eighteen from a hammerhead block at the bow. Four drives, two radiator wings, no spin gravity.",
@@ -66,27 +66,27 @@
         ["Stations", "5"],
         ["Glazing", "19 m raked"],
         ["Watch", "2 cruise · 5 approach"],
-        ["Standalone air", "6 h"]
+        ["Standalone Air", "6 h"]
       ],
       "hotspots": [
         {
           "pos": [192, 18.7, 0],
-          "title": "Helm station",
+          "title": "Helm Station",
           "text": "Centre of five forward stations. Helm and traffic share a combined plot during approach."
         },
         {
           "pos": [182, 18.2, 0],
-          "title": "Cargo plot",
+          "title": "Cargo Plot",
           "text": "Overhead table showing all 768 clamp states and the gantry position, refreshed every 250 ms."
         },
         {
           "pos": [195.4, 20.6, -6],
-          "title": "Raked glazing",
+          "title": "Raked Glazing",
           "text": "19 m of glazing at 22°. The blast shutters close in 1.8 s."
         },
         {
           "pos": [185.5, 19, 0],
-          "title": "Captain's seat",
+          "title": "Captain's Seat",
           "text": "Behind the helm on the centreline, with repeaters for every station."
         }
       ]
@@ -121,8 +121,8 @@
       "stats": [
         ["Seats", "18"],
         ["Servery", "40 kW"],
-        ["Chilled store", "22 days"],
-        ["Evening light", "2,700 K"]
+        ["Chilled Store", "22 days"],
+        ["Evening Light", "2,700 K"]
       ],
       "links": [
         {
@@ -138,12 +138,12 @@
         },
         {
           "pos": [172, 0.9, -6],
-          "title": "Mess tables",
+          "title": "Mess Tables",
           "text": "Three 7 m tables that seat the whole crew of eighteen."
         },
         {
           "pos": [172, 4.3, 6],
-          "title": "Circadian lights",
+          "title": "Circadian Lights",
           "text": "Ceiling strips that drop from 5,600 K to 2,700 K at ship's evening."
         }
       ]
@@ -158,7 +158,7 @@
       "description": "Two-bed treatment room aft of the galley with one surgical pod and a cryo cabinet for a single casualty. Most cases run by teleconsult with the destination port; the pod covers stabilisation for up to 72 hours. A recompression chamber for EVA crew sits behind the port bulkhead, rated to 6 bar. Pharmacy stock is sealed and logged by the bridge. The medic is a cross-trained cargo officer.",
       "stats": [
         ["Beds", "2"],
-        ["Surgical pods", "1"],
+        ["Surgical Pods", "1"],
         ["Stabilisation", "72 h"],
         ["Recompression", "6 bar"]
       ]
@@ -174,7 +174,7 @@
       "stats": [
         ["Tunnel", "8 m"],
         ["Ring", "Androgynous"],
-        ["Docking load", "400 kN"],
+        ["Docking Load", "400 kN"],
         ["Seal", "Field membrane"]
       ],
       "links": [
@@ -227,7 +227,7 @@
         ["Span", "27 m"],
         ["Rail", "274 m"],
         ["Hoist", "40 t"],
-        ["Rail speed", "0.6 m/s"]
+        ["Rail Speed", "0.6 m/s"]
       ],
       "links": [
         {
@@ -249,7 +249,7 @@
       "dist": 50,
       "description": "The port face of bay two, fitted for refrigerated and powered cargo. Each slot carries a 12 kW feed and a data link, and every container reports its temperature to the bridge every 30 s. Contents run from pharmaceuticals and biological samples to the ship's own dry stores. The face holds 22 reefers on a full load; any fault flags the slot amber on the cargo plot.",
       "stats": [
-        ["Reefer slots", "22"],
+        ["Reefer Slots", "22"],
         ["Feed", "12 kW per slot"],
         ["Telemetry", "30 s"],
         ["Range", "−60 to +8 °C"]
@@ -275,7 +275,7 @@
       "description": "An octagonal hall 26 m across, built round a vertical fusion column in a three-ring confinement stack. Output is 900 MW; the drives take 780 at full burn and the rest feeds the hold and hab. A 1.4-turn shield wall faces the crew end, and the aft side opens to the radiator manifolds. A catwalk rings the column at mid-height. Crew enter the hall only at idle, below 5% throttle.",
       "stats": [
         ["Output", "900 MW"],
-        ["Confinement rings", "3"],
+        ["Confinement Rings", "3"],
         ["Hall", "26 m octagon"],
         ["Entry", "< 5% throttle"]
       ],
@@ -292,12 +292,12 @@
       "hotspots": [
         {
           "pos": [-144, 5, 0],
-          "title": "Fusion column",
+          "title": "Fusion Column",
           "text": "18 m vertical column with three confinement rings. 900 MW at full output."
         },
         {
           "pos": [-144, 6.9, 4.2],
-          "title": "Confinement ring",
+          "title": "Confinement Ring",
           "text": "One of three superconducting rings, kept at 20 K."
         },
         {
@@ -318,7 +318,7 @@
       "stats": [
         ["Panels", "2 × 44 × 32 m"],
         ["Coolant", "Liquid tin"],
-        ["Loop temp", "1,150 K"],
+        ["Loop Temp", "1,150 K"],
         ["Rejection", "520 MW"]
       ],
       "links": [
@@ -339,7 +339,7 @@
       "stats": [
         ["Drives", "4"],
         ["Thrust", "4.4 MN"],
-        ["Burn rating", "140 days"],
+        ["Burn Rating", "140 days"],
         ["Gimbal", "±4°"]
       ],
       "links": [
@@ -381,12 +381,12 @@
         },
         {
           "pos": [-145, 13.7, -4.6],
-          "title": "Electrode bench",
+          "title": "Electrode Bench",
           "text": "Bench for drive electrode refurbishment, with its own fume extraction."
         },
         {
           "pos": [-147.4, 15, 1],
-          "title": "Spares rack",
+          "title": "Spares Rack",
           "text": "3.2 t of spares, logged by slot and reordered at every port."
         }
       ]
