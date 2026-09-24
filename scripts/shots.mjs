@@ -12,14 +12,17 @@ import pixelmatch from 'pixelmatch';
 import { launch, newPage, settled, TIMEOUT } from './lib/browser.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const update = process.argv.includes('--update');
-const only = process.argv.find(a => !a.startsWith('-') && !a.endsWith('.mjs') && a !== process.argv[0]);
-const PRESETS = ['solid', 'xray', 'section'];
+const args = process.argv.slice(2);
+const flag = name => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : null; };
+const update = args.includes('--update');
+// `--presets solid` and `--ships asv-07,bcf-4` keep the CI matrix small; SwiftShader is slow.
+const PRESETS = (flag('--presets') ?? 'solid,xray,section').split(',');
+const pick = flag('--ships')?.split(',');
 const out = join(root, 'shots', 'ci'), gold = join(root, 'reference', 'goldens');
 mkdirSync(out, { recursive: true }); mkdirSync(gold, { recursive: true });
 
 const ids = readdirSync(join(root, 'ships'), { withFileTypes: true }).filter(d => d.isDirectory()).map(d => d.name)
-  .filter(id => !only || id === only).sort();
+  .filter(id => !pick || pick.includes(id)).sort();
 
 const server = await createServer({ root, logLevel: 'silent', server: { port: 5188, strictPort: true } });
 await server.listen();

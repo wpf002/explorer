@@ -8,7 +8,7 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 40
     env:
       CI: 'true'
     steps:
@@ -35,10 +35,13 @@ jobs:
       - name: Validate ships
         run: npm run validate
 
-      # Every ship × solid / x-ray / section, diffed against reference/goldens.
+      # Software rendering is slow, so CI shoots every ship in solid plus the two
+      # reference ships in all three presets. The full matrix runs locally.
       # Rendering differences are reported, not fatal; page errors fail the job.
       - name: Screenshots
-        run: npm run shots
+        run: |
+          node scripts/shots.mjs --presets solid
+          node scripts/shots.mjs --ships asv-07,bcf-4
 
       - name: Screenshot summary
         if: always()
