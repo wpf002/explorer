@@ -118,14 +118,18 @@ input[type=range]:disabled{opacity:.4;cursor:default}
 .label{position:absolute;left:0;top:0;transform:translate(-9999px,-9999px);display:flex;align-items:center;gap:7px;height:22px;padding:0 9px 0 7px;
   background:rgba(8,14,24,.82);border:1px solid var(--line-2);border-radius:2px;color:var(--text);font:500 11.5px/1 var(--ff-body);letter-spacing:.02em;white-space:nowrap;pointer-events:auto;cursor:pointer;
   will-change:transform;transition:background .15s,border-color .15s,opacity .2s}
-.label::after{content:"";position:absolute;left:-1px;right:-1px;bottom:-5px;height:4px}
+/* Leader from the label down to the marker, so a label never floats unattached. */
+.label::after{content:"";position:absolute;left:50%;bottom:-19px;width:1px;height:19px;background:linear-gradient(180deg,var(--line-2),rgba(140,190,210,.15));pointer-events:none}
+.label::before{content:"";position:absolute;left:50%;bottom:-22px;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:var(--lc,var(--accent));box-shadow:0 0 7px var(--lc,var(--accent));pointer-events:none}
+.label.on::after{background:linear-gradient(180deg,var(--accent),rgba(130,230,242,.2))}
 .label .d{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px currentColor}
 .label .c{font:400 9.5px/1 var(--ff-mono);color:var(--dim);letter-spacing:.04em}
 .label:hover{border-color:var(--accent);background:rgba(10,24,34,.92)}
 .label.on{background:rgba(130,230,242,.9);border-color:var(--accent);color:var(--accent-ink)}
 .label.on .c{color:rgba(5,38,44,.7)}.label.on .d{background:var(--accent-ink);box-shadow:none}
 .label.dimmed{opacity:.35}
-.label.far{opacity:.55}
+.label.far{opacity:.5}
+.label.distant{opacity:.3}
 .label.occ{opacity:.22}
 .label.crowded{opacity:0;pointer-events:none;transition:opacity .18s}
 .plan{margin:0 0 14px;padding:0 0 12px;border-bottom:1px solid var(--line)}

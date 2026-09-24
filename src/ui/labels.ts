@@ -30,6 +30,7 @@ export class Labels {
       el.className = 'label';
       el.type = 'button';
       el.innerHTML = `<span class="d" style="background:${r.color};color:${r.color}"></span>${r.name}<span class="c">${r.code}</span>`;
+      el.style.setProperty('--lc', r.color);
       el.addEventListener('click', e => { e.stopPropagation(); onPick(i); });
       host.appendChild(el);
       this.els.push(el);
@@ -80,6 +81,8 @@ export class Labels {
       const x = (p.x * .5 + .5) * w, y = (-p.y * .5 + .5) * h;
       el.style.transform = `translate(${x.toFixed(1)}px, ${(y - 26).toFixed(1)}px) translate(-50%,-50%)`;
       el.classList.toggle('far', d > this.far);
+      // Past a few ship lengths a label is noise, not wayfinding.
+      el.classList.toggle('distant', d > this.far * 1.8);
       el.style.zIndex = String(Math.round(1000 - d));
       this.slot.push({ x, y: y - 26, d, i });
     }
