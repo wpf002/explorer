@@ -37,12 +37,12 @@ export async function mountViewer(app: HTMLElement, id: string) {
   $<HTMLAnchorElement>('#compareLink').href = `/compare?a=${encodeURIComponent(id)}`;
 
   const canvas = $<HTMLCanvasElement>('#gl');
-  const stage = createWorld(canvas, spec.length_m / 300, spec.camera.near ?? 0.5, spec.camera.far ?? 8000);
+  const stage = await createWorld(canvas, spec.length_m / 300, spec.camera.near ?? 0.5, spec.camera.far ?? 8000);
   const { lamp, stars, interiorFill } = stage;
 
   const ship = await loadShip(stage.renderer, spec);
   stage.scene.add(ship.model.root);
-  const systems = new Systems(ship);
+  const systems = await Systems.create(ship);
   stage.scene.add(systems.group);
   addEventListener('resize', () => systems.resize(innerWidth, innerHeight));
 

@@ -5,3 +5,4 @@ dist/
 shots/*.png
 !shots/.gitkeep
 shots/ci/
+dist-gpu/

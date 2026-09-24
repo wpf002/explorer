@@ -26,7 +26,7 @@ Interactive 3D spacecraft explorer. A generic three.js viewer plus a folder of s
 
 ## Commands
 
-- `npm run dev` local server
+- `npm run dev` local server (WebGL); `GPU=1 vite build --outDir dist-gpu` for the node/TSL pipeline
 - `npm run build` production build to `dist/`
 - `npm run shot [route] [name.png]` Playwright screenshot (default `ship/asv-07`) to `shots/`; the default route is diffed vs `reference/golden.png`
 - `npm run shots` every ship × solid/x-ray/section vs `reference/goldens/`; `shots:update` rewrites them

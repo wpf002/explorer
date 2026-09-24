@@ -36,6 +36,10 @@ export function ringTex(): CanvasTexture {
 
 export interface PlatingMaps { map: Texture; roughnessMap: Texture; normalMap: Texture; }
 
+/** WebGLRenderer keeps this on `capabilities`; the node renderer exposes it directly. */
+const maxAnisotropy = (r: WebGLRenderer & { getMaxAnisotropy?: () => number }) =>
+  r.capabilities?.getMaxAnisotropy?.() ?? r.getMaxAnisotropy?.() ?? 4;
+
 /** Procedural hull plating: colour, roughness and a normal map derived from the seam height field. */
 export function plating(renderer: WebGLRenderer, spec: TextureSpec): PlatingMaps {
   const W = spec.width ?? 1024, H = spec.height ?? 512;
@@ -108,7 +112,7 @@ export function plating(renderer: WebGLRenderer, spec: TextureSpec): PlatingMaps
   const mk = (canvas: HTMLCanvasElement, srgb: boolean) => {
     const t = new CanvasTexture(canvas);
     t.wrapS = t.wrapT = RepeatWrapping;
-    t.anisotropy = renderer.capabilities.getMaxAnisotropy();
+    t.anisotropy = maxAnisotropy(renderer);
     if (srgb) t.colorSpace = SRGBColorSpace;
     t.repeat.set(repeat[0], repeat[1]);
     return t;

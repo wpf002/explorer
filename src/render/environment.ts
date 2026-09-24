@@ -64,17 +64,39 @@ export function fitSunShadow(sun: DirectionalLight, radius: number, centre = new
   cam.updateProjectionMatrix();
 }
 
-/** A dark sky, a blue planet and the sun, baked to a PMREM for hull reflections. */
+/**
+ * The environment a hull reflects: a graded sky, the planet, a bright sun disc and its
+ * glare ring. Reflections are most of what makes plating read as metal, so this is worth
+ * more than its two dozen triangles suggest.
+ */
 export function createEnvironment(renderer: WebGLRenderer, scene: Scene, sunPos: Vector3) {
   const pm = new PMREMGenerator(renderer);
   const es = new Scene();
-  es.add(new Mesh(new SphereGeometry(100, 32, 16), new MeshBasicMaterial({ color: col('#070c16'), side: BackSide })));
-  const pl = new Mesh(new SphereGeometry(42, 32, 16), new MeshBasicMaterial({ color: col('#4a74c4') }));
+  const dir = sunPos.clone().normalize();
+
+  // Sky: dark at the anti-sun side, faintly warm toward the sun.
+  es.add(new Mesh(new SphereGeometry(100, 48, 32), new MeshBasicMaterial({ color: col('#05080f'), side: BackSide })));
+  const band = new Mesh(new SphereGeometry(98, 48, 32, 0, Math.PI * 2, Math.PI * .28, Math.PI * .44),
+    new MeshBasicMaterial({ color: col('#0b1424'), side: BackSide, transparent: true, opacity: .8 }));
+  es.add(band);
+
+  // Planet, lit crescent toward the sun.
+  const pl = new Mesh(new SphereGeometry(44, 48, 32), new MeshBasicMaterial({ color: col('#31537f') }));
   pl.position.set(55, -25, -75);
   es.add(pl);
-  const sb = new Mesh(new SphereGeometry(7, 16, 8), new MeshBasicMaterial({ color: new Color(9, 8, 6.5) }));
-  sb.position.copy(sunPos).normalize().multiplyScalar(88);
-  es.add(sb);
-  scene.environment = pm.fromScene(es, 0.04).texture;
+  const limb = new Mesh(new SphereGeometry(46, 48, 32), new MeshBasicMaterial({ color: col('#9dc0ef'), transparent: true, opacity: .35 }));
+  limb.position.copy(pl.position).add(dir.clone().multiplyScalar(6));
+  es.add(limb);
+
+  // Sun: a small, very bright disc with a wide, weak glare around it.
+  const sun = new Mesh(new SphereGeometry(4.5, 24, 16), new MeshBasicMaterial({ color: new Color(26, 23, 19) }));
+  sun.position.copy(dir).multiplyScalar(88);
+  es.add(sun);
+  const glare = new Mesh(new SphereGeometry(17, 24, 16), new MeshBasicMaterial({ color: new Color(1.2, 1.05, .85), transparent: true, opacity: .5 }));
+  glare.position.copy(sun.position);
+  es.add(glare);
+
+  scene.environment = pm.fromScene(es, 0.025).texture;
+  scene.environmentIntensity = 1.15;
   pm.dispose();
 }

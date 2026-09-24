@@ -33,6 +33,7 @@ export function buildMaterials(renderer: WebGLRenderer, ship: ShipSpec): Materia
       envMapIntensity: m.envMapIntensity ?? 1,
       transparent: m.transparent ?? (m.opacity !== undefined && m.opacity < 1),
       opacity: m.opacity ?? 1,
+      dithering: true,                 // large hull gradients band badly without it
     });
     if (coat > 0 && mat instanceof MeshPhysicalMaterial) {
       mat.clearcoat = coat;

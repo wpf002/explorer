@@ -45,7 +45,7 @@ export function batchModel(model: ShipModel): { before: number; after: number } 
       rel.multiplyMatrices(inv, m.matrixWorld);
       const g = m.geometry.clone();
       g.applyMatrix4(rel);
-      for (const name of Object.keys(g.morphAttributes)) delete g.morphAttributes[name];
+      g.morphAttributes = {};                 // merged geometry carries no morph targets
       return g;
     });
     const merged = mergeGeometries(geos, false);
