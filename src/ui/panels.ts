@@ -16,14 +16,14 @@ export interface PanelHandlers {
 }
 
 export const MODE_HINT: Record<Mode, string> = {
-  orbit: 'Drag to rotate · scroll to zoom · click a room label to fly there',
-  roam: 'WASD to move · right-click or hold-drag to look · Shift to boost · Space/C for up and down · keys 1–9 jump to rooms · H hides the UI',
-  tour: 'An automated cruise around the ship · switch modes at any time to take over',
+  orbit: 'Drag to Rotate · Scroll to Zoom · Click a Room Label to Fly There',
+  roam: 'WASD to Move · Right-click or Hold-drag to Look · Shift to Boost · Space/C for Up and Down · Keys 1–9 Jump to Rooms · H Hides the UI',
+  tour: 'An Automated Cruise Around the Ship · Switch Modes at Any Time to Take Over',
 };
 
 const BOTTOM_HINT: Record<Mode, string> = {
-  orbit: '<b>Drag</b> rotate <i>·</i> <b>Right-drag</b> pan <i>·</i> <b>Scroll</b> zoom <i>·</i> <b>1–9</b> jump to rooms <i>·</i> <b>H</b> hides UI',
-  roam: '<b>WASD</b> move <i>·</i> <b>Right-click / hold-drag</b> to look <i>·</i> <b>Shift</b> boost <i>·</i> <b>Space/C</b> up &amp; down <i>·</i> <b>1–9</b> jump to rooms <i>·</i> <b>H</b> hides UI',
+  orbit: '<b>Drag</b> Rotate <i>·</i> <b>Right-drag</b> Pan <i>·</i> <b>Scroll</b> Zoom <i>·</i> <b>1–9</b> Jump to Rooms <i>·</i> <b>H</b> Hides UI',
+  roam: '<b>WASD</b> Move <i>·</i> <b>Right-click / Hold-drag</b> Look <i>·</i> <b>Shift</b> Boost <i>·</i> <b>Space/C</b> Up &amp; Down <i>·</i> <b>1–9</b> Jump to Rooms <i>·</i> <b>H</b> Hides UI',
   tour: 'Tour <i>·</i> <span id="tourShip"></span> <i>·</i> <b id="tourSeg"></b>',
 };
 

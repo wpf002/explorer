@@ -19,7 +19,8 @@ export function createStars(scene: Scene, scale = 1, n = 4000): Points {
   const g = new BufferGeometry();
   g.setAttribute('position', new BufferAttribute(p, 3));
   g.setAttribute('color', new BufferAttribute(cc, 3));
-  const m = new PointsMaterial({ size: 12 * scale, sizeAttenuation: true, vertexColors: true, transparent: true, opacity: .75, depthWrite: false });
+  // Screen-space points: pinpoints at any ship scale, and no confetti seen through an x-ray hull.
+  const m = new PointsMaterial({ size: 1.7, sizeAttenuation: false, vertexColors: true, transparent: true, opacity: .62, depthWrite: false });
   const pts = new Points(g, m);
   scene.add(pts);
   return pts;

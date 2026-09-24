@@ -58,7 +58,7 @@ export function mountFleet(app: HTMLElement) {
       <section class="cards" id="cards"></section>
       <p class="empty" id="empty" hidden>No ship or room matches that.</p>
     </main>
-    <div id="bottom"><div id="hint"><b>Click</b> a ship to explore <i>·</i> <b>/</b> to search <i>·</i> Search matches room names across the fleet</div></div>`;
+    <div id="bottom"><div id="hint"><b>Click</b> a Ship to Explore <i>·</i> <b>/</b> to Search <i>·</i> Search Matches Room Names Across the Fleet</div></div>`;
 
   startSky(document.getElementById('sky') as HTMLCanvasElement);
   drawLineup(ships);

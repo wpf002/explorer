@@ -2,21 +2,24 @@ import { CanvasTexture, RepeatWrapping, SRGBColorSpace, Texture, WebGLRenderer }
 import type { TextureSpec } from '../schema';
 import { clamp } from '../util';
 
-export function radialTex(inner: number, outer: number, stops: [number, string][]): CanvasTexture {
+export function radialTex(inner: number, outer: number, stops: [number, string][], size = 128): CanvasTexture {
   const c = document.createElement('canvas');
-  c.width = c.height = 128;
+  c.width = c.height = size;
   const g = c.getContext('2d')!;
-  const gr = g.createRadialGradient(64, 64, inner, 64, 64, outer);
+  const h = size / 2, k = size / 128;
+  const gr = g.createRadialGradient(h, h, inner * k, h, h, outer * k);
   stops.forEach(([o, cl]) => gr.addColorStop(o, cl));
   g.fillStyle = gr;
-  g.fillRect(0, 0, 128, 128);
+  g.fillRect(0, 0, size, size);
   return new CanvasTexture(c);
 }
 
+/** A gaussian-ish falloff at 256 px: a 128 px ramp bands badly when a sprite fills the screen. */
 export const glowTex = () => radialTex(0, 64, [
-  [0, 'rgba(255,255,255,1)'], [0.25, 'rgba(255,255,255,.55)'],
-  [0.6, 'rgba(255,255,255,.12)'], [1, 'rgba(255,255,255,0)'],
-]);
+  [0, 'rgba(255,255,255,1)'], [0.08, 'rgba(255,255,255,.92)'], [0.18, 'rgba(255,255,255,.66)'],
+  [0.3, 'rgba(255,255,255,.4)'], [0.45, 'rgba(255,255,255,.2)'], [0.62, 'rgba(255,255,255,.08)'],
+  [0.8, 'rgba(255,255,255,.02)'], [1, 'rgba(255,255,255,0)'],
+], 256);
 
 export function ringTex(): CanvasTexture {
   const c = document.createElement('canvas');

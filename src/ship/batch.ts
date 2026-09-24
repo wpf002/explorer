@@ -34,7 +34,12 @@ export function batchModel(model: ShipModel): { before: number; after: number } 
   const inv = new Matrix4(), rel = new Matrix4();
   let serial = 0;
   for (const { parent, meshes } of groups.values()) {
-    if (meshes.length === 1) { out.push(meshes[0]); continue; }
+    if (meshes.length === 1) {
+      const m = meshes[0];
+      m.castShadow = m.receiveShadow = m.userData.kind !== 'glow';
+      out.push(m);
+      continue;
+    }
     inv.copy(parent.matrixWorld).invert();
     const geos: BufferGeometry[] = meshes.map(m => {
       rel.multiplyMatrices(inv, m.matrixWorld);
@@ -50,6 +55,7 @@ export function batchModel(model: ShipModel): { before: number; after: number } 
 
     const first = meshes[0];
     const batch = new Mesh(merged, first.material) as TaggedMesh;
+    batch.castShadow = batch.receiveShadow = first.userData.kind !== 'glow';
     const prefix = first.name.split('_')[0];
     const token = first.userData.room ?? first.userData.deck ?? 'x';
     batch.name = `${prefix}_${token}_batch${serial++}`;

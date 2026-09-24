@@ -6,6 +6,7 @@ import type { LoadedShip } from './loader';
 
 export class Display {
   readonly plane = new Plane(new Vector3(-1, 0, 0), 0);
+  private tmp = new Vector3();
 
   constructor(private ship: LoadedShip, private stage: Stage) {}
 
@@ -44,6 +45,26 @@ export class Display {
       if (emissive.has(u.matKey)) mat.emissiveIntensity = u.baseEmissive * (S.bloom ? 1 : .45) * (S.system ? .3 : 1);
     }
     for (const s of this.ship.model.sprites) s.visible = S.bloom && !S.system;
+  }
+
+  /**
+   * Sprites take no part in clipping and have no size on screen limit, so they are handled
+   * by hand: hidden on the cut-away side of a section plane, and faded out as the camera
+   * closes on them so a marker never fills the frame.
+   */
+  updateSprites(S: ViewerState, camPos: Vector3) {
+    const cut = S.cut !== 'off';
+    for (const s of this.ship.model.sprites) {
+      if (!(S.bloom && !S.system)) { s.visible = false; continue; }
+      s.getWorldPosition(this.tmp);
+      if (cut && this.plane.distanceToPoint(this.tmp) < 0) { s.visible = false; continue; }
+      s.visible = true;
+      const near = s.userData.fadeNear as number | undefined;
+      if (!near) continue;
+      const d = this.tmp.distanceTo(camPos);
+      const base = (s.userData.baseOpacity as number) ?? 1;
+      s.material.opacity = base * Math.min(1, Math.max(0, (d - near) / (near * 2)));
+    }
     this.stage.bloomPass.enabled = S.bloom;
     this.stage.setExposure(S.bloom ? 1.15 : 1.05);
   }

@@ -90,6 +90,8 @@ export async function loadShip(renderer: WebGLRenderer, spec: ShipSpec): Promise
     const size = (room.radius ?? 5.5) * 1.27;
     s.scale.set(size, size, 1);
     s.userData.baseOpacity = .7;
+    // Marker glows are a wayfinding aid seen from outside; up close they would fill the frame.
+    s.userData.fadeNear = size * 2.5;
     node.add(s);
     model.sprites.push(s);
   });

@@ -22,7 +22,12 @@ export function createLighting(scene: Scene, camera: PerspectiveCamera): Lightin
 
   const sun = new DirectionalLight(col('#fff1dc'), 2.1 * L);
   sun.position.set(400, 260, 520);
+  sun.castShadow = true;
+  sun.shadow.mapSize.set(2048, 2048);
+  sun.shadow.bias = -0.0004;
+  sun.shadow.normalBias = 0.6;
   scene.add(sun);
+  scene.add(sun.target);
 
   const fill = new DirectionalLight(col('#7fa6ff'), 0.35 * L);
   fill.position.set(-300, -200, -400);
@@ -40,6 +45,23 @@ export function createLighting(scene: Scene, camera: PerspectiveCamera): Lightin
   camera.add(interiorFill);
 
   return { sun, lamp, interiorFill };
+}
+
+/**
+ * Point the sun at the ship and size its shadow frustum to the hull. A directional shadow
+ * covers a box, so the box has to be the ship rather than the whole scene.
+ */
+export function fitSunShadow(sun: DirectionalLight, radius: number, centre = new Vector3()) {
+  const d = Math.max(radius * 2.2, 20);
+  sun.position.copy(new Vector3(400, 260, 520).normalize().multiplyScalar(d * 1.6)).add(centre);
+  sun.target.position.copy(centre);
+  sun.target.updateMatrixWorld();
+  const cam = sun.shadow.camera;
+  cam.left = -radius * 1.15; cam.right = radius * 1.15;
+  cam.top = radius * 1.15; cam.bottom = -radius * 1.15;
+  cam.near = d * .2; cam.far = d * 3.4;
+  sun.shadow.normalBias = Math.max(.05, radius * .004);
+  cam.updateProjectionMatrix();
 }
 
 /** A dark sky, a blue planet and the sun, baked to a PMREM for hull reflections. */

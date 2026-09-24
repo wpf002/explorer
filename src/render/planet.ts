@@ -28,9 +28,11 @@ void main(){vec3 N=normalize(vN);vec3 V=normalize(cameraPosition-vP);float a=pow
 
 /** `scale` keeps the planet proportional to the ship: 1 is the 300 m reference. */
 export function createPlanet(scene: Scene, sunPos: Vector3, scale = 1): Group {
-  const radius = 900 * scale;
+  // Further away and a little smaller than the 300 m reference, so it stays a backdrop
+  // rather than a wall behind a 1.2 km hull.
+  const radius = 760 * scale;
   const grp = new Group();
-  grp.position.set(980 * scale, -320 * scale, -1500 * scale);
+  grp.position.set(1250 * scale, -420 * scale, -1950 * scale);
   const sunDir = { value: sunPos.clone().normalize() };
   grp.add(new Mesh(new SphereGeometry(radius, 96, 64), new ShaderMaterial({
     uniforms: { sunDir }, vertexShader: VERT, fragmentShader: BODY_FRAG,

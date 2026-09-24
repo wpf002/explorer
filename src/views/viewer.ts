@@ -1,7 +1,7 @@
 import { AdditiveBlending, Object3D, Sprite, SpriteMaterial, Vector3 } from 'three';
 import markup from './viewer.html?raw';
 import { createWorld } from '../render/world';
-import { LAMP_INTENSITY } from '../render/environment';
+import { fitSunShadow, LAMP_INTENSITY } from '../render/environment';
 
 /** Interior fill at the 300 m reference; it scales with the ship so small hulls stay lit. */
 const FILL = 9;
@@ -48,6 +48,11 @@ export async function mountViewer(app: HTMLElement, id: string) {
 
   const S = createState();
   const display = new Display(ship, stage);
+  const bounds = shipStats(ship).bounds;
+  fitSunShadow(stage.sun, Math.max(
+    (bounds.max[0] - bounds.min[0]) / 2,
+    (bounds.max[1] - bounds.min[1]) / 2,
+    (bounds.max[2] - bounds.min[2]) / 2) * 1.1);
   const aspect = innerWidth / innerHeight;
   const homePos = fitAspect(new Vector3(...spec.camera.home), new Vector3(...spec.camera.target), aspect);
   const startPos = fitAspect(new Vector3(...spec.camera.start), new Vector3(...spec.camera.target), aspect);
@@ -241,8 +246,9 @@ export async function mountViewer(app: HTMLElement, id: string) {
       selRing.material.opacity = clamp(.85 - (rig.fly ? .3 : 0), .3, .9);
     } else selRing.material.opacity = 0;
 
-    if (S.labels && !S.uiHidden) labels.update(ship.markers, stage.camera, rig.pos);
+    if (S.labels && !S.uiHidden) labels.update(ship.markers, stage.camera, rig.pos, S.selected);
     systems.update(T, rig.pos);
+    display.updateSprites(S, rig.pos);
     // Measured against the room's own interior pose, since a label marker often sits
     // outside the hull where the label has to be readable.
     const room = S.selected >= 0 ? spec.rooms[S.selected] : null;

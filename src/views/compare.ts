@@ -80,11 +80,15 @@ export async function mountCompare(app: HTMLElement) {
         </div>
         <h3>Specifications</h3>
         <table class="cmp" id="cmpTable"></table>
+        <section id="cmpOnly" hidden>
+          <h3>Rooms Only Here</h3>
+          <div class="onlyrooms" id="cmpOnlyBody"></div>
+        </section>
       </div>
     </aside>
     <button class="toggle" id="tr" title="Toggle comparison" aria-label="Toggle comparison">▶</button>
     <div id="toast"></div>
-    <div id="bottom"><div id="hint"><b>Drag</b> rotate <i>·</i> <b>Right-drag</b> pan <i>·</i> <b>Scroll</b> zoom <i>·</i> <b>Click</b> a room to open it in its ship <i>·</i> <b>H</b> hides UI</div></div>`;
+    <div id="bottom"><div id="hint"><b>Drag</b> Rotate <i>·</i> <b>Right-drag</b> Pan <i>·</i> <b>Scroll</b> Zoom <i>·</i> <b>Click</b> a Room to Open It in Its Ship <i>·</i> <b>H</b> Hides UI</div></div>`;
 
   const go = (a: string, b: string, l = layout) => { location.search = `?a=${a}&b=${b}${l === 'overlay' ? '&layout=overlay' : ''}`; };
   $<HTMLSelectElement>('#pickA').addEventListener('change', e => go((e.target as HTMLSelectElement).value, bId));
@@ -300,13 +304,28 @@ function drawTable(A: ShipSpec, B: ShipSpec, sa: ShipStats, sb: ShipStats) {
     </tr>`;
   }).join('');
   const txt = text.map(([label, a, b]) => `<tr class="${a !== b ? 'diff txt' : 'txt'}"><th>${label}</th><td>${esc(a)}</td><td>${esc(b)}</td></tr>`).join('');
-  // Rooms by name that only one ship has: the useful row for a variant against its base.
+  document.getElementById('cmpTable')!.innerHTML = head + '<tbody>' + num + txt + '</tbody>';
+  drawOnlyRooms(A, B);
+}
+
+/** Rooms one ship has and the other does not, as two linked lists. */
+function drawOnlyRooms(A: ShipSpec, B: ShipSpec) {
   const names = (x: ShipSpec) => new Set(x.rooms.map(r => r.name));
-  const onlyA = [...names(A)].filter(n => !names(B).has(n)), onlyB = [...names(B)].filter(n => !names(A).has(n));
-  const list = (xs: string[]) => xs.length ? xs.map(esc).join('<br>') : '—';
-  const uniq = onlyA.length + onlyB.length && onlyA.length + onlyB.length < A.rooms.length + B.rooms.length
-    ? `<tr class="diff txt uniq"><th>Rooms Only Here</th><td>${list(onlyA)}</td><td>${list(onlyB)}</td></tr>` : '';
-  document.getElementById('cmpTable')!.innerHTML = head + '<tbody>' + num + txt + uniq + '</tbody>';
+  const only = (x: ShipSpec, other: ShipSpec) => x.rooms.filter(r => !names(other).has(r.name));
+  const onlyA = only(A, B), onlyB = only(B, A);
+  const section = document.getElementById('cmpOnly') as HTMLElement;
+  // Nothing worth showing when the ships share nothing at all.
+  if (!onlyA.length && !onlyB.length) { section.hidden = true; return; }
+  if (onlyA.length === A.rooms.length && onlyB.length === B.rooms.length) { section.hidden = true; return; }
+  section.hidden = false;
+  const column = (spec: ShipSpec, rooms: ShipSpec['rooms'], color: string) => `
+    <div class="onlycol">
+      <div class="onlyhead" style="--c:${color}"><span class="d"></span>${esc(spec.name)}<em>${rooms.length}</em></div>
+      ${rooms.length
+        ? `<ul>${rooms.map(r => `<li style="--c:${r.color}"><a href="/ship/${spec.id}#room=${r.code}">${esc(r.name)}<em>${r.code}</em></a></li>`).join('')}</ul>`
+        : '<p class="none">Nothing the other ship lacks</p>'}
+    </div>`;
+  document.getElementById('cmpOnlyBody')!.innerHTML = column(A, onlyA, A_COL) + column(B, onlyB, B_COL);
 }
 
 const span = (s: ShipStats, axis: 1 | 2) => Math.round(s.bounds.max[axis] - s.bounds.min[axis]);

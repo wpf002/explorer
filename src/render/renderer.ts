@@ -1,6 +1,6 @@
 import {
-  NoToneMapping, PerspectiveCamera, Scene, Vector2, WebGLRenderer, WebGLRenderTarget,
-  HalfFloatType,
+  NoToneMapping, PCFSoftShadowMap, PerspectiveCamera, Scene, Vector2, WebGLRenderer,
+  WebGLRenderTarget, HalfFloatType,
 } from 'three';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
@@ -29,6 +29,8 @@ export function createStage(canvas: HTMLCanvasElement, near = 0.5, far = 8000): 
   // only converts to sRGB.
   renderer.toneMapping = NoToneMapping;
   renderer.localClippingEnabled = true;
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = PCFSoftShadowMap;
 
   const scene = new Scene();
   scene.background = col('#03050a');

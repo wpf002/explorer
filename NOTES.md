@@ -158,3 +158,22 @@ marker: markers often sit outside the hull where the label has to be legible.
 Ships carry `close` only for compartments with enough fitted-out geometry to be worth
 entering. KV-9's CIC and bridge, LDR-5's flight deck and cabin, and GEN-1's bridge and
 foundry are described but not entered — the button reads "Fly Closer" there.
+
+## Rendering pass
+
+- **Sun shadows**: `fitSunShadow` aims the directional light at the ship and sizes its
+  frustum to the hull, so a 12 m shuttle and a 1.2 km hull both get a tight 2048 map.
+  Batched meshes cast and receive; glow fixtures do neither.
+- **Glow sprites** are clipped against the section plane by hand (sprites ignore clipping
+  planes) and fade out as the camera closes on them, which is what turned the old markers
+  into speckled blobs up close. The glow texture is 256 px with a gaussian-ish falloff.
+- **Stars** are screen-space points now, not world-space sprites: pinpoints at any ship
+  scale, and no confetti seen through an x-ray hull.
+- **Planet** sits further out and a little smaller relative to the ship, so it reads as a
+  backdrop behind a 1.2 km hull instead of a wall.
+- **Labels declutter**: nearest label keeps its box, anything overlapping it fades out. The
+  selected room always keeps its label.
+- Tour orbits for BCF-4 and GEN-1 were too tight and have been widened.
+
+`reference/golden.png` is the r128 demo frame; with shadows the diff is now ~2.4% and it is
+a historical reference, not a pass/fail gate. `reference/goldens/` is the live check.
