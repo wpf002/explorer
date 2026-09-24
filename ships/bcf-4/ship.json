@@ -529,7 +529,7 @@
       "metalness": 0.55,
       "roughness": 0.5,
       "emissive": "#ff4a1a",
-      "emissiveIntensity": 0.02,
+      "emissiveIntensity": 0.008,
       "doubleSide": true,
       "texture": "plate",
       "normalScale": 0.6

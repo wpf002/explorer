@@ -8,10 +8,15 @@ The viewer is generic three.js; every ship is data in `ships/<id>/`. Adding a sh
 
 | Ship | Class | Length | Notes |
 |---|---|---|---|
-| `asv-07` | Dome-class exploration cruiser | 300 m | Spin ring, 12 rooms, the original demo |
+| `gen-1` | Meridian-class generation ship | 1,200 m | Two counter-rotating rings, two farm drums, an ice shield |
+| `bcf-4` | Longhaul-class freighter | 420 m | 768 container slots, three decks, no ring |
+| `asv-07` | Dome-class exploration cruiser | 300 m | Spin ring, twelve rooms, the original demo |
 | `asv-07r` | Dome-class survey refit | 300 m | A variant: `ship.json` with `extends`, no model of its own |
-| `bcf-4` | Longhaul-class freighter | 420 m | 768 container slots, 3 decks, no ring |
-| `tw-2` | Trade-Wind-class shuttle | 12.5 m | Linked from the ASV-07 hangar and the BCF-4 docking collar |
+| `kv-9` | Lance-class patrol frigate | 95 m | 46 m spinal railgun, eight launch cells |
+| `srv-4` | Kite-class survey probe | 68 m | Uncrewed: 1,900 m² sail, 22 m magnetometer boom |
+| `tug-11` | Bollard-class orbital tug | 58 m | Four grapple arms, tow winch, glasshouse cab |
+| `ldr-5` | Anvil-class surface lander | 20 m | Four legs, four throttling engines, ventral ramp |
+| `tw-2` | Trade-Wind-class shuttle | 12.5 m | Linked from the ASV-07 hangar and the BCF-4 collar |
 | `test-brick` | fixture | 30 m | Hand-written glTF that proves the loader is generic; hidden from the index |
 
 ## What the viewer does
@@ -37,7 +42,7 @@ npm run shots        # every ship × solid / x-ray / section vs reference/golden
 npm run hero         # ships/<id>/hero.webp for the index
 ```
 
-Budgets per ship: 150k triangles, 300 draw calls, model length within 15% of `length_m`, glTF under 8 MB. Tagged meshes are merged at load, which takes the ASV-07 from 674 draw calls to 112.
+Budgets per ship: 150k triangles, 300 draw calls, model length within 15% of `length_m`, glTF under 8 MB. Tagged meshes are merged at load, which takes the ASV-07 from 674 draw calls to 112 and the BCF-4 from 1,270 to 109.
 
 ## Adding a ship
 

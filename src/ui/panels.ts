@@ -1,4 +1,4 @@
-import type { ShipSpec } from '../schema';
+import { spinners, type ShipSpec } from '../schema';
 import type { Cut, Mode, ViewerState } from '../state';
 import { $ } from '../util';
 
@@ -46,8 +46,8 @@ export class Panels {
     $('#loadingText').textContent = `Loading ${this.spec.name}`;
     document.title = `${this.spec.name} ${this.spec.class}`;
 
-    const spin = this.spec.spinning;
-    if (spin) $('#optSpinNodeLabel').textContent = spin.label ?? 'Spin';
+    const spin = spinners(this.spec);
+    if (spin.length) $('#optSpinNodeLabel').textContent = spin[0].label ?? 'Spin';
     else $('#optSpinNodeWrap').style.display = 'none';
 
     if (!this.spec.modules.length) $('#explodeSection').style.display = 'none';

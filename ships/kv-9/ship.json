@@ -1,0 +1,790 @@
+{
+  "id": "kv-9",
+  "name": "KV-9",
+  "class": "Lance-class",
+  "role": "Patrol Frigate",
+  "length_m": 95,
+  "crew": 24,
+  "summary": "A 95 m patrol frigate built around a 46 m spinal railgun. Faceted armour, eight launch cells, two drives and a crew of twenty-four who share six bunks in two watches.",
+  "decks": [
+    {
+      "code": "Cmd",
+      "name": "Command Deck",
+      "short": "Cmd"
+    },
+    {
+      "code": "Ops",
+      "name": "Operations Deck",
+      "short": "Ops"
+    },
+    {
+      "code": "Eng",
+      "name": "Engineering",
+      "short": "Eng"
+    }
+  ],
+  "modules": [
+    {
+      "id": "bow",
+      "explode": [1, 0.1, 0]
+    },
+    {
+      "id": "command",
+      "explode": [0.45, 0.6, 0]
+    },
+    {
+      "id": "midships",
+      "explode": [0, 0, 0]
+    },
+    {
+      "id": "engineering",
+      "explode": [-1.1, 0, 0]
+    }
+  ],
+  "rooms": [
+    {
+      "code": "BRG-02",
+      "name": "Bridge",
+      "deck": "Cmd",
+      "color": "#8fe8f5",
+      "view": [0.5, 0.7, 1],
+      "dist": 24,
+      "radius": 2.6,
+      "close": {
+        "pos": [-1.2, 5.6, 2.6],
+        "look": [8.5, 5.2, -0.4]
+      },
+      "description": "Three seats abreast behind a 1.1 m armoured slit: helm, weapons, sensors. The slit is the only direct view on the ship and closes behind a shutter at action stations, after which the crew fly on repeaters from the compartment below. Everything here is duplicated in the CIC, so a hit on the bridge costs the ship its windows and nothing else.",
+      "stats": [
+        ["Seats", "3"],
+        ["Slit", "1.1 × 8 m"],
+        ["Shutter", "0.9 s"],
+        ["Duplicated In", "CIC-01"]
+      ],
+      "links": [
+        {
+          "label": "Repeats to",
+          "room": "CIC-01"
+        }
+      ],
+      "hotspots": [
+        {
+          "pos": [5, 5.6, 0],
+          "title": "Helm Seat",
+          "text": "Centre of three. Gimbal-mounted and rated to 9 g on the burn axis."
+        },
+        {
+          "pos": [8.4, 7, 0],
+          "title": "Armoured Slit",
+          "text": "110 mm of transparent laminate in a shuttered recess."
+        },
+        {
+          "pos": [6.6, 5.2, 2.6],
+          "title": "Console Rail",
+          "text": "A single rail carries all three stations' displays; any seat can take any role."
+        }
+      ]
+    },
+    {
+      "code": "CIC-01",
+      "name": "Combat Information Centre",
+      "deck": "Cmd",
+      "color": "#8fe8f5",
+      "view": [0.2, -0.4, 1],
+      "dist": 26,
+      "radius": 2.8,
+      "close": {
+        "pos": [4.2, 1.6, 3.4],
+        "look": [-2.5, 1, -0.6]
+      },
+      "description": "Four consoles around a plot table on the ship's centre of armour, one deck below the bridge. The room fuses radar, lidar and passive tracks into a single picture and hands firing solutions to the railgun and the cells. It runs on its own power ring and holds six hours of air, so the ship fights from here after the bridge is shuttered.",
+      "stats": [
+        ["Consoles", "4"],
+        ["Plot Table", "3 m"],
+        ["Tracks", "512 simultaneous"],
+        ["Standalone Air", "6 h"]
+      ],
+      "links": [
+        {
+          "label": "Fires",
+          "room": "GUN-01"
+        },
+        {
+          "label": "Fires",
+          "room": "VLS-02"
+        }
+      ],
+      "hotspots": [
+        {
+          "pos": [-1, 1.5, 0],
+          "title": "Plot Table",
+          "text": "The fused picture: every track inside 40,000 km with its firing solution."
+        },
+        {
+          "pos": [1.1, 1.9, 2.1],
+          "title": "Weapons Console",
+          "text": "Assigns targets to the railgun and the eight cells. Two keys to release."
+        }
+      ]
+    },
+    {
+      "code": "GUN-01",
+      "name": "Railgun Battery",
+      "deck": "Ops",
+      "color": "#ffb070",
+      "view": [0.6, 0.5, 1],
+      "dist": 34,
+      "radius": 3,
+      "description": "A 46 m electromagnetic spine that runs from the breech at frame 2 to the muzzle brake. Six accelerator rings take a 4 kg slug to 7 km/s; the charge comes from a capacitor bank that takes ninety seconds to refill from the reactor. The barrel is the ship's structural keel, so the whole hull is built to take the recoil.",
+      "stats": [
+        ["Barrel", "46 m"],
+        ["Muzzle Velocity", "7 km/s"],
+        ["Slug", "4 kg"],
+        ["Cycle", "90 s"]
+      ],
+      "links": [
+        {
+          "label": "Fed by",
+          "room": "MAG-01"
+        }
+      ],
+      "hotspots": [
+        {
+          "pos": [32, 1.9, 0],
+          "title": "Accelerator Ring",
+          "text": "One of six. Each adds 1.2 km/s and dumps its heat into the forward loop."
+        },
+        {
+          "pos": [46, 2.4, 0],
+          "title": "Muzzle Brake",
+          "text": "Vents the driving field so the plasma flash does not blind the bow sensors."
+        }
+      ]
+    },
+    {
+      "code": "MAG-01",
+      "name": "Magazine",
+      "deck": "Ops",
+      "color": "#f0b64a",
+      "view": [-0.3, -0.6, 1],
+      "dist": 26,
+      "radius": 2.6,
+      "description": "Eight racks of slugs around the breech, behind a blow-out panel that vents outboard if a rack cooks off. Capacity is 240 rounds, which is four hours of sustained fire or a single long engagement. Loading is automatic; the compartment is unmanned while the gun is charged and the hatch interlocks with the capacitor bank.",
+      "stats": [
+        ["Rounds", "240"],
+        ["Racks", "8"],
+        ["Blow-out Panel", "Outboard"],
+        ["Manning", "Unmanned when charged"]
+      ],
+      "links": [
+        {
+          "label": "Feeds",
+          "room": "GUN-01"
+        }
+      ]
+    },
+    {
+      "code": "VLS-02",
+      "name": "Missile Cells",
+      "deck": "Ops",
+      "color": "#ff5c7a",
+      "view": [0.1, 1, 0.5],
+      "dist": 26,
+      "radius": 2.8,
+      "description": "Eight vertical cells in two rows on the dorsal plate, each holding one interceptor or one ship-killer. Cells fire cold: a gas charge throws the round clear before the motor lights, so a failed motor falls away instead of burning in the tube. Reloading needs a tender alongside and takes twenty minutes a cell.",
+      "stats": [
+        ["Cells", "8"],
+        ["Launch", "Cold, gas ejection"],
+        ["Reload", "20 min per cell"],
+        ["Mixed Load", "Yes"]
+      ],
+      "hotspots": [
+        {
+          "pos": [-2, 7.2, 1.6],
+          "title": "Cell Hatch",
+          "text": "Blows clear on the gas charge; the tube reseals behind the round."
+        }
+      ]
+    },
+    {
+      "code": "CRW-01",
+      "name": "Crew Berths",
+      "deck": "Ops",
+      "color": "#8fe8f5",
+      "view": [0.1, -0.3, 1],
+      "dist": 24,
+      "radius": 2.6,
+      "close": {
+        "pos": [-1.5, -0.4, 3.2],
+        "look": [-14, -0.8, 1]
+      },
+      "description": "Six bunks in two tiers for a crew of twenty-four, which works because the ship keeps four watches and nobody is off duty at the same time. Personal stowage is one 0.4 m³ drawer each. The compartment sits inside the belt armour with the mess table folded against the forward bulkhead, and doubles as the damage-control muster point.",
+      "stats": [
+        ["Bunks", "6"],
+        ["Watches", "4"],
+        ["Stowage", "0.4 m³ each"],
+        ["Muster Point", "Damage control"]
+      ],
+      "hotspots": [
+        {
+          "pos": [-5.5, 0.9, 3.2],
+          "title": "Bunk Tier",
+          "text": "Hot-bunked across four watches. Curtains, no doors."
+        },
+        {
+          "pos": [-9, 2, 0],
+          "title": "Light Strip",
+          "text": "Shifts to red twenty minutes before a watch change."
+        }
+      ]
+    },
+    {
+      "code": "MED-01",
+      "name": "Sick Bay",
+      "deck": "Ops",
+      "color": "#8fe8f5",
+      "view": [-0.2, -0.5, -1],
+      "dist": 22,
+      "radius": 2.2,
+      "description": "One pod, one locker wall and a folding table. It treats one casualty properly and three badly, which matches what a frigate can expect before it breaks contact. The medic is the second engineer. Anything past stabilisation goes to a tender or to the nearest cruiser with a proper bay.",
+      "stats": [
+        ["Pods", "1"],
+        ["Casualties", "1 treated · 3 held"],
+        ["Medic", "Second engineer"],
+        ["Evacuation", "Tender or cruiser"]
+      ]
+    },
+    {
+      "code": "AIR-01",
+      "name": "Airlock & EVA Bay",
+      "deck": "Ops",
+      "color": "#8fe8f5",
+      "view": [0.2, 0.3, 1],
+      "dist": 22,
+      "radius": 2.4,
+      "close": {
+        "pos": [-14, 0.4, 5.2],
+        "look": [-14, 0.2, 9.6]
+      },
+      "description": "A 2.2 m lock on the port quarter with two suits racked either side of the inner door. It cycles in forty seconds and is the only way out of the ship under way. Hull repair kit and the magnetic crawler stow overhead; the bay is also where boarding parties stage, four at a time.",
+      "stats": [
+        ["Cycle", "40 s"],
+        ["Suits", "2 racked · 6 stowed"],
+        ["Party", "4 at a time"],
+        ["Crawler", "1 magnetic"]
+      ],
+      "hotspots": [
+        {
+          "pos": [-14, 0, 9],
+          "title": "Outer Door",
+          "text": "Field membrane behind a mechanical hatch; the hatch is what holds pressure."
+        },
+        {
+          "pos": [-14, 1.1, 7.4],
+          "title": "Suit Rack",
+          "text": "Two suits at immediate readiness, pre-breathed at 70 kPa."
+        }
+      ]
+    },
+    {
+      "code": "ENG-01",
+      "name": "Reactor & Drives",
+      "deck": "Eng",
+      "color": "#ffb070",
+      "view": [-0.5, 0.5, 1],
+      "dist": 30,
+      "radius": 3,
+      "description": "A 260 MW fission core and two magnetoplasma drives in one unpressurised block. The core feeds the drives, the capacitor bank and the ship, in that order, and sheds its heat through the two canted wings. Peak acceleration is 0.6 g, which is enough to run down a freighter and not enough to escape a cruiser.",
+      "stats": [
+        ["Output", "260 MW"],
+        ["Drives", "2 + 2 vernier"],
+        ["Acceleration", "0.6 g"],
+        ["Pressurised", "No"]
+      ],
+      "links": [
+        {
+          "label": "Heat to",
+          "room": "RAD-02"
+        },
+        {
+          "label": "Charges",
+          "room": "GUN-01"
+        }
+      ],
+      "hotspots": [
+        {
+          "pos": [-26, 2.6, 0],
+          "title": "Core",
+          "text": "Fission, not fusion: cheap, compact and hot for its output."
+        }
+      ]
+    },
+    {
+      "code": "RAD-02",
+      "name": "Radiator Wings",
+      "deck": "Eng",
+      "color": "#ff5c7a",
+      "view": [-0.2, 0.8, 0.8],
+      "dist": 30,
+      "radius": 3,
+      "description": "Two 15 m panels canted off the hull at 49°, which keeps them out of the railgun's arc and presents the thinnest edge to anything ahead. They reject 190 MW. Running silent means folding them flat and living on the heat sink, which buys eleven minutes at full power before the ship has to radiate or shut down.",
+      "stats": [
+        ["Panels", "2 × 15 m"],
+        ["Rejection", "190 MW"],
+        ["Cant", "49°"],
+        ["Silent Running", "11 min"]
+      ],
+      "links": [
+        {
+          "label": "Cools",
+          "room": "ENG-01"
+        }
+      ]
+    }
+  ],
+  "systems": [
+    {
+      "id": "power",
+      "name": "Power",
+      "color": "#ffb070",
+      "description": "Reactor forward on a single armoured bus: capacitor bank first, then the cells, then the hull.",
+      "paths": [
+        [
+          "ENG-01",
+          [-20, 0, 0],
+          [-7, 0, 0],
+          [2, 0, 0],
+          "MAG-01"
+        ],
+        [
+          "MAG-01",
+          [8, 0, 0],
+          [20, 0, 0],
+          "GUN-01"
+        ],
+        [
+          [-7, 0, 0],
+          "VLS-02"
+        ],
+        [
+          [-9, 0, 0],
+          "CRW-01"
+        ],
+        [
+          [-16, 0, 0],
+          "MED-01"
+        ],
+        [
+          [-14, 0, 4],
+          "AIR-01"
+        ],
+        [
+          [2, 0, 0],
+          [2, 3, 0],
+          "CIC-01"
+        ],
+        [
+          [2, 3, 0],
+          "BRG-02"
+        ]
+      ]
+    },
+    {
+      "id": "coolant",
+      "name": "Coolant",
+      "color": "#ff5c7a",
+      "description": "Two loops: the gun's own forward loop, and the reactor loop out to the wings.",
+      "paths": [
+        [
+          "ENG-01",
+          [-28, 2, 4],
+          "RAD-02"
+        ],
+        [
+          [-28, 2, -4],
+          [-28, -3.4, -8.6]
+        ],
+        [
+          "GUN-01",
+          [20, 2, 0],
+          [0, 2, 0],
+          [-20, 1, 0],
+          "ENG-01"
+        ]
+      ]
+    },
+    {
+      "id": "atmos",
+      "name": "Atmos",
+      "color": "#8fe8f5",
+      "description": "Only four compartments hold pressure: bridge, CIC, berths and the lock. Everything aft of frame 12 is vacuum.",
+      "paths": [
+        [
+          "CRW-01",
+          [-9, 0, 0],
+          [-1, 0, 0],
+          "CIC-01"
+        ],
+        [
+          [-1, 0, 0],
+          [2, 4, 0],
+          "BRG-02"
+        ],
+        [
+          [-9, 0, 0],
+          "MED-01"
+        ],
+        [
+          [-9, 0, 0],
+          [-14, 0, 5],
+          "AIR-01"
+        ]
+      ]
+    },
+    {
+      "id": "data",
+      "name": "Data",
+      "color": "#c9b8ff",
+      "description": "Sensors to the CIC, CIC to the weapons. The bridge is a repeater, not a node.",
+      "paths": [
+        [
+          "CIC-01",
+          [2, 1, 0],
+          [14, 1, 0],
+          "GUN-01"
+        ],
+        [
+          "CIC-01",
+          [-7, 1, 0],
+          "VLS-02"
+        ],
+        [
+          "CIC-01",
+          [2, 4, 0],
+          "BRG-02"
+        ],
+        [
+          "CIC-01",
+          [-20, 0, 0],
+          "ENG-01"
+        ],
+        [
+          [-20, 0, 0],
+          "RAD-02"
+        ],
+        [
+          "CIC-01",
+          [-14, 0, 5],
+          "AIR-01"
+        ],
+        [
+          "CIC-01",
+          [1, -3, 0],
+          "MAG-01"
+        ]
+      ]
+    }
+  ],
+  "textures": {
+    "hull": {
+      "type": "plating",
+      "seed": 53,
+      "tint": "#8f9691",
+      "width": 512,
+      "height": 256,
+      "repeat": [2, 1.2]
+    },
+    "plate": {
+      "type": "plating",
+      "seed": 59,
+      "tint": "#6d7470",
+      "width": 512,
+      "height": 256,
+      "repeat": [2, 1.2]
+    },
+    "dark": {
+      "type": "plating",
+      "seed": 61,
+      "tint": "#3b433f",
+      "width": 256,
+      "height": 128,
+      "repeat": [1.5, 1]
+    }
+  },
+  "materials": {
+    "hull": {
+      "color": "#c3cbc6",
+      "metalness": 0.4,
+      "roughness": 0.52,
+      "doubleSide": true,
+      "envMapIntensity": 0.85,
+      "normalScale": 0.6,
+      "texture": "hull"
+    },
+    "armor": {
+      "color": "#9aa39d",
+      "metalness": 0.45,
+      "roughness": 0.6,
+      "doubleSide": true,
+      "envMapIntensity": 0.7,
+      "normalScale": 0.7,
+      "texture": "plate"
+    },
+    "plate": {
+      "color": "#b3bcb7",
+      "metalness": 0.42,
+      "roughness": 0.55,
+      "doubleSide": true,
+      "envMapIntensity": 0.8,
+      "normalScale": 0.6,
+      "texture": "plate"
+    },
+    "dark": {
+      "color": "#8b938f",
+      "metalness": 0.5,
+      "roughness": 0.5,
+      "doubleSide": true,
+      "envMapIntensity": 0.75,
+      "normalScale": 0.5,
+      "texture": "dark"
+    },
+    "bare": {
+      "color": "#47504c",
+      "metalness": 0.78,
+      "roughness": 0.42,
+      "doubleSide": true
+    },
+    "glass": {
+      "color": "#8fd8ee",
+      "metalness": 0.1,
+      "roughness": 0.08,
+      "emissive": "#1f6f86",
+      "emissiveIntensity": 0.35,
+      "transparent": true,
+      "opacity": 0.4,
+      "doubleSide": true
+    },
+    "strip": {
+      "color": "#111111",
+      "emissive": "#bff6ff",
+      "emissiveIntensity": 2.2,
+      "roughness": 1
+    },
+    "warm": {
+      "color": "#111111",
+      "emissive": "#ffd9a0",
+      "emissiveIntensity": 1.8,
+      "roughness": 1
+    },
+    "amber": {
+      "color": "#111111",
+      "emissive": "#f0b64a",
+      "emissiveIntensity": 1.4,
+      "roughness": 1
+    },
+    "core": {
+      "color": "#111111",
+      "emissive": "#d8f4ff",
+      "emissiveIntensity": 2.6,
+      "roughness": 1
+    },
+    "drive": {
+      "color": "#111111",
+      "emissive": "#ff9a3c",
+      "emissiveIntensity": 2.4,
+      "roughness": 1,
+      "doubleSide": true
+    },
+    "screen": {
+      "color": "#111111",
+      "emissive": "#5fd4ff",
+      "emissiveIntensity": 1.6,
+      "roughness": 1
+    },
+    "interior": {
+      "color": "#c2ccc7",
+      "metalness": 0.3,
+      "roughness": 0.6,
+      "emissive": "#2a3a48",
+      "emissiveIntensity": 0.5
+    },
+    "field": {
+      "color": "#7fe0f0",
+      "metalness": 0,
+      "roughness": 0.2,
+      "emissive": "#2fb8d0",
+      "emissiveIntensity": 0.7,
+      "transparent": true,
+      "opacity": 0.28,
+      "doubleSide": true
+    },
+    "rad": {
+      "color": "#6a7076",
+      "metalness": 0.55,
+      "roughness": 0.5,
+      "emissive": "#ff4a1a",
+      "emissiveIntensity": 0.008,
+      "doubleSide": true,
+      "texture": "plate",
+      "normalScale": 0.5
+    }
+  },
+  "plan": {
+    "viewBox": [-60, -22.3, 120, 44.6],
+    "bounds": {
+      "x": [-56, 56],
+      "y": [-20, 20]
+    },
+    "labels": {
+      "fwd": [55, 20],
+      "aft": [-56, 20]
+    },
+    "shapes": [
+      {
+        "kind": "axis",
+        "x1": -56,
+        "y1": 0,
+        "x2": 56,
+        "y2": 0
+      },
+      {
+        "kind": "polygon",
+        "points": "1,-7.2 27,-7.2 35,-4.6 35,4.6 27,7.2 1,7.2"
+      },
+      {
+        "kind": "rect",
+        "x": -20,
+        "y": -7.2,
+        "w": 21,
+        "h": 14.4
+      },
+      {
+        "kind": "polygon",
+        "points": "-32,-6.6 -20,-6.6 -20,6.6 -32,5.4"
+      },
+      {
+        "kind": "rect",
+        "x": -4.5,
+        "y": 4.3,
+        "w": 13,
+        "h": 4.6
+      },
+      {
+        "kind": "rect",
+        "x": -1,
+        "y": -1.6,
+        "w": 47,
+        "h": 3.2,
+        "ghost": true
+      },
+      {
+        "kind": "rect",
+        "x": -12.5,
+        "y": 5.8,
+        "w": 12,
+        "h": 1.4
+      },
+      {
+        "kind": "polygon",
+        "points": "-35.5,3.4 -20.5,3.4 -20.5,11.6 -35.5,11.6",
+        "ghost": true
+      },
+      {
+        "kind": "rect",
+        "x": -39.5,
+        "y": -5.8,
+        "w": 7,
+        "h": 11.6
+      },
+      {
+        "kind": "polygon",
+        "points": "-39.5,-5.4 -45.5,-8.4 -45.5,8.4 -39.5,5.4"
+      }
+    ]
+  },
+  "tour": {
+    "duration": 66,
+    "path": [
+      [-95, 26, 76],
+      [-34, 44, 40],
+      [22, 16, 62],
+      [72, -10, 30],
+      [78, 24, -22],
+      [26, 40, -56],
+      [-52, -14, -60],
+      [-98, -18, 14]
+    ],
+    "look": [
+      [0, 0, 0],
+      [-26, 0, 0],
+      [0, 2, 0],
+      [30, 1, 0],
+      [20, 2, 0],
+      [2, 6, 0],
+      [-14, 0, 4],
+      [-36, 0, 0]
+    ],
+    "segments": [
+      {
+        "name": "Full-Ship Overview",
+        "caption": "Ninety-five metres of armour wrapped around one gun. Twenty-four crew, four watches, no spin gravity."
+      },
+      {
+        "name": "Engineering",
+        "room": "ENG-01",
+        "caption": "A 260 MW fission core and two drives in an unpressurised block, with the wings canted clear of the gun's arc."
+      },
+      {
+        "name": "Midships",
+        "room": "CRW-01",
+        "caption": "Six bunks, one sick bay and a lock. Everything the crew touches sits inside the belt armour."
+      },
+      {
+        "name": "Railgun",
+        "room": "GUN-01",
+        "caption": "Six accelerator rings take a four-kilogram slug to seven kilometres a second. The barrel is the keel."
+      },
+      {
+        "name": "Bow",
+        "room": "MAG-01",
+        "caption": "Two hundred and forty rounds behind a blow-out panel, loaded automatically and never manned when charged."
+      },
+      {
+        "name": "Bridge",
+        "room": "BRG-02",
+        "caption": "Three seats and an armoured slit, duplicated one deck down in case the shutter has to close."
+      },
+      {
+        "name": "EVA Bay",
+        "room": "AIR-01",
+        "caption": "The only way out under way: a forty-second cycle and two suits at readiness."
+      },
+      {
+        "name": "Drives",
+        "room": "RAD-02",
+        "caption": "Fold the wings and the ship runs silent for eleven minutes, then radiates or shuts down."
+      }
+    ]
+  },
+  "cut": {
+    "cross": 50,
+    "hlay": 12,
+    "long": 14
+  },
+  "camera": {
+    "home": [-38, 26, 74],
+    "target": [-2, 0, 0],
+    "start": [-72, 46, 132],
+    "near": 0.1,
+    "far": 4000,
+    "range": [3, 700],
+    "hero": {
+      "pos": [-26, 17, 66],
+      "target": [2, 1, 0]
+    }
+  },
+  "model": {
+    "type": "procedural",
+    "entry": "build.js"
+  }
+}

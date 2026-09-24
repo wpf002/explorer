@@ -1,0 +1,1036 @@
+{
+  "id": "gen-1",
+  "name": "GEN-1",
+  "class": "Meridian-class",
+  "role": "Generation Ship",
+  "length_m": 1200,
+  "crew": 12400,
+  "summary": "Twelve hundred metres and twelve thousand people on a voyage nobody aboard will finish. Two counter-rotating rings, two farm drums, a foundry, an ice shield and six fusion nozzles.",
+  "decks": [
+    {
+      "code": "Fwd",
+      "name": "Forward Section",
+      "short": "Fwd"
+    },
+    {
+      "code": "Ring",
+      "name": "Habitat Rings",
+      "short": "Ring"
+    },
+    {
+      "code": "Spine",
+      "name": "Spine & Works",
+      "short": "Spine"
+    },
+    {
+      "code": "Eng",
+      "name": "Engineering",
+      "short": "Eng"
+    }
+  ],
+  "modules": [
+    {
+      "id": "bow",
+      "explode": [1, 0.2, 0]
+    },
+    {
+      "id": "spine",
+      "explode": [0, 0, 0]
+    },
+    {
+      "id": "rings",
+      "explode": [0, -0.5, 0]
+    },
+    {
+      "id": "engineering",
+      "explode": [-1.2, 0, 0]
+    }
+  ],
+  "spinning": [
+    {
+      "module": "ring1",
+      "axis": "x",
+      "rpm": 2.7,
+      "label": "Ring Rotation"
+    },
+    {
+      "module": "ring2",
+      "axis": "x",
+      "rpm": -2.7
+    },
+    {
+      "module": "farm1",
+      "axis": "x",
+      "rpm": 3.4
+    },
+    {
+      "module": "farm2",
+      "axis": "x",
+      "rpm": -3.4
+    }
+  ],
+  "rooms": [
+    {
+      "code": "SHD-01",
+      "name": "Ice Shield",
+      "deck": "Fwd",
+      "color": "#8fe8f5",
+      "view": [1, 0.4, 0.6],
+      "dist": 300,
+      "radius": 22,
+      "description": "A 124 m disc of dirty water ice, fourteen metres thick, carried ahead of everything else. At cruise the ship meets interstellar dust at a fifth of light speed, and the shield is simply mass in the way: it ablates about nine metres a century and is topped up from cometary material at every waypoint. Behind it the hull is cold and quiet.",
+      "stats": [
+        ["Diameter", "124 m"],
+        ["Thickness", "14 m"],
+        ["Ablation", "9 m per century"],
+        ["Replenished", "At waypoints"]
+      ],
+      "links": [
+        {
+          "label": "Tops up from",
+          "room": "IND-01"
+        }
+      ]
+    },
+    {
+      "code": "CMD-02",
+      "name": "Bridge",
+      "deck": "Fwd",
+      "color": "#8fe8f5",
+      "view": [0.7, -0.5, 0.8],
+      "dist": 140,
+      "radius": 14,
+      "close": {
+        "pos": [492, -28.2, 9],
+        "look": [518, -27, -1]
+      },
+      "description": "Six stations in a blister under the shield, with the only forward-facing window on the ship. It is manned at one station for most of the voyage; the other five are for waypoint approaches and for the century-long deceleration. The ship's course is a document, not a decision, and the watch exists to notice the year something goes wrong with it.",
+      "stats": [
+        ["Stations", "6"],
+        ["Routine Watch", "1"],
+        ["Window", "20 m"],
+        ["Course Authority", "Standing plan"]
+      ],
+      "hotspots": [
+        {
+          "pos": [502, -28.6, 0],
+          "title": "Plot Table",
+          "text": "The whole voyage on one plot: 1,180 years elapsed at this frame."
+        },
+        {
+          "pos": [512, -28, -4.5],
+          "title": "Watch Station",
+          "text": "One of six. Only this one is normally manned."
+        },
+        {
+          "pos": [517, -26, 0],
+          "title": "Forward Window",
+          "text": "The only window that looks where the ship is going."
+        }
+      ]
+    },
+    {
+      "code": "DCK-03",
+      "name": "Shuttle Bays",
+      "deck": "Fwd",
+      "color": "#f0b64a",
+      "view": [0.5, 0.3, 1],
+      "dist": 170,
+      "radius": 16,
+      "description": "Two bays either side of the forward spine, each holding four small craft behind a field curtain. They are used at waypoints to mine ice and ore, and for the survey work that pays for the stop. Between waypoints the craft sit powered down for decades, and their crews are people who have never flown anything else.",
+      "stats": [
+        ["Bays", "2"],
+        ["Craft", "8"],
+        ["Curtain", "42 × 12 m"],
+        ["Duty Cycle", "Waypoints only"]
+      ],
+      "links": [
+        {
+          "label": "Craft type",
+          "ship": "tw-2"
+        },
+        {
+          "label": "Lander",
+          "ship": "ldr-5"
+        }
+      ],
+      "hotspots": [
+        {
+          "pos": [500, 0, 30],
+          "title": "Bay Floor",
+          "text": "Marked lanes to the curtain; the deck has not been repainted since departure."
+        }
+      ]
+    },
+    {
+      "code": "RGA-01",
+      "name": "Ring A · Townships",
+      "deck": "Ring",
+      "color": "#8fe8f5",
+      "view": "radial",
+      "dist": 300,
+      "radius": 20,
+      "description": "Forty-eight townships around a 236 m ring turning at 2.7 rpm for 0.95 g. Each township is about 130 people: dwellings on the outer wall, workshops and schools on the inner. Ring A holds the older half of the population and the ship's two oldest institutions, the assembly and the court, both of which predate the voyage by a decade.",
+      "stats": [
+        ["Diameter", "236 m"],
+        ["Spin", "2.7 rpm"],
+        ["Rim Gravity", "0.95 g"],
+        ["Population", "6,200"]
+      ],
+      "links": [
+        {
+          "label": "Counter-rotates against",
+          "room": "RGB-01"
+        }
+      ]
+    },
+    {
+      "code": "RGA-05",
+      "name": "Ring A · Commons",
+      "deck": "Ring",
+      "color": "#ff5c7a",
+      "view": "radial",
+      "dist": 260,
+      "radius": 18,
+      "description": "Six townships' worth of ring given over to parkland under a glazed roof, the only place aboard where the horizon curves up instead of ending at a bulkhead. Trees are on their fourth generation and are pruned to a nine-metre limit. The commons is also where the ship holds its assembly, which is the closest thing the voyage has to weather.",
+      "stats": [
+        ["Length", "31 m of rim"],
+        ["Canopy", "Glazed, 9 m"],
+        ["Trees", "4th generation"],
+        ["Doubles As", "Assembly floor"]
+      ]
+    },
+    {
+      "code": "RGB-01",
+      "name": "Ring B · Townships",
+      "deck": "Ring",
+      "color": "#8fe8f5",
+      "view": "radial",
+      "dist": 300,
+      "radius": 20,
+      "description": "The second ring, turning the other way so the ship as a whole holds no net spin. Ring B was fitted out eighty years after departure and is built to a later standard: wider passages, bigger windows and a plumbing layout that the people in Ring A still complain about. It holds the younger half of the population.",
+      "stats": [
+        ["Diameter", "236 m"],
+        ["Spin", "2.7 rpm, reversed"],
+        ["Population", "6,200"],
+        ["Fitted Out", "Year 80"]
+      ],
+      "links": [
+        {
+          "label": "Counter-rotates against",
+          "room": "RGA-01"
+        }
+      ]
+    },
+    {
+      "code": "FRM-01",
+      "name": "Farm Drum One",
+      "deck": "Spine",
+      "color": "#ff5c7a",
+      "view": [0.3, 0.7, 1],
+      "dist": 180,
+      "radius": 16,
+      "close": {
+        "pos": [0, 12, 20],
+        "look": [0, 26, 8]
+      },
+      "description": "A 92 m drum turning at 3.4 rpm for 0.4 g at the wall, stacked with terraces under tuned lamps. It grows the grain and the oil crops: about two thirds of the ship's calories, with the rest from the second drum and the ring gardens. A drum can be sealed and sterilised in eleven hours, which has been necessary twice.",
+      "stats": [
+        ["Length", "92 m"],
+        ["Wall Gravity", "0.4 g"],
+        ["Calorie Share", "44%"],
+        ["Sterilisation", "11 h"]
+      ],
+      "links": [
+        {
+          "label": "Paired with",
+          "room": "FRM-02"
+        }
+      ],
+      "hotspots": [
+        {
+          "pos": [0, 26, 0],
+          "title": "Terrace",
+          "text": "Three tiers per segment, harvested on a rolling 40-day cycle."
+        },
+        {
+          "pos": [0, 21.5, 0],
+          "title": "Lamp Bank",
+          "text": "Tuned to the crop, not to daylight. The drums never go dark together."
+        }
+      ]
+    },
+    {
+      "code": "FRM-02",
+      "name": "Farm Drum Two",
+      "deck": "Spine",
+      "color": "#ff5c7a",
+      "view": [-0.3, 0.7, 1],
+      "dist": 180,
+      "radius": 16,
+      "description": "The second drum, counter-rotating, given to vegetables, protein culture and the fish tanks that sit along its axis where the gravity is lowest. It is deliberately not identical to the first: different lamp spectra, different water loop, different failure modes. No blight that takes one drum has yet been able to take both.",
+      "stats": [
+        ["Length", "92 m"],
+        ["Fish Tanks", "Axial, 0.1 g"],
+        ["Calorie Share", "38%"],
+        ["Design", "Deliberately unlike FRM-01"]
+      ],
+      "links": [
+        {
+          "label": "Paired with",
+          "room": "FRM-01"
+        }
+      ]
+    },
+    {
+      "code": "IND-01",
+      "name": "Foundry & Shops",
+      "deck": "Spine",
+      "color": "#ffb070",
+      "view": [0.2, 0.6, 1],
+      "dist": 150,
+      "radius": 15,
+      "close": {
+        "pos": [26, -10, 12],
+        "look": [-10, -9, -2]
+      },
+      "description": "The ship's ability to make things rather than carry them: an induction foundry, five machine halls and a printer floor, all in a 70 m box amidships. Everything from ring plating to teeth comes out of here. The furnace has been cold twice in eleven hundred years, and both occasions have names.",
+      "stats": [
+        ["Halls", "5"],
+        ["Furnace", "Induction, 40 t"],
+        ["Feedstock", "Waypoint ore · recycling"],
+        ["Cold Since Departure", "Twice"]
+      ],
+      "links": [
+        {
+          "label": "Supplies",
+          "room": "SHD-01"
+        }
+      ],
+      "hotspots": [
+        {
+          "pos": [14, -6, 0],
+          "title": "Furnace",
+          "text": "Forty-tonne induction melt. The ship measures its history by its two cold spells."
+        },
+        {
+          "pos": [-12, -10.5, -8],
+          "title": "Machine Hall",
+          "text": "One of five. Every part aboard has a drawing and a stock code."
+        }
+      ]
+    },
+    {
+      "code": "MED-01",
+      "name": "Infirmary",
+      "deck": "Spine",
+      "color": "#8fe8f5",
+      "view": [0.3, 0.8, 0.6],
+      "dist": 130,
+      "radius": 13,
+      "description": "Four surgical suites and a 60-bed ward on the spine, at a tenth of a gravity, which suits surgery and nothing else. Routine care happens in the rings; this is where the ship sends what the townships cannot handle. The genetic registry sits behind the same door, because on a closed voyage medicine and ancestry are the same profession.",
+      "stats": [
+        ["Suites", "4"],
+        ["Beds", "60"],
+        ["Gravity", "0.1 g"],
+        ["Also Holds", "Genetic registry"]
+      ]
+    },
+    {
+      "code": "ARC-01",
+      "name": "Seed Vault & Archive",
+      "deck": "Spine",
+      "color": "#c9b8ff",
+      "view": [-0.3, -0.7, 0.8],
+      "dist": 130,
+      "radius": 13,
+      "description": "Six shielded stacks at 90 K holding 1.4 million seed lines and the written record of the voyage, etched rather than stored, because nothing electronic aboard is expected to outlive the trip. The archive is opened on a schedule: every line is germinated and re-banked on a two-hundred-year rotation, and every record is read aloud once.",
+      "stats": [
+        ["Seed Lines", "1.4 million"],
+        ["Temperature", "90 K"],
+        ["Record", "Etched nickel"],
+        ["Rotation", "200 years"]
+      ]
+    },
+    {
+      "code": "RCT-01",
+      "name": "Reactor Hall",
+      "deck": "Eng",
+      "color": "#ffb070",
+      "view": [-0.5, 0.5, 1],
+      "dist": 200,
+      "radius": 18,
+      "description": "Three fusion tori in a 90 m hall, two running and one stripped at any time. Total output is 42 GW: the drives take most of it under way, the rings and drums take the rest. The hall is designed to be rebuilt in place, one torus at a time, which is the only way a plant survives eleven centuries.",
+      "stats": [
+        ["Tori", "3, two running"],
+        ["Output", "42 GW"],
+        ["Overhaul", "One torus at a time"],
+        ["Hall", "90 m"]
+      ],
+      "links": [
+        {
+          "label": "Feeds",
+          "room": "DRV-01"
+        },
+        {
+          "label": "Heat to",
+          "room": "RAD-02"
+        }
+      ]
+    },
+    {
+      "code": "RAD-02",
+      "name": "Radiator Banks",
+      "deck": "Eng",
+      "color": "#ff5c7a",
+      "view": [-0.2, 1, 0.5],
+      "dist": 260,
+      "radius": 18,
+      "description": "Six 120 m panels along the aft spine, angled off the plane so the rings never see them. They reject 26 GW of waste heat, which is most of what the reactors make and all of what the farms and the foundry throw off. Panels are replaced on a rolling schedule; two of the six are always younger than fifty years.",
+      "stats": [
+        ["Panels", "6 × 120 m"],
+        ["Rejection", "26 GW"],
+        ["Coolant", "Liquid tin"],
+        ["Replacement", "Rolling"]
+      ],
+      "links": [
+        {
+          "label": "Cools",
+          "room": "RCT-01"
+        }
+      ]
+    },
+    {
+      "code": "DRV-01",
+      "name": "Drive Cluster",
+      "deck": "Eng",
+      "color": "#ffb070",
+      "view": [-1, 0.3, 0.7],
+      "dist": 260,
+      "radius": 20,
+      "description": "Six fusion nozzles on a hexagonal frame, lit for the first eighty years and again for the last hundred and forty. Between those two burns the ship coasts at 0.19 c and the drives are cold enough to walk on. Cruise acceleration was 0.009 g, which nobody aboard could feel and which is why the rings exist.",
+      "stats": [
+        ["Nozzles", "6"],
+        ["Cruise Speed", "0.19 c"],
+        ["Burn Acceleration", "0.009 g"],
+        ["Burns", "2 in the voyage"]
+      ],
+      "links": [
+        {
+          "label": "Fed by",
+          "room": "RCT-01"
+        }
+      ]
+    }
+  ],
+  "systems": [
+    {
+      "id": "power",
+      "name": "Power",
+      "color": "#ffb070",
+      "description": "Forty-two gigawatts forward on four armoured buses. The rings and drums have priority over everything except the drives during a burn.",
+      "paths": [
+        [
+          "RCT-01",
+          [-380, 0, 0],
+          [-160, 0, 0],
+          [0, 0, 0],
+          [250, 0, 0],
+          [500, 0, 0],
+          "CMD-02"
+        ],
+        [
+          "RCT-01",
+          [-500, 0, 0],
+          "DRV-01"
+        ],
+        [
+          [-250, 0, 0],
+          "RAD-02"
+        ],
+        [
+          [-160, 0, 0],
+          "FRM-02"
+        ],
+        [
+          [160, 0, 0],
+          "FRM-01"
+        ],
+        [
+          [-60, 0, 0],
+          "RGB-01"
+        ],
+        [
+          [250, 0, 0],
+          "RGA-01"
+        ],
+        [
+          [250, 0, 0],
+          "RGA-05"
+        ],
+        [
+          [0, 0, 0],
+          "IND-01"
+        ],
+        [
+          [300, 0, 0],
+          "MED-01"
+        ],
+        [
+          [-300, 0, 0],
+          "ARC-01"
+        ],
+        [
+          [500, 0, 0],
+          "DCK-03"
+        ]
+      ]
+    },
+    {
+      "id": "coolant",
+      "name": "Coolant",
+      "color": "#ff5c7a",
+      "description": "Liquid tin from the reactor hall to the six banks, with a separate low-grade loop taking heat out of the farms and the foundry.",
+      "paths": [
+        [
+          "RCT-01",
+          [-300, 20, 0],
+          "RAD-02"
+        ],
+        [
+          "IND-01",
+          [-60, 20, 0],
+          [-200, 30, 0],
+          "RAD-02"
+        ],
+        [
+          "FRM-01",
+          [160, 20, 0],
+          [0, 20, 0],
+          "IND-01"
+        ],
+        [
+          "FRM-02",
+          [-160, 20, 0],
+          [-200, 30, 0]
+        ]
+      ]
+    },
+    {
+      "id": "atmos",
+      "name": "Atmos",
+      "color": "#8fe8f5",
+      "description": "The drums make the air and the rings breathe it. Spine and engineering run on a separate, smaller loop that can be isolated in ninety seconds.",
+      "paths": [
+        [
+          "FRM-01",
+          [160, 0, 0],
+          [250, 0, 0],
+          "RGA-01"
+        ],
+        [
+          [250, 0, 0],
+          "RGA-05"
+        ],
+        [
+          "FRM-02",
+          [-160, 0, 0],
+          [-60, 0, 0],
+          "RGB-01"
+        ],
+        [
+          [0, 0, 0],
+          "IND-01"
+        ],
+        [
+          [160, 0, 0],
+          [300, 0, 0],
+          "MED-01"
+        ],
+        [
+          [300, 0, 0],
+          [500, 0, 0],
+          "CMD-02"
+        ],
+        [
+          [500, 0, 0],
+          "DCK-03"
+        ],
+        [
+          [-160, 0, 0],
+          [-300, 0, 0],
+          "ARC-01"
+        ]
+      ]
+    },
+    {
+      "id": "data",
+      "name": "Data",
+      "color": "#c9b8ff",
+      "description": "Four fibre runs the length of the spine. The rings take theirs through slip rings at the hubs, which are the most-replaced parts on the ship.",
+      "paths": [
+        [
+          "CMD-02",
+          [500, 0, 0],
+          [250, 0, 0],
+          [0, 0, 0],
+          [-250, 0, 0],
+          "RCT-01"
+        ],
+        [
+          [250, 0, 0],
+          "RGA-01"
+        ],
+        [
+          [250, 0, 0],
+          "RGA-05"
+        ],
+        [
+          [-60, 0, 0],
+          "RGB-01"
+        ],
+        [
+          [160, 0, 0],
+          "FRM-01"
+        ],
+        [
+          [-160, 0, 0],
+          "FRM-02"
+        ],
+        [
+          [0, 0, 0],
+          "IND-01"
+        ],
+        [
+          [300, 0, 0],
+          "MED-01"
+        ],
+        [
+          [-300, 0, 0],
+          "ARC-01"
+        ],
+        [
+          [-500, 0, 0],
+          "DRV-01"
+        ],
+        [
+          [-250, 0, 0],
+          "RAD-02"
+        ],
+        [
+          [500, 0, 0],
+          "DCK-03"
+        ],
+        [
+          "CMD-02",
+          [560, 0, 0],
+          "SHD-01"
+        ]
+      ]
+    }
+  ],
+  "textures": {
+    "hull": {
+      "type": "plating",
+      "seed": 103,
+      "tint": "#a7adb4",
+      "width": 1024,
+      "height": 512,
+      "repeat": [6, 3]
+    },
+    "plate": {
+      "type": "plating",
+      "seed": 107,
+      "tint": "#7d848b",
+      "width": 1024,
+      "height": 512,
+      "repeat": [6, 3]
+    },
+    "dark": {
+      "type": "plating",
+      "seed": 109,
+      "tint": "#3d444b",
+      "width": 512,
+      "height": 256,
+      "repeat": [4, 2]
+    }
+  },
+  "materials": {
+    "hull": {
+      "color": "#d9dee3",
+      "metalness": 0.36,
+      "roughness": 0.56,
+      "doubleSide": true,
+      "envMapIntensity": 0.9,
+      "normalScale": 0.8,
+      "texture": "hull"
+    },
+    "plate": {
+      "color": "#c6ccd2",
+      "metalness": 0.42,
+      "roughness": 0.56,
+      "doubleSide": true,
+      "envMapIntensity": 0.85,
+      "normalScale": 0.8,
+      "texture": "plate"
+    },
+    "armor": {
+      "color": "#9aa2a9",
+      "metalness": 0.46,
+      "roughness": 0.6,
+      "doubleSide": true,
+      "envMapIntensity": 0.7,
+      "normalScale": 0.8,
+      "texture": "plate"
+    },
+    "dark": {
+      "color": "#8f979e",
+      "metalness": 0.5,
+      "roughness": 0.5,
+      "doubleSide": true,
+      "envMapIntensity": 0.8,
+      "normalScale": 0.6,
+      "texture": "dark"
+    },
+    "ice": {
+      "color": "#cfe4ef",
+      "metalness": 0.05,
+      "roughness": 0.35,
+      "doubleSide": true,
+      "envMapIntensity": 1.1,
+      "emissive": "#183848",
+      "emissiveIntensity": 0.12
+    },
+    "bare": {
+      "color": "#4a5563",
+      "metalness": 0.75,
+      "roughness": 0.45,
+      "doubleSide": true
+    },
+    "glass": {
+      "color": "#8fd8ee",
+      "metalness": 0.1,
+      "roughness": 0.08,
+      "emissive": "#1f6f86",
+      "emissiveIntensity": 0.35,
+      "transparent": true,
+      "opacity": 0.38,
+      "doubleSide": true
+    },
+    "strip": {
+      "color": "#111111",
+      "emissive": "#bff6ff",
+      "emissiveIntensity": 2.2,
+      "roughness": 1
+    },
+    "warm": {
+      "color": "#111111",
+      "emissive": "#ffd9a0",
+      "emissiveIntensity": 1.8,
+      "roughness": 1
+    },
+    "pink": {
+      "color": "#111111",
+      "emissive": "#ff5c7a",
+      "emissiveIntensity": 1.6,
+      "roughness": 1
+    },
+    "amber": {
+      "color": "#111111",
+      "emissive": "#f0b64a",
+      "emissiveIntensity": 1.4,
+      "roughness": 1
+    },
+    "core": {
+      "color": "#111111",
+      "emissive": "#d8f4ff",
+      "emissiveIntensity": 2.6,
+      "roughness": 1
+    },
+    "drive": {
+      "color": "#111111",
+      "emissive": "#ff9a3c",
+      "emissiveIntensity": 2.4,
+      "roughness": 1,
+      "doubleSide": true
+    },
+    "screen": {
+      "color": "#111111",
+      "emissive": "#5fd4ff",
+      "emissiveIntensity": 1.6,
+      "roughness": 1
+    },
+    "interior": {
+      "color": "#c8d4de",
+      "metalness": 0.3,
+      "roughness": 0.6,
+      "emissive": "#2a3a48",
+      "emissiveIntensity": 0.5
+    },
+    "leaf": {
+      "color": "#2e8a3c",
+      "roughness": 0.9,
+      "emissive": "#1c6a2a",
+      "emissiveIntensity": 0.45
+    },
+    "field": {
+      "color": "#7fe0f0",
+      "metalness": 0,
+      "roughness": 0.2,
+      "emissive": "#2fb8d0",
+      "emissiveIntensity": 0.7,
+      "transparent": true,
+      "opacity": 0.22,
+      "doubleSide": true
+    },
+    "rad": {
+      "color": "#6a7076",
+      "metalness": 0.55,
+      "roughness": 0.5,
+      "emissive": "#ff4a1a",
+      "emissiveIntensity": 0.008,
+      "doubleSide": true,
+      "texture": "plate",
+      "normalScale": 0.6
+    }
+  },
+  "plan": {
+    "viewBox": [-660, -245, 1320, 490],
+    "bounds": {
+      "x": [-640, 640],
+      "y": [-220, 220]
+    },
+    "labels": {
+      "fwd": [630, 220],
+      "aft": [-640, 220]
+    },
+    "shapes": [
+      {
+        "kind": "axis",
+        "x1": -640,
+        "y1": 0,
+        "x2": 640,
+        "y2": 0
+      },
+      {
+        "kind": "rect",
+        "x": 581,
+        "y": -62,
+        "w": 14,
+        "h": 124,
+        "rx": 4
+      },
+      {
+        "kind": "rect",
+        "x": 510,
+        "y": -24,
+        "w": 60,
+        "h": 48,
+        "rx": 4
+      },
+      {
+        "kind": "rect",
+        "x": 477,
+        "y": -31,
+        "w": 46,
+        "h": 16
+      },
+      {
+        "kind": "rect",
+        "x": 492,
+        "y": -2,
+        "w": 16,
+        "h": 40,
+        "ghost": true
+      },
+      {
+        "kind": "rect",
+        "x": -390,
+        "y": -14,
+        "w": 900,
+        "h": 28
+      },
+      {
+        "kind": "rect",
+        "x": -390,
+        "y": -22,
+        "w": 900,
+        "h": 44,
+        "ghost": true
+      },
+      {
+        "kind": "rect",
+        "x": 244,
+        "y": -134,
+        "w": 12,
+        "h": 268,
+        "rx": 6
+      },
+      {
+        "kind": "rect",
+        "x": -66,
+        "y": -134,
+        "w": 12,
+        "h": 268,
+        "rx": 6
+      },
+      {
+        "kind": "rect",
+        "x": 114,
+        "y": -31,
+        "w": 92,
+        "h": 62,
+        "rx": 6
+      },
+      {
+        "kind": "rect",
+        "x": -206,
+        "y": -31,
+        "w": 92,
+        "h": 62,
+        "rx": 6
+      },
+      {
+        "kind": "rect",
+        "x": -35,
+        "y": -17,
+        "w": 70,
+        "h": 34
+      },
+      {
+        "kind": "rect",
+        "x": 285,
+        "y": 14,
+        "w": 30,
+        "h": 12
+      },
+      {
+        "kind": "rect",
+        "x": -313,
+        "y": -27,
+        "w": 26,
+        "h": 14
+      },
+      {
+        "kind": "rect",
+        "x": -310,
+        "y": 40,
+        "w": 380,
+        "h": 4,
+        "ghost": true
+      },
+      {
+        "kind": "rect",
+        "x": -310,
+        "y": -44,
+        "w": 380,
+        "h": 4,
+        "ghost": true
+      },
+      {
+        "kind": "rect",
+        "x": -475,
+        "y": -26,
+        "w": 90,
+        "h": 52,
+        "rx": 4
+      },
+      {
+        "kind": "rect",
+        "x": -503,
+        "y": -34,
+        "w": 26,
+        "h": 68
+      },
+      {
+        "kind": "polygon",
+        "points": "-535,-30 -573,-45 -573,45 -535,30"
+      }
+    ]
+  },
+  "tour": {
+    "duration": 150,
+    "path": [
+      [-1400, 300, 900],
+      [-500, 520, 620],
+      [300, 220, 760],
+      [1050, -120, 420],
+      [1100, 300, -300],
+      [350, 480, -700],
+      [-600, -180, -720],
+      [-1420, -200, 200]
+    ],
+    "look": [
+      [0, 0, 0],
+      [-300, 0, 0],
+      [100, 0, 0],
+      [500, -10, 0],
+      [560, 0, 0],
+      [250, 0, 0],
+      [-100, 0, 0],
+      [-480, 0, 0]
+    ],
+    "segments": [
+      {
+        "name": "Full-Ship Overview",
+        "caption": "Twelve hundred metres, twelve thousand people, and a voyage that outlives everyone who planned it."
+      },
+      {
+        "name": "Engineering",
+        "room": "RCT-01",
+        "caption": "Three fusion tori, two running and one stripped. The hall is built to be rebuilt in place."
+      },
+      {
+        "name": "Farm Drums",
+        "room": "FRM-01",
+        "caption": "Two ninety-metre drums turning opposite ways, growing four fifths of what the ship eats."
+      },
+      {
+        "name": "Habitat Ring A",
+        "room": "RGA-01",
+        "caption": "Forty-eight townships at nought point nine five g. About a hundred and thirty people each."
+      },
+      {
+        "name": "Ice Shield",
+        "room": "SHD-01",
+        "caption": "A hundred and twenty-four metres of dirty ice, ablating nine metres a century at a fifth of light speed."
+      },
+      {
+        "name": "Bridge",
+        "room": "CMD-02",
+        "caption": "Six stations, one of them manned. The course is a document, and the watch is there to notice when it fails."
+      },
+      {
+        "name": "Foundry",
+        "room": "IND-01",
+        "caption": "Everything from ring plating to teeth. The furnace has been cold twice, and both times have names."
+      },
+      {
+        "name": "Drive Cluster",
+        "room": "DRV-01",
+        "caption": "Six nozzles, lit for the first eighty years and again for the last hundred and forty."
+      }
+    ]
+  },
+  "cut": {
+    "cross": 620,
+    "hlay": 150,
+    "long": 150
+  },
+  "camera": {
+    "home": [-430, 300, 1100],
+    "target": [20, 0, 0],
+    "start": [-800, 520, 1900],
+    "near": 1,
+    "far": 30000,
+    "range": [20, 6000],
+    "hero": {
+      "pos": [-360, 210, 860],
+      "target": [40, -10, 0]
+    }
+  },
+  "model": {
+    "type": "procedural",
+    "entry": "build.js"
+  }
+}

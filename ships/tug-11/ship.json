@@ -1,0 +1,598 @@
+{
+  "id": "tug-11",
+  "name": "TUG-11",
+  "class": "Bollard-class",
+  "role": "Orbital Tug",
+  "length_m": 58,
+  "crew": 3,
+  "summary": "A 58 m yard tug, arms extended: a glasshouse cab, four grapple arms, two propellant spheres on an open truss and more engine than a ship this size has any right to carry.",
+  "decks": [
+    {
+      "code": "Cab",
+      "name": "Cab",
+      "short": "Cab"
+    },
+    {
+      "code": "Work",
+      "name": "Work Deck",
+      "short": "Work"
+    },
+    {
+      "code": "Eng",
+      "name": "Engineering",
+      "short": "Eng"
+    }
+  ],
+  "modules": [
+    {
+      "id": "cab",
+      "explode": [0.9, 0.3, 0]
+    },
+    {
+      "id": "work",
+      "explode": [1.2, 0, 0]
+    },
+    {
+      "id": "engineering",
+      "explode": [-1, 0, 0]
+    }
+  ],
+  "rooms": [
+    {
+      "code": "BRG-01",
+      "name": "Cab",
+      "deck": "Cab",
+      "color": "#8fe8f5",
+      "view": [0.7, 0.5, 1],
+      "dist": 18,
+      "radius": 1.6,
+      "close": {
+        "pos": [11.8, 0.9, 2.4],
+        "look": [19.4, 1.2, -0.4]
+      },
+      "description": "One seat on the centreline in a glasshouse with windows front, both sides and overhead, because a tug pilot spends the day looking at something two metres off the hull. Two hand controllers fly the ship and the arms; a foot bar swaps between them. The four work lights above the roof are on the same switch as the arm the pilot is holding.",
+      "stats": [
+        ["Seats", "1 + 1 jump"],
+        ["Glazing", "Front, sides, roof"],
+        ["Controllers", "2 hand · 1 foot bar"],
+        ["Work Lights", "4"]
+      ],
+      "links": [
+        {
+          "label": "Flies",
+          "room": "GRP-01"
+        }
+      ],
+      "hotspots": [
+        {
+          "pos": [15, 0.8, 0],
+          "title": "Pilot Seat",
+          "text": "Rotates 180° so the pilot can fly the arms facing aft."
+        },
+        {
+          "pos": [17.4, 0.6, 0],
+          "title": "Wrap Console",
+          "text": "Arm telemetry on the left, ship on the right, tow load in the middle."
+        },
+        {
+          "pos": [16.4, 3.1, 0],
+          "title": "Roof Panel",
+          "text": "The window that matters when the tug is under a station keel."
+        }
+      ]
+    },
+    {
+      "code": "CRW-02",
+      "name": "Bunkroom",
+      "deck": "Cab",
+      "color": "#8fe8f5",
+      "view": [0.2, 0.4, -1],
+      "dist": 16,
+      "radius": 1.4,
+      "close": {
+        "pos": [8.4, 0.4, 2.2],
+        "look": [12.4, 0.2, -1.2]
+      },
+      "description": "Four bunks for a crew of three, which is two on shift and one asleep with a spare rack for a yard hand riding along. A kettle, a locker each and a table that folds off the bulkhead. Tug crews work eleven-hour shifts and rarely spend more than four days aboard before returning to the station.",
+      "stats": [
+        ["Bunks", "4"],
+        ["Crew", "3"],
+        ["Shift", "11 h"],
+        ["Endurance", "9 days"]
+      ],
+      "hotspots": [
+        {
+          "pos": [11.4, 0.2, 2],
+          "title": "Bunk",
+          "text": "Two tiers, two deep. The fourth rack is for a yard hand."
+        }
+      ]
+    },
+    {
+      "code": "EVA-04",
+      "name": "Work Airlock",
+      "deck": "Cab",
+      "color": "#8fe8f5",
+      "view": [0.2, -0.8, 0.6],
+      "dist": 16,
+      "radius": 1.4,
+      "close": {
+        "pos": [11, -2.4, 2.6],
+        "look": [11, -4.6, -0.6]
+      },
+      "description": "A ventral lock under the cab, straight out onto the job. Two suits hang either side of the inner hatch and the tool caddy clips to the rim outside. It cycles in thirty seconds, which matters when the crew go out four or five times a shift to set a clamp by hand.",
+      "stats": [
+        ["Cycle", "30 s"],
+        ["Suits", "2"],
+        ["Cycles Per Shift", "4–5 typical"],
+        ["Tool Caddy", "External rim"]
+      ]
+    },
+    {
+      "code": "GRP-01",
+      "name": "Grapple Arms",
+      "deck": "Work",
+      "color": "#f0b64a",
+      "view": [0.9, 0.4, 0.7],
+      "dist": 22,
+      "radius": 2,
+      "description": "Four seven-metre arms on a rotating collar, each with a three-jaw end effector and a load cell in the wrist. Any two arms can hold 400 t of stationary mass; all four together can hold 900 t and still have a hand free to fend off. The arms are flown one at a time from the cab, or run on a rehearsed script for a routine berthing.",
+      "stats": [
+        ["Arms", "4 × 7 m"],
+        ["Hold", "900 t all four"],
+        ["End Effector", "Three-jaw"],
+        ["Modes", "Manual · scripted"]
+      ],
+      "links": [
+        {
+          "label": "Flown from",
+          "room": "BRG-01"
+        }
+      ],
+      "hotspots": [
+        {
+          "pos": [28, 3.4, 0],
+          "title": "End Effector",
+          "text": "Three jaws and a load cell; it reads the mass before it takes the weight."
+        }
+      ]
+    },
+    {
+      "code": "TOW-05",
+      "name": "Tow Winch",
+      "deck": "Work",
+      "color": "#ffb070",
+      "view": [0.3, 0.9, 0.6],
+      "dist": 18,
+      "radius": 1.6,
+      "description": "A 900 m composite cable on a dorsal drum, for the jobs too big to grapple. The tug takes up the slack at 2 cm/s and then pulls with the drives while the winch holds the angle. The drum pays out under load if the tension passes 60 kN, which is what keeps a bad pull from folding the truss.",
+      "stats": [
+        ["Cable", "900 m"],
+        ["Pull", "60 kN limit"],
+        ["Take-up", "2 cm/s"],
+        ["Release", "Automatic over-tension"]
+      ]
+    },
+    {
+      "code": "TNK-02",
+      "name": "Propellant Tanks",
+      "deck": "Eng",
+      "color": "#8fe8f5",
+      "view": [0.2, 0.3, 1],
+      "dist": 22,
+      "radius": 2,
+      "description": "Four spheres on the open truss: two large forward, two small aft, 31 tonnes of propellant in total. They are outside the hull because a tug refills every other day and nobody wants to open a hull to do it. Each sphere isolates on its own valve, so a puncture costs a quarter of the load and not the job.",
+      "stats": [
+        ["Spheres", "4"],
+        ["Propellant", "31 t"],
+        ["Refill", "Every 2 days typical"],
+        ["Isolation", "Per sphere"]
+      ]
+    },
+    {
+      "code": "DRV-03",
+      "name": "Drive Bells",
+      "deck": "Eng",
+      "color": "#ffb070",
+      "view": [-1, 0.4, 0.6],
+      "dist": 24,
+      "radius": 2,
+      "description": "Two oversized bells on a 44 m hull, because a tug is judged by what it can move rather than how fast it goes. Together they make 220 kN, enough to give an empty tug 1.4 g or a 900 t tow a slow, steady push. They throttle down to 3% for the last centimetres of a berthing.",
+      "stats": [
+        ["Bells", "2"],
+        ["Thrust", "220 kN"],
+        ["Empty Acceleration", "1.4 g"],
+        ["Minimum Throttle", "3%"]
+      ],
+      "links": [
+        {
+          "label": "Fed by",
+          "room": "TNK-02"
+        }
+      ]
+    }
+  ],
+  "systems": [
+    {
+      "id": "power",
+      "name": "Power",
+      "color": "#ffb070",
+      "description": "A small reactor in the aft block feeds the arms first: they draw more than the drives do at berthing throttle.",
+      "paths": [
+        [
+          "DRV-03",
+          [-16, 0, 0],
+          [0, 0, 0],
+          [10, 0, 0],
+          "BRG-01"
+        ],
+        [
+          [0, 0, 0],
+          [2, 3, 0],
+          "TOW-05"
+        ],
+        [
+          [10, 0, 0],
+          "CRW-02"
+        ],
+        [
+          [10, 0, 0],
+          [11, -3, 0],
+          "EVA-04"
+        ],
+        [
+          [10, 0, 0],
+          [20, 0.6, 0],
+          "GRP-01"
+        ],
+        [
+          [0, 0, 0],
+          "TNK-02"
+        ]
+      ]
+    },
+    {
+      "id": "atmos",
+      "name": "Atmos",
+      "color": "#8fe8f5",
+      "description": "Only the cab and the bunkroom hold pressure, and the lock empties them both four times a shift.",
+      "paths": [
+        [
+          "BRG-01",
+          [13, 0, 0],
+          "CRW-02"
+        ],
+        [
+          [12, 0, 0],
+          [11, -3, 0],
+          "EVA-04"
+        ]
+      ]
+    },
+    {
+      "id": "data",
+      "name": "Data",
+      "color": "#c9b8ff",
+      "description": "Arm telemetry and the tow load cell, both straight to the cab console.",
+      "paths": [
+        [
+          "BRG-01",
+          [20, 0.6, 0],
+          "GRP-01"
+        ],
+        [
+          "BRG-01",
+          [10, 2, 0],
+          [2, 3, 0],
+          "TOW-05"
+        ],
+        [
+          "BRG-01",
+          [0, 0, 0],
+          "TNK-02"
+        ],
+        [
+          "BRG-01",
+          [-16, 0, 0],
+          "DRV-03"
+        ],
+        [
+          "BRG-01",
+          [11, -3, 0],
+          "EVA-04"
+        ]
+      ]
+    }
+  ],
+  "textures": {
+    "hull": {
+      "type": "plating",
+      "seed": 79,
+      "tint": "#b0a68f",
+      "width": 512,
+      "height": 256,
+      "repeat": [2, 1.2]
+    },
+    "plate": {
+      "type": "plating",
+      "seed": 83,
+      "tint": "#807a6c",
+      "width": 512,
+      "height": 256,
+      "repeat": [2, 1.2]
+    },
+    "dark": {
+      "type": "plating",
+      "seed": 89,
+      "tint": "#43443f",
+      "width": 256,
+      "height": 128,
+      "repeat": [1.5, 1]
+    }
+  },
+  "materials": {
+    "hull": {
+      "color": "#e8d9a8",
+      "metalness": 0.35,
+      "roughness": 0.58,
+      "doubleSide": true,
+      "envMapIntensity": 0.85,
+      "normalScale": 0.6,
+      "texture": "hull"
+    },
+    "plate": {
+      "color": "#cfc4a4",
+      "metalness": 0.4,
+      "roughness": 0.58,
+      "doubleSide": true,
+      "envMapIntensity": 0.8,
+      "normalScale": 0.6,
+      "texture": "plate"
+    },
+    "dark": {
+      "color": "#8f8c82",
+      "metalness": 0.5,
+      "roughness": 0.52,
+      "doubleSide": true,
+      "envMapIntensity": 0.75,
+      "normalScale": 0.5,
+      "texture": "dark"
+    },
+    "bare": {
+      "color": "#4a5055",
+      "metalness": 0.78,
+      "roughness": 0.44,
+      "doubleSide": true
+    },
+    "glass": {
+      "color": "#8fd8ee",
+      "metalness": 0.1,
+      "roughness": 0.06,
+      "emissive": "#1f6f86",
+      "emissiveIntensity": 0.35,
+      "transparent": true,
+      "opacity": 0.36,
+      "doubleSide": true
+    },
+    "strip": {
+      "color": "#111111",
+      "emissive": "#bff6ff",
+      "emissiveIntensity": 2.2,
+      "roughness": 1
+    },
+    "warm": {
+      "color": "#111111",
+      "emissive": "#ffd9a0",
+      "emissiveIntensity": 1.8,
+      "roughness": 1
+    },
+    "amber": {
+      "color": "#111111",
+      "emissive": "#f0b64a",
+      "emissiveIntensity": 1.4,
+      "roughness": 1
+    },
+    "drive": {
+      "color": "#111111",
+      "emissive": "#ff9a3c",
+      "emissiveIntensity": 2.4,
+      "roughness": 1,
+      "doubleSide": true
+    },
+    "screen": {
+      "color": "#111111",
+      "emissive": "#5fd4ff",
+      "emissiveIntensity": 1.6,
+      "roughness": 1
+    },
+    "interior": {
+      "color": "#c8d4de",
+      "metalness": 0.3,
+      "roughness": 0.6,
+      "emissive": "#2a3a48",
+      "emissiveIntensity": 0.5
+    },
+    "field": {
+      "color": "#7fe0f0",
+      "metalness": 0,
+      "roughness": 0.2,
+      "emissive": "#2fb8d0",
+      "emissiveIntensity": 0.7,
+      "transparent": true,
+      "opacity": 0.28,
+      "doubleSide": true
+    }
+  },
+  "plan": {
+    "viewBox": [-33, -12.3, 66, 24.5],
+    "bounds": {
+      "x": [-31, 31],
+      "y": [-11, 11]
+    },
+    "labels": {
+      "fwd": [30, 11],
+      "aft": [-31, 11]
+    },
+    "shapes": [
+      {
+        "kind": "axis",
+        "x1": -31,
+        "y1": 0,
+        "x2": 31,
+        "y2": 0
+      },
+      {
+        "kind": "rect",
+        "x": 9.5,
+        "y": -2.1,
+        "w": 9,
+        "h": 5.4,
+        "rx": 0.4
+      },
+      {
+        "kind": "polygon",
+        "points": "18.5,-2 22.4,-1.4 22.4,3.2 18.5,3.3"
+      },
+      {
+        "kind": "rect",
+        "x": 9.5,
+        "y": -4.3,
+        "w": 3,
+        "h": 2.4
+      },
+      {
+        "kind": "rect",
+        "x": -16,
+        "y": -1.6,
+        "w": 26,
+        "h": 3.2,
+        "ghost": true
+      },
+      {
+        "kind": "rect",
+        "x": 0.4,
+        "y": 1.8,
+        "w": 3.2,
+        "h": 3.2,
+        "rx": 0.6
+      },
+      {
+        "kind": "path",
+        "d": "M4.4,0 A3.4,3.4 0 1 1 -2.4,0 A3.4,3.4 0 1 1 4.4,0 Z"
+      },
+      {
+        "kind": "path",
+        "d": "M-4.9,0 A2.6,2.6 0 1 1 -10.1,0 A2.6,2.6 0 1 1 -4.9,0 Z",
+        "ghost": true
+      },
+      {
+        "kind": "rect",
+        "x": -20.5,
+        "y": -3.8,
+        "w": 5,
+        "h": 7.6
+      },
+      {
+        "kind": "rect",
+        "x": -23.2,
+        "y": -2.1,
+        "w": 4.4,
+        "h": 4.2
+      },
+      {
+        "kind": "polygon",
+        "points": "-23.2,-1.7 -28.4,-3.6 -28.4,3.6 -23.2,1.7"
+      },
+      {
+        "kind": "polygon",
+        "points": "22.4,1.4 27,4.4 28.8,3.4 23.4,0.6",
+        "ghost": true
+      },
+      {
+        "kind": "polygon",
+        "points": "22.4,-0.2 27,-3.2 28.8,-2.2 23.4,0.6",
+        "ghost": true
+      }
+    ]
+  },
+  "tour": {
+    "duration": 58,
+    "path": [
+      [-44, 14, 34],
+      [-16, 22, 24],
+      [16, 8, 30],
+      [38, -6, 14],
+      [38, 12, -14],
+      [12, 20, -28],
+      [-22, -8, -28],
+      [-44, -8, 8]
+    ],
+    "look": [
+      [0, 0, 0],
+      [-10, 0, 0],
+      [8, 1, 0],
+      [18, 1, 0],
+      [14, 1, 0],
+      [2, 2, 0],
+      [-6, 0, 0],
+      [-20, 0, 0]
+    ],
+    "segments": [
+      {
+        "name": "Overview",
+        "caption": "Fifty-eight metres over the arms of working boat: cab, arms, tanks, engines, and nothing else."
+      },
+      {
+        "name": "Tanks",
+        "room": "TNK-02",
+        "caption": "Four spheres on an open truss. A tug refills every other day, so the tanks live outside."
+      },
+      {
+        "name": "Tow Winch",
+        "room": "TOW-05",
+        "caption": "Nine hundred metres of cable for the jobs too big to grapple."
+      },
+      {
+        "name": "Cab",
+        "room": "BRG-01",
+        "caption": "One seat, windows on five sides, and two hand controllers that fly the ship or the arms."
+      },
+      {
+        "name": "Grapple Arms",
+        "room": "GRP-01",
+        "caption": "Four seven-metre arms. Two of them will hold four hundred tonnes still."
+      },
+      {
+        "name": "Airlock",
+        "room": "EVA-04",
+        "caption": "Straight out onto the job, four or five times a shift."
+      },
+      {
+        "name": "Drives",
+        "room": "DRV-03",
+        "caption": "Two oversized bells, throttled to three per cent for the last centimetres of a berthing."
+      }
+    ]
+  },
+  "cut": {
+    "cross": 24,
+    "hlay": 8,
+    "long": 10
+  },
+  "camera": {
+    "home": [-16, 14, 46],
+    "target": [-2, 0, 0],
+    "start": [-32, 26, 76],
+    "near": 0.05,
+    "far": 3000,
+    "range": [2, 400],
+    "hero": {
+      "pos": [-14, 10, 38],
+      "target": [0, 0, 0]
+    }
+  },
+  "model": {
+    "type": "procedural",
+    "entry": "build.js"
+  }
+}

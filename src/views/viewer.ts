@@ -1,9 +1,10 @@
-import { AdditiveBlending, Sprite, SpriteMaterial, Vector3 } from 'three';
+import { AdditiveBlending, Object3D, Sprite, SpriteMaterial, Vector3 } from 'three';
 import markup from './viewer.html?raw';
 import { createWorld } from '../render/world';
 import { LAMP_INTENSITY } from '../render/environment';
 import { loadShip, roomWorld } from '../ship/loader';
 import { getSpec } from '../fleet';
+import { spinners } from '../schema';
 import { ringTex } from '../ship/textures';
 import { Display } from '../ship/display';
 import { shipStats } from '../ship/stats';
@@ -189,9 +190,9 @@ export async function mountViewer(app: HTMLElement, id: string) {
   });
 
   /* ---------- frame loop ---------- */
-  const spinNode = spec.spinning ? ship.model.spinNodes.get(spec.spinning.module) : undefined;
-  const spinRate = spec.spinning ? spec.spinning.rpm * Math.PI * 2 / 60 : 0;
-  const spinAxis = spec.spinning?.axis ?? 'x';
+  const spins = spinners(spec)
+    .map(sp => ({ node: ship.model.spinNodes.get(sp.module), rate: sp.rpm * Math.PI * 2 / 60, axis: sp.axis }))
+    .filter((s): s is { node: Object3D; rate: number; axis: 'x' | 'y' | 'z' } => !!s.node);
   const tmp = new Vector3();
   let last = performance.now(), fpsAcc = 0, fpsN = 0, fpsT = 0, frameN = 0;
 
@@ -202,9 +203,9 @@ export async function mountViewer(app: HTMLElement, id: string) {
     const T = now / 1000;
     quality.tick(dt);
 
-    if (spinNode && S.spinNode) {
-      S.spinAngle += dt * spinRate;
-      spinNode.rotation[spinAxis] = S.spinAngle;
+    if (S.spinNode) {
+      S.spinAngle += dt;
+      for (const s of spins) s.node.rotation[s.axis] = S.spinAngle * s.rate;
     }
 
     if (!rig.stepFly(dt)) {

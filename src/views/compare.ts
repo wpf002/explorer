@@ -1,5 +1,5 @@
 import { Group, Vector3 } from 'three';
-import type { ShipSpec } from '../schema';
+import { spinners, type ShipSpec } from '../schema';
 import { listed, getSpec, fleet } from '../fleet';
 import { createWorld } from '../render/world';
 import { loadShip, type LoadedShip } from '../ship/loader';
@@ -228,13 +228,13 @@ export async function mountCompare(app: HTMLElement) {
 }
 
 function spinnerFor(s: LoadedShip) {
-  const sp = s.spec.spinning;
-  const node = sp ? s.model.spinNodes.get(sp.module) : undefined;
-  let angle = 0;
+  const nodes = spinners(s.spec)
+    .map(sp => ({ node: s.model.spinNodes.get(sp.module), rate: sp.rpm * Math.PI * 2 / 60, axis: sp.axis }))
+    .filter(n => n.node);
+  let t = 0;
   return (dt: number) => {
-    if (!sp || !node) return;
-    angle += dt * sp.rpm * Math.PI * 2 / 60;
-    node.rotation[sp.axis] = angle;
+    t += dt;
+    for (const n of nodes) n.node!.rotation[n.axis] = t * n.rate;
   };
 }
 
@@ -287,7 +287,7 @@ function drawTable(A: ShipSpec, B: ShipSpec, sa: ShipStats, sb: ShipStats) {
   const text: [string, string, string][] = [
     ['Class', A.class, B.class],
     ['Role', A.role, B.role],
-    ['Spin gravity', A.spinning ? 'Yes' : 'No', B.spinning ? 'Yes' : 'No'],
+    ['Spin gravity', spinners(A).length ? 'Yes' : 'No', spinners(B).length ? 'Yes' : 'No'],
   ];
   const head = `<thead><tr><th></th><th style="color:${A_COL}">${esc(A.name)}</th><th style="color:${B_COL}">${esc(B.name)}</th></tr></thead>`;
   const num = rows.map(([label, a, b, unit]) => {

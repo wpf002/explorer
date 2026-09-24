@@ -158,7 +158,8 @@ export interface ShipSpec {
   retired?: RoomSpec[];
   systems?: SystemSpec[];
   modules: ModuleSpec[];
-  spinning?: SpinSpec;
+  /** One node, or several (counter-rotating rings and drums). */
+  spinning?: SpinSpec | SpinSpec[];
   textures?: Record<string, TextureSpec>;
   materials: Record<string, MaterialSpec>;
   plan: PlanSpec;
@@ -317,10 +318,13 @@ export function validateShip(raw: unknown): Issue[] {
   }
 
   if (s.spinning !== undefined) {
-    const sp = s.spinning as any;
-    if (!isStr(sp?.module)) bad('spinning.module', 'required string');
-    if (!['x', 'y', 'z'].includes(sp?.axis)) bad('spinning.axis', 'must be x, y or z');
-    if (!isNum(sp?.rpm)) bad('spinning.rpm', 'required number');
+    const list = Array.isArray(s.spinning) ? s.spinning : [s.spinning];
+    list.forEach((sp: any, i: number) => {
+      const at = Array.isArray(s.spinning) ? `spinning[${i}]` : 'spinning';
+      if (!isStr(sp?.module)) bad(`${at}.module`, 'required string');
+      if (!['x', 'y', 'z'].includes(sp?.axis)) bad(`${at}.axis`, 'must be x, y or z');
+      if (!isNum(sp?.rpm)) bad(`${at}.rpm`, 'required number');
+    });
   }
 
   const plan = s.plan as any;
@@ -370,6 +374,10 @@ export function validateShip(raw: unknown): Issue[] {
 
   return out;
 }
+
+/** `spinning` as a list, however it was written. */
+export const spinners = (spec: ShipSpec): SpinSpec[] =>
+  spec.spinning ? (Array.isArray(spec.spinning) ? spec.spinning : [spec.spinning]) : [];
 
 /** Room codes the model is expected to provide, for the mesh-name validator. */
 export function expectedRoomCodes(spec: ShipSpec): string[] {

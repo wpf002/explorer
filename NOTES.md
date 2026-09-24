@@ -124,3 +124,22 @@ needed.
 
 Not done: **static deploy**. It needs a hosting account and a decision on where; the build
 is static and deep links need the host to serve `index.html` for unknown paths.
+
+## Fleet build-out
+
+Nine listed ships, 85 rooms. Added after phase 5:
+
+| Ship | Why it exists |
+|---|---|
+| `kv-9` 95 m frigate | A hull built round one weapon: tests armour-style geometry and a spinal keel |
+| `ldr-5` 20 m lander | Legs, ramp, downward plumes; proves the plume helper works off-axis |
+| `tug-11` 58 m tug | Animated grapple arms, so batching has to respect `{ animated: true }` groups |
+| `srv-4` 68 m probe | Crew 0, no interiors, a 1,900 m² sail; the fleet index has to cope with a zero |
+| `gen-1` 1,200 m generation ship | Four spin nodes, two of them counter-rotating |
+
+`spinning` now takes a list as well as a single node (`spinners(spec)` normalises it), which
+is what the counter-rotating rings needed. Room codes are still `SECTION-NN`: `RNG-A1` was
+rejected by the validator and became `RGA-01`.
+
+Declared `length_m` is the model's X extent, not the hull's: the tug is 58 m over its arms
+and the lander 20 m over its legs. The validator enforces the match at ±15%.
