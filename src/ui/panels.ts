@@ -27,6 +27,12 @@ const BOTTOM_HINT: Record<Mode, string> = {
   tour: 'Tour <i>·</i> <span id="tourShip"></span> <i>·</i> <b id="tourSeg"></b>',
 };
 
+/** Range inputs paint their own fill from `--v`, so it has to move with the value. */
+const setFill = (el: HTMLInputElement) => {
+  const min = +el.min || 0, max = +el.max || 1;
+  el.style.setProperty('--v', String((+el.value - min) / (max - min || 1)));
+};
+
 const segMark = (host: HTMLElement, attr: string, val: string) =>
   host.querySelectorAll<HTMLButtonElement>('button').forEach(b => b.classList.toggle('on', b.dataset[attr] === val));
 
@@ -124,6 +130,11 @@ export class Panels {
     this.seg('#modeSeg', 'mode', v => this.h.mode(v as Mode));
     this.seg('#cutSeg', 'cut', v => this.h.cut(v as Cut));
     this.seg('#presetSeg', 'preset', v => this.h.preset(v));
+    for (const id of ['#cutPos', '#opacity', '#explode']) {
+      const el = $<HTMLInputElement>(id);
+      setFill(el);
+      el.addEventListener('input', () => setFill(el));
+    }
     $<HTMLInputElement>('#cutPos').addEventListener('input', e => this.h.cutPos(+(e.target as HTMLInputElement).value));
     $<HTMLInputElement>('#cutFlip').addEventListener('change', e => this.h.flip((e.target as HTMLInputElement).checked));
     $<HTMLInputElement>('#opacity').addEventListener('input', e => this.h.opacity(+(e.target as HTMLInputElement).value));
@@ -165,16 +176,19 @@ export class Panels {
     $<HTMLInputElement>('#cutPos').disabled = $<HTMLInputElement>('#cutFlip').disabled = S.cut === 'off';
     segMark($('#cutSeg'), 'cut', S.cut);
     $<HTMLInputElement>('#cutPos').value = String(S.cutPos);
+    setFill($<HTMLInputElement>('#cutPos'));
     $<HTMLInputElement>('#cutFlip').checked = S.flip;
   }
 
   syncOpacity(v: number) {
     $<HTMLInputElement>('#opacity').value = String(v);
+    setFill($<HTMLInputElement>('#opacity'));
     $('#opOut').textContent = Math.round(v * 100) + '%';
   }
 
   syncExplode(v: number) {
     $<HTMLInputElement>('#explode').value = String(v);
+    setFill($<HTMLInputElement>('#explode'));
     $('#expOut').textContent = Math.round(v * 100) + '%';
   }
 
