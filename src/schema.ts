@@ -90,6 +90,9 @@ export interface MaterialSpec {
   texture?: string;
   /** Excluded from hull opacity, wireframe and bloom dimming. */
   basic?: boolean;
+  /** Physical shading extras: a thin clearcoat over the plating. */
+  clearcoat?: number;
+  clearcoatRoughness?: number;
 }
 
 export type PlanShape =

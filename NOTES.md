@@ -177,3 +177,20 @@ foundry are described but not entered — the button reads "Fly Closer" there.
 
 `reference/golden.png` is the r128 demo frame; with shadows the diff is now ~2.4% and it is
 a historical reference, not a pass/fail gate. `reference/goldens/` is the live check.
+
+## Rendering: what is in, what was tried
+
+In: fitted sun shadows, a clearcoat on textured hull materials (`MeshPhysicalMaterial`
+when a material has a texture and metalness above 0.2), bloom that pulls back to 0.3
+strength while the camera is inside a room, the interior fill light, hand-clipped and
+distance-faded glow sprites, screen-space stars.
+
+Tried and reverted: `GTAOPass` ambient occlusion. With a 0.5–8,000 m depth range the AO
+had too little precision at ship distance and read as a global dim rather than contact
+shadows, and its full-frame blend multiplied itself into every additive glow. Splitting
+the pipeline into a solid pass and an effects layer fixed the glows but lost the depth
+buffer for the effects pass. Worth revisiting behind a proper depth-prepass, or after a
+WebGPU move, which is a project rather than a patch.
+
+ASV-07's spinal corridor is now fitted out (deck plates, rails, hand rails, wall panels,
+hatch rings) and its bulkheads and ring hub are open, so the 180 m run reads end to end.

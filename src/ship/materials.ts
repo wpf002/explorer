@@ -1,4 +1,4 @@
-import { DoubleSide, FrontSide, MeshStandardMaterial, Vector2, WebGLRenderer } from 'three';
+import { DoubleSide, FrontSide, MeshPhysicalMaterial, MeshStandardMaterial, Vector2, WebGLRenderer } from 'three';
 import type { MaterialSpec, ShipSpec } from '../schema';
 import { col } from '../util';
 import { plating, type PlatingMaps } from './textures';
@@ -21,7 +21,11 @@ export function buildMaterials(renderer: WebGLRenderer, ship: ShipSpec): Materia
   const emissive = new Set<string>();
 
   for (const [key, m] of Object.entries(ship.materials)) {
-    const mat = new MeshStandardMaterial({
+    // A textured hull gets a physical clearcoat by default: it is what makes plating read
+    // as painted metal rather than flat grey.
+    const coat = m.clearcoat ?? (m.texture && (m.metalness ?? 0) > .2 ? .25 : 0);
+    const Ctor = coat > 0 ? MeshPhysicalMaterial : MeshStandardMaterial;
+    const mat = new Ctor({
       color: col(m.color),
       metalness: m.metalness ?? 0,
       roughness: m.roughness ?? 1,
@@ -30,6 +34,10 @@ export function buildMaterials(renderer: WebGLRenderer, ship: ShipSpec): Materia
       transparent: m.transparent ?? (m.opacity !== undefined && m.opacity < 1),
       opacity: m.opacity ?? 1,
     });
+    if (coat > 0 && mat instanceof MeshPhysicalMaterial) {
+      mat.clearcoat = coat;
+      mat.clearcoatRoughness = m.clearcoatRoughness ?? .45;
+    }
     if (m.emissive) {
       mat.emissive = col(m.emissive);
       mat.emissiveIntensity = m.emissiveIntensity ?? 1;

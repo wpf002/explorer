@@ -131,7 +131,24 @@ export default function build(api) {
     mesh(box(80, .4, .4), 'strip', 'B', 'glow', spine).position.set(-30, Math.sin(a) * 5.15, Math.cos(a) * 5.15));
   mesh(box(2.2, .8, 1.4), 'core', 'SPN-01', 'interior', spine).position.set(-12, -3.6, 0);  // maglev sleds
   mesh(box(2.2, .8, 1.4), 'core', 'SPN-01', 'interior', spine).position.set(-48, 3.6, 0);
-  for (let x = -60; x <= 0; x += 20) mesh(box(.6, 7, 7), 'dark', 'B', 'hull', spine).position.x = x; // bulkheads
+  for (let x = -60; x <= 0; x += 20) {                                        // bulkheads, open at the hatch
+    for (const [y, z, h, d] of [[2.9, 0, 1.2, 7], [-2.9, 0, 1.2, 7], [0, 2.9, 4.6, 1.2], [0, -2.9, 4.6, 1.2]]) {
+      mesh(box(.6, h, d), 'dark', 'B', 'hull', spine).position.set(x, y, z);
+    }
+    mesh(new THREE.TorusGeometry(2.4, .16, 8, 28).rotateY(Math.PI / 2), 'bare', 'SPN-01', 'interior', spine).position.set(x + .5, 0, 0);
+    mesh(box(.14, .1, 3.6), 'strip', 'SPN-01', 'glow', spine).position.set(x + .6, 2.5, 0);
+  }
+  // corridor fit-out: deck plates, twin rails, hand rails, wall panels
+  mesh(box(78, .25, 4.2), 'plate', 'SPN-01', 'interior', spine).position.set(-30, -3.2, 0);
+  for (const z of [-1.5, 1.5]) mesh(box(78, .16, .5), 'bare', 'SPN-01', 'interior', spine).position.set(-30, -3, z);
+  for (const z of [-3, 3]) {
+    mesh(cylX(.1, .1, 78, 8), 'bare', 'SPN-01', 'interior', spine).position.set(-30, -.8, z);
+    for (let x = -66; x <= 4; x += 7) mesh(box(.18, 2.2, .18), 'bare', 'SPN-01', 'interior', spine).position.set(x, -2.1, z);
+  }
+  for (let x = -64; x <= 2; x += 8) {
+    for (const z of [3.7, -3.7]) mesh(box(3.4, 2.2, .18), 'interior', 'SPN-01', 'interior', spine).position.set(x, -.4, z);
+    mesh(box(.45, .3, .08), 'screen', 'SPN-01', 'glow', spine).position.set(x, .7, 3.6);
+  }
   [Math.PI / 4, 3 * Math.PI / 4, 5 * Math.PI / 4, 7 * Math.PI / 4].forEach(a =>
     pipe(spine, -70, 10, Math.sin(a) * 6.1, Math.cos(a) * 6.1, .6, 'B'));
   truss(spine, -70, 10, 8.6, 10, 'B');
@@ -143,7 +160,9 @@ export default function build(api) {
   mesh(new TorusGeometry(45, 5.5, 20, 120).rotateY(Math.PI / 2), 'hull', 'Ring', 'hull', ringSpin);
   mesh(new TorusGeometry(51, .5, 8, 120).rotateY(Math.PI / 2), 'dark', 'Ring', 'hull', ringSpin);
   mesh(new TorusGeometry(39, .5, 8, 120).rotateY(Math.PI / 2), 'dark', 'Ring', 'hull', ringSpin);
-  mesh(cylX(7.5, 7.5, 16, 32), 'dark', 'Ring', 'hull', ringSpin);
+  // Open-ended: the spine runs straight through the hub, so the corridor reads end to end.
+  mesh(cylX(7.5, 7.5, 16, 32, true), 'dark', 'Ring', 'hull', ringSpin);
+  for (const x of [-7, 0, 7]) mesh(new TorusGeometry(5.6, .16, 8, 36).rotateY(Math.PI / 2), 'warm', 'SPN-01', 'glow', ringSpin).position.x = x;
   for (let i = 0; i < 4; i++) {
     const a = i * Math.PI / 2;
     const sp = mesh(new CylinderGeometry(1.7, 1.7, 40, 12), 'plate', 'Ring', 'hull', ringSpin);

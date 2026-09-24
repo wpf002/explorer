@@ -4,7 +4,7 @@ import { createWorld } from '../render/world';
 import { fitSunShadow, LAMP_INTENSITY } from '../render/environment';
 
 /** Interior fill at the 300 m reference; it scales with the ship so small hulls stay lit. */
-const FILL = 9;
+const FILL = 6;
 import { loadShip, roomWorld } from '../ship/loader';
 import { getSpec } from '../fleet';
 import { spinners } from '../schema';
@@ -263,6 +263,13 @@ export async function mountViewer(app: HTMLElement, id: string) {
     const wantFill = inside ? FILL * Math.pow(Math.max(.4, rig.scale), 1.1) : 0;
     interiorFill.intensity += (wantFill - interiorFill.intensity) * Math.min(1, dt * 4);
     interiorFill.distance = Math.max(26, 70 * rig.scale);
+    // Strip lights a metre from the lens bloom into a white wash, so pull the bloom back
+    // while inside and let it open up again outside.
+    if (S.bloom) {
+      const want = inside ? .3 : .72;
+      stage.bloomPass.strength += (want - stage.bloomPass.strength) * Math.min(1, dt * 3);
+      stage.bloomPass.radius = inside ? .35 : .55;
+    }
     frameN++;
     if (frameN % 2 === 0 && !S.uiHidden) {
       plan.update(ship.markers, stage.camera, rig.pos, S.selected, S.cut, S.cutPos);
@@ -307,7 +314,7 @@ export async function mountViewer(app: HTMLElement, id: string) {
     rig.fly!.t0.copy(target);
   }
 
-  Object.assign(window, { FLEET: { S, rig, ship, spec, stats: () => shipStats(ship),
+  Object.assign(window, { FLEET: { S, rig, ship, spec,  stats: () => shipStats(ship),
     /** Jump the camera to a pose with no fly-to; used by the hero render. */
     pose: (p: [number, number, number], t: [number, number, number]) => {
       rig.fly = null; rig.pos.set(...p); rig.target.set(...t); rig.syncOrbit(); rig.syncYaw();
